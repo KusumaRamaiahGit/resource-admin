@@ -4,12 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Resource admin</title>
+<title>Insert title here</title>
 </head>
 <body>
-<h1>Welcome!</h1>
-<ul>
-	<li><a href="login.jsp">Login page</a></li>
-</ul>
+<h3>Welcome, <% out.println(request.getAttribute("login")) ;  %>,to resource panel!!</h3>
 </body>
 </html>
