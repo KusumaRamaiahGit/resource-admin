@@ -33,10 +33,10 @@ public class LoginViewController extends HttpServlet implements ILoginViewContro
 		if ( u != null) {
 			RequestDispatcher dispatch = request.getRequestDispatcher("resourceadmin.jsp");
 			request.setAttribute("login", u.getLogin());
-			
 			dispatch.forward(request, response);
 		} else {
 			RequestDispatcher dispatch = request.getRequestDispatcher("login.jsp");
+			request.setAttribute("errorType", 1);
 			dispatch.forward(request, response);
 		}
 	}
