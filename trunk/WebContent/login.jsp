@@ -7,7 +7,17 @@
 <title>Resource admin</title>
 </head>
 <body>
-<h3>User autorization...</h3>
+<% 
+try {
+	if ( (Integer) request.getAttribute("errorType") == 1) { 
+		out.println("<p style='background:#FFCFEE;'>Login is incorrect</p>");
+	}
+} catch (Exception e)
+{
+	
+}
+%>
+<h3>User autorization page.</h3>
 		<form method="POST" action="LoginViewController">
             login:<input type="text" name="login" value="" /><br>
             password:<input type="text" name="password" value="" /><br>
