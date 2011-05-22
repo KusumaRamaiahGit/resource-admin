@@ -7,6 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3>Welcome, <% out.println(request.getAttribute("login")) ;  %>,to resource panel!!</h3>
+<h3>Welcome,</h3>
+	 <% out.println(((model.User)request.getAttribute("loggedUser")).getLogin()); %>
+	 
+        <br>Here beans<br>
+        hello, <jsp:useBean type="model.User" scope="request" id="loggedUser"></jsp:useBean>
+        
+        <jsp:getProperty name="loggedUser" property="login"/>
+        <br>end of bean<br>
 </body>
 </html>
