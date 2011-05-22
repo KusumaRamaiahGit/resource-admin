@@ -7,7 +7,11 @@
 <title>Resource admin</title>
 </head>
 <body>
-<h3>Autorize.</h3>
-
+<h3>Autorization.</h3>
+		<form method="POST" action="LoginViewController">
+            login:<input type="text" name="login" value="" /><br>
+            password:<input type="text" name="password" value="" /><br>
+            <input type="submit" value="submit" />
+		</form>
 </body>
 </html>
