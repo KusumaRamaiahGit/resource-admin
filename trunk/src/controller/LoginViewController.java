@@ -32,7 +32,8 @@ public class LoginViewController extends HttpServlet implements ILoginViewContro
 		User u = login (request.getParameter("login"), request.getParameter("password"));
 		if ( u != null) {
 			RequestDispatcher dispatch = request.getRequestDispatcher("resourceadmin.jsp");
-			request.setAttribute("login", u.getLogin());
+			//request.setAttribute("login", u.getLogin());
+         request.setAttribute("loggedUser", new User());
 			dispatch.forward(request, response);
 		} else {
 			RequestDispatcher dispatch = request.getRequestDispatcher("login.jsp");
