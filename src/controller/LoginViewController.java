@@ -37,7 +37,7 @@ public class LoginViewController extends HttpServlet implements ILoginViewContro
 		} else {
 			RequestDispatcher dispatch = request.getRequestDispatcher("login.jsp");
 			request.setAttribute("errorType", 1);
-			dispatch.include(request, response);
+			dispatch.forward(request, response);
 		}
 	}
 
