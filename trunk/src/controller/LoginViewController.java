@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,16 +29,21 @@ public class LoginViewController extends HttpServlet implements ILoginViewContro
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		if (login (request.getParameter("login"), request.getParameter("password")) == null) {
-			out.println("OK");
+		User u = login (request.getParameter("login"), request.getParameter("password"));
+		if ( u != null) {
+			RequestDispatcher dispatch = request.getRequestDispatcher("resourceadmin.jsp");
+			request.setAttribute("login", u.getLogin());
+			
+			dispatch.forward(request, response);
+		} else {
+			RequestDispatcher dispatch = request.getRequestDispatcher("login.jsp");
+			dispatch.forward(request, response);
 		}
 	}
 
 	@Override
 	public User login(String login, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UserModelController().getUser(login, password);
 	}
 
 }
