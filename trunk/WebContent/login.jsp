@@ -7,9 +7,7 @@
 <title>Resource admin</title>
 </head>
 <body>
-<h1>Welcome.</h1>
-<ul>
-	<li><a href="login.jsp">Login page</a></li>
-</ul>
+<h3>Autorize.</h3>
+
 </body>
 </html>
