@@ -19,4 +19,14 @@
     <servlet-name>LoginViewController</servlet-name>
     <url-pattern>/LoginViewController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>x</display-name>
+    <servlet-name>x</servlet-name>
+    <servlet-class>x</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>x</servlet-name>
+    <url-pattern>/x</url-pattern>
+  </servlet-mapping>
 </web-app>
