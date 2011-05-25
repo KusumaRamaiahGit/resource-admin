@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.User;
 
@@ -28,6 +29,18 @@ public class LoginViewController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+   synchronized (this) {
+    	   if(isLogin(request.getParameter("login"), request.getParameter("password"))==true){
+    	    HttpSession session=request.getSession();
+    	    RequestDispatcher dispatch = request.getRequestDispatcher("resourceadmin.jsp");
+    	    request.setAttribute("loggedUser", new User());
+    	    request.setAttribute("HttpSession", session);
+    	    dispatch.forward(request, response);
+    	   }
+    	   else{
+    	    RequestDispatcher dispatch = request.getRequestDispatcher("login.jsp");
+    	    dispatch.forward(request, response);
+    	   }
 //		User u = login (request.getParameter("login"), request.getParameter("password"));
 //		if ( u != null) {
 //			RequestDispatcher dispatch = request.getRequestDispatcher("resourceadmin.jsp");
@@ -43,3 +56,11 @@ public class LoginViewController extends HttpServlet {
  
 
 }
+
+public User login(String login, String password) {
+		return new UserModelController().getUser(login, password);
+	}
+	
+	public boolean isLogin(String login, String password){
+		return new LoginService().getLogin(login, password);
+	}
