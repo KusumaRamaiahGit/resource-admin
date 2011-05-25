@@ -12,6 +12,9 @@ public class LoginService implements ILoginService {
 		// TODO Auto-generated method stub
 		return false;
 	}
+   public boolean getLogin(String login,String password){
+		return true;
+	}
 
 
 }
