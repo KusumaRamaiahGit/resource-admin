@@ -1,4 +1,4 @@
-package entities;
+package model;
 
 /**
  * marks, that the resource that implements this interface has maximal capacity property

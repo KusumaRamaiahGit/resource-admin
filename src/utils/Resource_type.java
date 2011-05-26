@@ -1,4 +1,4 @@
-package ourproject;
+package utils;
 
 /**
  * not used because of Resource class hierarchy

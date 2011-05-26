@@ -183,6 +183,7 @@ function showCurrentMonth() {//показать текущий месяц
 	}	
 %>
 <body onLoad="showCurrentMonth()">
+<div>Hello, <% request.getSession().getAttribute("User"); %> </div>
 	<p>
 	<table width="100%" >
 		<tr>
