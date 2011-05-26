@@ -1,6 +1,8 @@
 package controller;
 
+import java.awt.event.ActionListener;
 import java.io.IOException;
+//import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +16,7 @@ import model.User;
 /**
  * Servlet implementation class LoginViewController
  */
-public class LoginViewController extends HttpServlet {
+public class LoginViewController extends HttpServlet implements ILoginViewController {
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -28,39 +30,28 @@ public class LoginViewController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-   synchronized (this) {
-    	   if(isLogin(request.getParameter("login"), request.getParameter("password"))==true){
-    	    HttpSession session=request.getSession();
-    	    RequestDispatcher dispatch = request.getRequestDispatcher("resourceadmin.jsp");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    HttpSession session=request.getSession();  
+    	synchronized (session) {
+    	   if(isLogin(request.getParameter("login"), request.getParameter("password"), session)==true){
+    	    RequestDispatcher dispatch = request.getRequestDispatcher("calendar.jsp");
     	    request.setAttribute("loggedUser", new User());
-    	    request.setAttribute("HttpSession", session);
     	    dispatch.forward(request, response);
     	   }
     	   else{
     	    RequestDispatcher dispatch = request.getRequestDispatcher("login.jsp");
     	    dispatch.forward(request, response);
     	   }
-//		User u = login (request.getParameter("login"), request.getParameter("password"));
-//		if ( u != null) {
-//			RequestDispatcher dispatch = request.getRequestDispatcher("resourceadmin.jsp");
-//			//request.setAttribute("login", u.getLogin());
-//         request.setAttribute("loggedUser", new User());
-//			dispatch.forward(request, response);
-//		} else {
-//			RequestDispatcher dispatch = request.getRequestDispatcher("login.jsp");
-//			request.setAttribute("errorType", 1);
-//			dispatch.forward(request, response);
-//		}
+    	}		
 	}
- 
 
-}
-
-public User login(String login, String password) {
+	@Override
+	public User login(String login, String password) {
 		return new UserModelController().getUser(login, password);
 	}
-	
-	public boolean isLogin(String login, String password){
-		return new LoginService().getLogin(login, password);
+
+	public boolean isLogin(String login, String password, HttpSession session){
+		return new LoginService().createUserSession(login, password, session);
 	}
+
+}
