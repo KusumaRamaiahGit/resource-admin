@@ -5,7 +5,7 @@ package controller;
 
 import javax.servlet.http.HttpSession;
 
-import model.User;
+import model.Client;
 
 
 /**
@@ -14,9 +14,8 @@ import model.User;
  */
 public class LoginService implements ILoginService{
 	public boolean createUserSession(String login, String password, HttpSession session) {
-		User u=new User();
+		Client u = new Client();
 		session.setAttribute("User", u);
-    // TODO Auto-generated method stub
 		return true;
 	}
 	public boolean getLogin(String login,String password){

@@ -8,7 +8,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Резервирование ресурсов</title>
-<SCRIPT LANGUAGE="JavaScript">        function showCurrentMonth() {//показать текущий месяц
+<SCRIPT LANGUAGE="JavaScript">        
+function showCurrentMonth() {//показать текущий месяц
         var now = new Date();
         var day = now.getDate();
         var month = now.getMonth();
