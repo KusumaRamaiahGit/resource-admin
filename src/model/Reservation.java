@@ -1,4 +1,4 @@
-package model;
+package entities;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +18,7 @@ import javax.persistence.NamedNativeQueries;
 import javax.persistence.EntityResult;
 import java.util.Date;
 @Entity
+
 
 @SqlResultSetMapping(name = "Reservation", entities = @EntityResult(entityClass = Reservation.class))
 
@@ -147,6 +148,6 @@ public class Reservation implements Serializable{
     public String toString() {
              return getStart_time()+" - "
                + getEnd_time()+" "
-               +getClient_id().getLogin();
+               + getClient_id().getLogin();
     }
     }

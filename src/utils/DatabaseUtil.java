@@ -21,6 +21,7 @@ public class DatabaseUtil
      */
     public static void FillDatabase()
     {
+
         //--------------------------------------------------------------------------------
         // resource table filling
         //--------------------------------------------------------------------------------
@@ -35,16 +36,15 @@ public class DatabaseUtil
 
         r = new Monitor("monitor #1");
         ResourceDAO.addResource(r);
-
       
         //--------------------------------------------------------------------------------
         // client table filling
         //--------------------------------------------------------------------------------
 
-        Client c = new Client("boss", "pass", Client.RATINGS.LOW, "ab");
+        Client c = new Client("boss", "pass", Client.RATINGS.LOW, "ab@mail.ru");
         ClientDAO.addClient(c);
 
-        Client c1 = new Client("manager", "pass", Client.RATINGS.LOW, "ab");
+        Client c1 = new Client("manager", "pass", Client.RATINGS.LOW, "ab@mail.ru");
         ClientDAO.addClient(c1);
 
         Client c2 = new Client();
@@ -59,15 +59,13 @@ public class DatabaseUtil
         Reservation res2 = new Reservation(r, new Date("2011/05/26"), new Date(" 2011/05/26 12:00:00"), new Date("2011/05/26 14:00:00"), c);
         ReservationDAO.addReservation(res2);
 
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction transaction = sess.beginTransaction();
-
+        
         System.out.println("Все брони за день");
         Date d1=new Date("2011/05/26");
-        Query query2 = sess.getNamedQuery("FindReservation_ALL").setParameter(0,d1);
-         List<Reservation> list2 = query2.list();
-         for( Reservation rn : list2) {
-            System.out.println(rn.toString());
+
+        List<Reservation> list = ReservationDAO.getReservationByDate(d1);
+         for( Reservation rn : list) {
+           System.out.println(rn);
           }
         
         System.out.println("Все ресурсы Для выпадающего списка");
@@ -80,18 +78,10 @@ public class DatabaseUtil
         boolean overlay=true;
         Date date= new Date("2011/05/26");
         Date time_start= new Date("2011/05/26 9:00:00");
-        Date time_end=  new Date("2011/05/26 10:40:00");
-
-
+        Date time_end=  new Date("2011/05/26 10:00:00");
 
         Reservation res = new Reservation(r,date,time_start,time_end, c);
-        List<Reservation> list3 = query2.list();
-        for( Reservation rn : list3) {
-         /*  if  (date.equals(rn.getStart_date())&&
-                   (time_start.getHours()>(rn.getStart_time().getHours()))
-                   && (time_start.getHours()<rn.getEnd_time().getHours())
-                   && (time_end.getHours()<rn.getEnd_time().getHours())
-                   )*/
+          for( Reservation rn : list) {
                 if (date.equals(rn.getStart_date())&&
                    (time_start.getHours()<=rn.getStart_time().getHours())&&
                    (time_end.getHours()<=rn.getStart_time().getHours())
@@ -105,15 +95,13 @@ public class DatabaseUtil
             System.out.println("Бронь добавлена!");
         }
 
-       transaction.commit();
-       Session sess1 = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction transaction1 = sess1.beginTransaction();
-         Date d2=new Date("2011/05/26");
-         Query query3 = sess1.getNamedQuery("FindReservation_ALL").setParameter(0,d2);
-         List<Reservation> list4 = query3.list();
-         for( Reservation rn : list4) {
-            System.out.println(rn.toString());
+          Date d2=new Date("2011/05/26");
+         List<Reservation> list1 = ReservationDAO.getReservationByDate(d2);
+         for( Reservation rn : list1) {
+           System.out.println(rn);
           }
+          
+         }
 
     }
-}
+

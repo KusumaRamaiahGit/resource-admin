@@ -1,11 +1,11 @@
-package utils;
+package ourproject;
 
+import entities.Reservation;
 import java.util.ArrayList;
-
-import model.Reservation;
-
 import org.hibernate.Session;
-
+import org.hibernate.Query;
+import java.util.Date;
+import java.util.List;
 /**
  * data access object to reservation table
  * @author rsamoylov
@@ -14,54 +14,65 @@ public class ReservationDAO
 {
     public static void addReservation(Reservation r)
     {
-        Session sess = HibernateUtil.getSessionFactory().openSession();
+        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
         sess.beginTransaction();
 
         sess.save(r);
 
         sess.getTransaction().commit();
-        sess.close();
-
     }
 
     public static ArrayList<Reservation> getAllReservations()
     {
         ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 
-        Session sess = HibernateUtil.getSessionFactory().openSession();
+        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
         sess.beginTransaction();
 
         reservations = (ArrayList<Reservation>) sess.createCriteria(Reservation.class).list();
 
         sess.getTransaction().commit();
-        sess.close();
      
         return reservations;
     }
 
     public static void updateReservations(Reservation r)
     {
-        Session sess = HibernateUtil.getSessionFactory().openSession();
+        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
         sess.beginTransaction();
 
         sess.update(r);
 
         sess.getTransaction().commit();
-        sess.close();
-          }
+     }
 
     public static Reservation getReservationById(Long id)
     {
         Reservation r;
 
-        Session sess = HibernateUtil.getSessionFactory().openSession();
+        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
         sess.beginTransaction();
 
         r = (Reservation) sess.get(Reservation.class, id);
 
         sess.getTransaction().commit();
-        sess.close();
       
         return r;
     }
+
+     public static List<Reservation> getReservationByDate(Date start_date){
+     Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+     sess.beginTransaction();
+
+     Query query = sess.getNamedQuery("FindReservation_ALL").setParameter(0,start_date);
+     List<Reservation> list = query.list();
+
+
+     //sess.getTransaction().commit();
+     
+     return list;
+
+     }
+
+   
 }
