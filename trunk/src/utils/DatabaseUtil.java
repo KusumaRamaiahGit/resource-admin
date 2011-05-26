@@ -1,7 +1,7 @@
-package ourproject;
+package utils;
 import java.util.ArrayList;
 import java.util.List;
-import entities.*;
+import model.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.Query;
