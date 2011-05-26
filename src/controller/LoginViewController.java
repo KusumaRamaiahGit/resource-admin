@@ -35,7 +35,6 @@ public class LoginViewController extends HttpServlet implements ILoginViewContro
     	synchronized (session) {
     	   if(isLogin(request.getParameter("login"), request.getParameter("password"), session)==true){
     	    RequestDispatcher dispatch = request.getRequestDispatcher("calendar.jsp");
-    	    request.setAttribute("loggedUser", new User());
     	    dispatch.forward(request, response);
     	   }
     	   else{
@@ -43,11 +42,6 @@ public class LoginViewController extends HttpServlet implements ILoginViewContro
     	    dispatch.forward(request, response);
     	   }
     	}		
-	}
-
-	@Override
-	public User login(String login, String password) {
-		return new UserModelController().getUser(login, password);
 	}
 
 	public boolean isLogin(String login, String password, HttpSession session){
