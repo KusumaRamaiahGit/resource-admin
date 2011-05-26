@@ -1,0 +1,54 @@
+@charset "windows-1251";
+body {
+	margin: 0px;
+	padding:0px;
+	background: url(img/bg.png);
+}
+
+#block {
+	width: 950px;
+	height: 700px;
+	background:url(img/bg_light.png) no-repeat;
+	margin: 0px auto;
+	padding:0px;
+}
+
+#block h1 {
+	color: #FFF;
+	font-size: 48px;
+	text-align:center;
+	padding-top: 25px;
+	margin:0px;
+}
+
+#block #auth {
+	width: 281px;
+	height: 222px;
+	margin: 100px auto 0px auto;	
+	background: url(img/form_bg.png) no-repeat bottom;
+}
+
+#block #auth .head {
+	text-align:center;
+	color: #FFF;
+	font-size: 22px;
+}
+
+#block #auth form {
+	padding-top: 19px;
+}
+
+#block #auth form input {
+	width: 206px;
+	margin: 15px 35px 1px 35px;
+	background: none;
+	border: none;
+}
+
+#block #auth #submit {
+	width: 90px;
+	height:35px;
+	background:url(img/button.png);
+	float: right;
+	cursor: pointer;
+}
