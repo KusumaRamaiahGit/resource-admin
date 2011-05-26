@@ -1,9 +1,7 @@
-package utils;
+package ourproject;
 import java.util.ArrayList;
 import java.util.List;
-
-import model.*;
-
+import entities.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.Query;
@@ -35,12 +33,10 @@ public class DatabaseUtil
         Resource r1=new MeetingRoom("MeetingRoom");
         ResourceDAO.addResource(r1);
 
-        r = new Monitor("mon");
+        r = new Monitor("monitor #1");
         ResourceDAO.addResource(r);
 
-        r = new MeetingRoom("mr");
-        ResourceDAO.addResource(r);
-
+      
         //--------------------------------------------------------------------------------
         // client table filling
         //--------------------------------------------------------------------------------
@@ -51,6 +47,9 @@ public class DatabaseUtil
         Client c1 = new Client("manager", "pass", Client.RATINGS.LOW, "ab");
         ClientDAO.addClient(c1);
 
+        Client c2 = new Client();
+        c2=ClientDAO.getClientByLogin("boss");
+        System.out.println(c2);
         //--------------------------------------------------------------------------------
         // reservation table filling
         //--------------------------------------------------------------------------------
@@ -63,13 +62,13 @@ public class DatabaseUtil
         Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction transaction = sess.beginTransaction();
 
-        /*System.out.println("Все брони за день");
+        System.out.println("Все брони за день");
         Date d1=new Date("2011/05/26");
         Query query2 = sess.getNamedQuery("FindReservation_ALL").setParameter(0,d1);
          List<Reservation> list2 = query2.list();
          for( Reservation rn : list2) {
             System.out.println(rn.toString());
-          }*/
+          }
         
         System.out.println("Все ресурсы Для выпадающего списка");
         ArrayList<Resource> resources = ResourceDAO.getAllResources();
@@ -78,20 +77,26 @@ public class DatabaseUtil
          }
        
         System.out.println("Внесение новой брони");
-        boolean overlay=false;
+        boolean overlay=true;
         Date date= new Date("2011/05/26");
-        Date time_start= new Date("2011/05/26 18:00:00");
-        Date time_end=  new Date("2011/05/26 20:00:00");
-        
+        Date time_start= new Date("2011/05/26 9:00:00");
+        Date time_end=  new Date("2011/05/26 10:40:00");
+
+
+
         Reservation res = new Reservation(r,date,time_start,time_end, c);
-        ArrayList<Reservation> reservations = ReservationDAO.getAllReservations();
-        for( Reservation rn : reservations) {
-           if  (date.equals(rn.getStart_date())&& 
-                   (time_start.getHours()>=(rn.getStart_time().getHours()))
-                   && (time_start.getHours()<=rn.getEnd_time().getHours())
-                   && (time_end.getHours()<=rn.getEnd_time().getHours())
+        List<Reservation> list3 = query2.list();
+        for( Reservation rn : list3) {
+         /*  if  (date.equals(rn.getStart_date())&&
+                   (time_start.getHours()>(rn.getStart_time().getHours()))
+                   && (time_start.getHours()<rn.getEnd_time().getHours())
+                   && (time_end.getHours()<rn.getEnd_time().getHours())
+                   )*/
+                if (date.equals(rn.getStart_date())&&
+                   (time_start.getHours()<=rn.getStart_time().getHours())&&
+                   (time_end.getHours()<=rn.getStart_time().getHours())
                    )
-             overlay=true;
+             overlay=false;
            }
         if (overlay)
            System.out.println("Перекрест времени!");
@@ -99,11 +104,14 @@ public class DatabaseUtil
             ReservationDAO.addReservation(res);
             System.out.println("Бронь добавлена!");
         }
-        
+
+       transaction.commit();
+       Session sess1 = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction transaction1 = sess1.beginTransaction();
          Date d2=new Date("2011/05/26");
-         Query query3 = sess.getNamedQuery("FindReservation_ALL").setParameter(0,d2);
-         List<Reservation> list3 = query3.list();
-         for( Reservation rn : list3) {
+         Query query3 = sess1.getNamedQuery("FindReservation_ALL").setParameter(0,d2);
+         List<Reservation> list4 = query3.list();
+         for( Reservation rn : list4) {
             System.out.println(rn.toString());
           }
 

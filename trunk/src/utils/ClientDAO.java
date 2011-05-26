@@ -1,11 +1,9 @@
-package utils;
+package ourproject;
 
+import entities.Client;
 import java.util.ArrayList;
-
-import model.Client;
-
 import org.hibernate.Session;
-
+import org.hibernate.Query;
 /**
  * data access object to client table
  * @author rsamoylov
@@ -14,13 +12,13 @@ public class ClientDAO
 {
     public static void addClient(Client c)
     {
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session sess = HibernateUtil.getSessionFactory().openSession();
         sess.beginTransaction();
 
         sess.save(c);
 
         sess.getTransaction().commit();
-       // sess.close();
+//        sess.close();
 
     }
 
@@ -59,6 +57,21 @@ public class ClientDAO
 
         c = (Client) sess.get(Client.class, id);
 
+        sess.getTransaction().commit();
+        sess.close();
+
+        return c;
+    }
+
+        public static Client getClientByLogin(String login)
+    {
+        Client c;
+
+        Session sess = HibernateUtil.getSessionFactory().openSession();
+        sess.beginTransaction();
+
+        Query query = sess.getNamedQuery("getClientByLogin").setParameter("login",login);
+         c= (Client)query.uniqueResult();
         sess.getTransaction().commit();
         sess.close();
 
