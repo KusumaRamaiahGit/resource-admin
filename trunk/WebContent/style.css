@@ -34,18 +34,31 @@ body {
 	font-size: 22px;
 }
 
-#block #auth form {
-	padding-top: 19px;
+#block #auth a {
+	color: #0066cc;
 }
 
-#block #auth form input {
+form {
+	padding-top: 19px;
+	height: 125px;
+}
+
+a {
+	color: blue;
+}
+
+input {
 	width: 206px;
 	margin: 15px 35px 1px 35px;
 	background: none;
 	border: none;
+	color: #999;
+font-style: italic;
+font-family: Georgia;
+font-size: medium;
 }
 
-#block #auth #submit {
+#submit {
 	width: 90px;
 	height:35px;
 	background:url(img/button.png);

@@ -6,6 +6,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Resource admin</title>
 <link href="style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+function Clear(id) { 
+	document.getElementById(id).value = '';
+}
+</script>
 </head>
 <body>
 <% 
@@ -25,11 +30,11 @@ try {
     <div id="auth">
     <div class="head">Авторизация</div>
     <form method="POST" action="LoginViewController">
-    	<input type="text" name="login" value="" />
-        <input type="text" name="password" value="" />
-
-        <input name="" type="submit" id="submit" value="" />
-    </form>
+            <input name="login" type="text" id='login' value="логин" onclick="return Clear('login');"/>
+            <input name="password" type="password" id="password" value="пароль" onclick="return Clear('password');"/>
+            <input name="submit" type="submit" id="submit" value="" />
+        </form>
+        <div align="center"><a href="#">регистрация</a></div>
     </div>
 </div>
 		
