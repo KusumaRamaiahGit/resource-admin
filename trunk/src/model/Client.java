@@ -1,4 +1,4 @@
-package model;
+package entities;;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.NamedQuery;
 
 
 /**
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "CLIENT")
 @SequenceGenerator(name = "CLIENT_SEQUENCE", sequenceName = "CLIENT_ID_SEQ")
-
+@NamedQuery(name = "getClientByLogin", query = "from Client c where c.login = :login")
 public class Client implements Serializable
 {
     @Id
