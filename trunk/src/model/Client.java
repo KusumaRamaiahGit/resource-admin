@@ -121,4 +121,10 @@ public class Client implements Serializable
        int result = 9*login.hashCode() + 3*password.hashCode()+7*rating.hashCode()+13*contact.hashCode();
        return result;
     }
+
+    @Override
+    public String toString() {
+        return login;
+    }
+
 }

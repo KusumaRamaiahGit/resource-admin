@@ -1,4 +1,4 @@
-package model;
+package entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +9,6 @@ import javax.persistence.Table;
  * @author rsamoylov
  */
 @Entity
-@Table(name = "DiningRoom")
 @PrimaryKeyJoinColumn(name = "resource_id", referencedColumnName = "resource_id")
 public class DiningRoom extends Resource implements Countable
 {

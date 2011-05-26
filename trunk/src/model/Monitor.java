@@ -1,4 +1,4 @@
-package model;
+package entities;
 
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;

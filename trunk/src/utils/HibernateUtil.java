@@ -1,4 +1,4 @@
-package utils;
+package ourproject;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
