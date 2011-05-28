@@ -18,6 +18,11 @@
   <!-- Echo all executed SQL to stdout -->
   <property name="show_sql">false</property>
   <property name="hbm2ddl.auto">create</property>
+  
+  <!-- annotation fix for JBoss -->
+  <property name="hibernate.validator.apply_to_ddl">false</property>
+  <property name="hibernate.validator.autoregister_listeners">false</property>
+  
   <!-- Mapping files 
   <mapping class="example1.Resource_type"/> -->
   <mapping class="model.Resource"/>
