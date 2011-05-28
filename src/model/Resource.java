@@ -69,4 +69,10 @@ public class Resource implements Serializable
         return result;
     }
 
+    @Override
+    public String toString() {
+        return resource_name;
+    }
+
 }
+

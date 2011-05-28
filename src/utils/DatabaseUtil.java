@@ -25,17 +25,17 @@ public class DatabaseUtil
         //--------------------------------------------------------------------------------
         // resource table filling
         //--------------------------------------------------------------------------------
-        DiningRoom d = new DiningRoom("dinnner", 10);
-        ResourceDAO.addResource(d);
-
         Resource r = new Resource("some resource");
         ResourceDAO.addResource(r);
+
+        DiningRoom d = new DiningRoom("dinnner", 10);
+        ResourceDAO.addResource(d);
 
         Resource r1=new MeetingRoom("MeetingRoom");
         ResourceDAO.addResource(r1);
 
-        r = new Monitor("monitor #1");
-        ResourceDAO.addResource(r);
+        Monitor m = new Monitor("monitor #1","100W21");
+        ResourceDAO.addResource(m);
       
         //--------------------------------------------------------------------------------
         // client table filling
