@@ -1,5 +1,6 @@
 <!-- author Martynenko Viktoria-->
 <%@page import="java.io.PrintWriter"%>
+<%@page import="model.Client"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -183,7 +184,10 @@ function showCurrentMonth() {//показать текущий месяц
 	}	
 %>
 <body onLoad="showCurrentMonth()">
-<div>Hello, <% request.getSession().getAttribute("User"); %> </div>
+<div>Hello, 
+<% Client u = (Client) request.getSession().getAttribute("User");
+out.println(""+u.getLogin()+", your contact: "+u.getContact());%> 
+</div>
 	<p>
 	<table width="100%" >
 		<tr>

@@ -60,15 +60,17 @@ public class ClientDAO
 
         public static Client getClientByLogin(String login)
     {
-        Client c;
-
+        Client c = null;
+        try {
         Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
         sess.beginTransaction();
 
         Query query = sess.getNamedQuery("getClientByLogin").setParameter("login",login);
          c = (Client)query.uniqueResult();
         sess.getTransaction().commit();
-
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
         return c;
     }
 }
