@@ -8,10 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.EntityResult;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 /**
  * @author smihaylenko
  */
@@ -24,7 +22,9 @@ public class Resource implements Serializable
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "RESOURCE_SEQUENCE")
     @Column(name = "resource_id", nullable = false, columnDefinition = "integer")
     private Long resource_id;
-    @Column(name = "resource_name", nullable = false, columnDefinition = "varchar(255)")
+
+
+    @Column(name = "resource_name", nullable = false)
     private String resource_name;
 
     public Resource()
@@ -75,4 +75,3 @@ public class Resource implements Serializable
     }
 
 }
-

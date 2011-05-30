@@ -1,6 +1,10 @@
 package model;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,40 +13,50 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.NamedQuery;
-
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 
 /**
  * @author smihaylenko
  */
 @Entity
 @Table(name = "CLIENT")
+
 @SequenceGenerator(name = "CLIENT_SEQUENCE", sequenceName = "CLIENT_ID_SEQ")
 @NamedQuery(name = "getClientByLogin", query = "from Client c where c.login = :login")
+
+
 public class Client implements Serializable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CLIENT_SEQUENCE")
     @Column(name = "client_id", nullable = false, columnDefinition = "integer")
+
     private Long client_id;
 
-    @Column(name = "login", nullable = false, length = 255)
+
+    @Column(name = "login", nullable = false)
     private String login;
 
-    @Column(name = "password", nullable = false, length = 255)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "rating", nullable = false, columnDefinition = "integer")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "rating", nullable = false, length=20)
     private RATINGS rating;
 
-    @Column(name = "contact", nullable = false, length = 255)
+    @Column(name = "contact", nullable = false)
     private String contact;
 
-    public enum RATINGS
+     public enum RATINGS
     {
         HIGH,
         MIDDLE,
         LOW
     }
+
 
     public Client()
     {

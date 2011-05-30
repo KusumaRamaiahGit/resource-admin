@@ -1,6 +1,6 @@
-package utils;
+package ourproject;
 
-import model.Client;
+import entities.Client;
 import java.util.ArrayList;
 import org.hibernate.Session;
 import org.hibernate.Query;
@@ -12,7 +12,7 @@ public class ClientDAO
 {
     public static void addClient(Client c)
     {
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+         Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         sess.save(c);
@@ -24,7 +24,7 @@ public class ClientDAO
     {
         ArrayList<Client> clients = new ArrayList<Client>();
 
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         clients = (ArrayList<Client>) sess.createCriteria(Client.class).list();
@@ -36,7 +36,7 @@ public class ClientDAO
 
     public static void updateClient(Client c)
     {
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         sess.update(c);
@@ -48,7 +48,7 @@ public class ClientDAO
     {
         Client c;
 
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         c = (Client) sess.get(Client.class, id);
@@ -60,17 +60,15 @@ public class ClientDAO
 
         public static Client getClientByLogin(String login)
     {
-        Client c = null;
-        try {
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        Client c;
+
+         Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         Query query = sess.getNamedQuery("getClientByLogin").setParameter("login",login);
          c = (Client)query.uniqueResult();
         sess.getTransaction().commit();
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
+
         return c;
     }
 }

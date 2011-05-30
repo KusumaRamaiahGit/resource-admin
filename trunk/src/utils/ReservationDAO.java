@@ -1,6 +1,6 @@
-package utils;
+package ourproject;
 
-import model.Reservation;
+import entities.Reservation;
 import java.util.ArrayList;
 import org.hibernate.Session;
 import org.hibernate.Query;
@@ -14,7 +14,7 @@ public class ReservationDAO
 {
     public static void addReservation(Reservation r)
     {
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+         Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         sess.save(r);
@@ -26,7 +26,7 @@ public class ReservationDAO
     {
         ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         reservations = (ArrayList<Reservation>) sess.createCriteria(Reservation.class).list();
@@ -38,7 +38,7 @@ public class ReservationDAO
 
     public static void updateReservations(Reservation r)
     {
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         sess.update(r);
@@ -50,7 +50,7 @@ public class ReservationDAO
     {
         Reservation r;
 
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         r = (Reservation) sess.get(Reservation.class, id);
@@ -61,7 +61,7 @@ public class ReservationDAO
     }
 
      public static List<Reservation> getReservationByDate(Date start_date){
-     Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+      Session sess = HibernateUtil.getSession();
      sess.beginTransaction();
 
      Query query = sess.getNamedQuery("FindReservation_ALL").setParameter(0,start_date);

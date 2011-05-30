@@ -1,6 +1,6 @@
-package utils;
+package ourproject;
 
-import model.Resource;
+import entities.Resource;
 import java.util.ArrayList;
 import org.hibernate.Session;
 
@@ -12,7 +12,7 @@ public class ResourceDAO
 {
     public static void addResource(Resource r)
     {
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         sess.save(r);
@@ -25,7 +25,7 @@ public class ResourceDAO
     {
         ArrayList<Resource> resources = new ArrayList<Resource>();
 
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+         Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         resources = (ArrayList<Resource>) sess.createCriteria(Resource.class).list();
@@ -37,7 +37,7 @@ public class ResourceDAO
 
     public static void updateResource(Resource r)
     {
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         sess.update(r);
@@ -49,7 +49,7 @@ public class ResourceDAO
     {
         Resource r;
         
-        Session sess = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         r = (Resource) sess.get(Resource.class, id);
