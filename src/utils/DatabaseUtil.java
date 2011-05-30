@@ -1,7 +1,7 @@
-package utils;
+package ourproject;
 import java.util.ArrayList;
 import java.util.List;
-import model.*;
+import entities.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.Query;
@@ -53,10 +53,14 @@ public class DatabaseUtil
         //--------------------------------------------------------------------------------
         // reservation table filling
         //--------------------------------------------------------------------------------
-        Reservation res1 = new Reservation(r, new Date("2011/05/26"), new Date(" 2011/05/26 10:00:00"), new Date("2011/05/26 11:00:00"), c1);
+        /*Reservation res1 = new Reservation(new Date("2011/05/26"), new Date(" 2011/05/26 10:00:00"), new Date("2011/05/26 11:00:00"));
+        res1.getResources().add(r);
+        res1.getClients().add(c);
         ReservationDAO.addReservation(res1);
 
-        Reservation res2 = new Reservation(r, new Date("2011/05/26"), new Date(" 2011/05/26 12:00:00"), new Date("2011/05/26 14:00:00"), c);
+        Reservation res2 = new Reservation( new Date("2011/05/26"), new Date(" 2011/05/26 12:00:00"), new Date("2011/05/26 14:00:00"));
+        res2.getResources().add(d);
+        res1.getClients().add(c1);
         ReservationDAO.addReservation(res2);
 
         
@@ -80,7 +84,9 @@ public class DatabaseUtil
         Date time_start= new Date("2011/05/26 9:00:00");
         Date time_end=  new Date("2011/05/26 10:00:00");
 
-        Reservation res = new Reservation(r,date,time_start,time_end, c);
+        Reservation res = new Reservation(date,time_start,time_end);
+        res.getResources().add(r);
+        res.getClients().add(c);
           for( Reservation rn : list) {
                 if (date.equals(rn.getStart_date())&&
                    (time_start.getHours()<=rn.getStart_time().getHours())&&
@@ -99,7 +105,7 @@ public class DatabaseUtil
          List<Reservation> list1 = ReservationDAO.getReservationByDate(d2);
          for( Reservation rn : list1) {
            System.out.println(rn);
-          }
+          }*/
           
          }
 

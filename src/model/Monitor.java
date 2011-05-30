@@ -8,7 +8,6 @@ import javax.persistence.Column;
  * @author rsamoylov
  */
 @Entity
-@PrimaryKeyJoinColumn(name = "resource_id", referencedColumnName = "resource_id")
 public class Monitor extends Resource implements Inventarable
 {
     @Column(name = "Inventarno", unique = true, length = 10)

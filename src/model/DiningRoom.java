@@ -3,13 +3,11 @@ package model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 
 /**
  * @author rsamoylov
  */
 @Entity
-@PrimaryKeyJoinColumn(name = "resource_id", referencedColumnName = "resource_id")
 public class DiningRoom extends Resource implements Countable
 {
     @Column(name = "maxCapacity")

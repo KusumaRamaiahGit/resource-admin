@@ -8,7 +8,6 @@ import javax.persistence.Table;
  * @author rsamoylov
  */
 @Entity
-@PrimaryKeyJoinColumn(name = "resource_id", referencedColumnName = "resource_id")
 public class MeetingRoom extends Resource
 {
     public MeetingRoom()
@@ -20,4 +19,6 @@ public class MeetingRoom extends Resource
     {
         super(name);
     }
+
+
 }
