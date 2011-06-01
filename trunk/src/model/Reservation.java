@@ -37,7 +37,7 @@ query="select * "
         + "ORDER BY start_time;",
         resultSetMapping="Reservation"),
     }
-)
+) 	
 @Table(name= "RESERVATION")
 public class Reservation implements Serializable{
  @Id

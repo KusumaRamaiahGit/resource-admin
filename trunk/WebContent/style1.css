@@ -8,8 +8,7 @@ body {
 #block
 {
 	width: 950px;
-	height: 700px;
-	background: url(img/bg_light.png) no-repeat;
+	height: 700px; 
 	margin: 0px auto;
 	padding: 0px;	
 }
@@ -94,6 +93,16 @@ body {
 .table1
 {
 	text-align:center;	
+	border: 0px;
+	
+}
+
+table.table1 th {
+	border-width: 0px;
+}
+table.table1 td {
+	border-width: 0px;
+
 }
 #blocktime
 {

@@ -17,7 +17,7 @@ import model.Client;
 /**
  * Servlet implementation class LoginViewController
  */
-public class LoginViewController extends HttpServlet implements ILoginViewController {
+public class LoginViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -46,7 +46,7 @@ public class LoginViewController extends HttpServlet implements ILoginViewContro
 	}
 
 	public boolean isLogin(String login, String password, HttpSession session){
-		return new LoginService().createUserSession(login, password, session);
+		return new LoginHandler().createUserSession(login, password, session);
 	}
 
 }
