@@ -1,13 +1,13 @@
 package utils;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Session;
+import org.hibernate.HibernateException;
 import org.hibernate.cfg.AnnotationConfiguration;
+
 /**
  * @author smihaylenko
  */
-@SuppressWarnings("deprecation")
 public class HibernateUtil
 {
    private static final SessionFactory sessionFactory;
@@ -27,5 +27,6 @@ public class HibernateUtil
         return sessionFactory.openSession();
     }
 }
+
 
 
