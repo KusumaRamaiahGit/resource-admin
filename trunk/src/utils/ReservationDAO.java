@@ -1,6 +1,6 @@
 package utils;
 
-import entities.Reservation;
+import model.Reservation;
 import java.util.ArrayList;
 import org.hibernate.Session;
 import org.hibernate.Query;
