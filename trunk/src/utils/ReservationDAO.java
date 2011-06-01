@@ -1,4 +1,4 @@
-package ourproject;
+package utils;
 
 import entities.Reservation;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class ReservationDAO
 {
     public static void addReservation(Reservation r)
     {
-         Session sess = HibernateUtil.getSession();
+        Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
         sess.save(r);
@@ -68,7 +68,7 @@ public class ReservationDAO
      List<Reservation> list = query.list();
 
 
-     //sess.getTransaction().commit();
+     sess.getTransaction().commit();
      
      return list;
 

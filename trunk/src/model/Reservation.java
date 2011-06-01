@@ -1,6 +1,7 @@
 package model;
+
 import java.io.Serializable;
-import java.util.Collection;
+import java.text.DateFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -11,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.NamedNativeQueries;
@@ -21,19 +21,20 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 
 @Entity
+
 @SqlResultSetMapping(name = "Reservation", entities = @EntityResult(entityClass = Reservation.class))
 @NamedNativeQueries(
 {
 @NamedNativeQuery(name="FindReservation_ALL",
-query="select *"
-        + "from RESERVATION r,CLIENT c "
-        + "where r.client=c.client_id "
-        + "and "
+query="select * "
+        + "FROM RESERVATION r "
+        + "WHERE "
         + "start_date =? "
-        + "order by start_time;",
+        + "ORDER BY start_time;",
         resultSetMapping="Reservation"),
     }
 )
@@ -41,7 +42,7 @@ query="select *"
 public class Reservation implements Serializable{
  @Id
  @GeneratedValue(strategy = GenerationType.AUTO)
- @Column(name= "reservation_id")
+ @Column(name= "reservation_id", nullable = false, columnDefinition = "integer")
  private Long reservation_id;
 
   @Column(name= "start_date",nullable=false)
@@ -49,63 +50,59 @@ public class Reservation implements Serializable{
   private Date  start_date;
 
   @Column(name= "start_time",nullable=false)
-  @Temporal(value=TemporalType.TIME)
+  @Temporal(value=TemporalType.TIMESTAMP)
   private Date  start_time;
 
   @Column(name= "end_time",nullable=false)
-  @Temporal(value=TemporalType.TIME)
+  @Temporal(value=TemporalType.TIMESTAMP)
   private Date     end_time;
 
    public Reservation() {
     }
 
-    public Reservation( Date start_date, Date start_time, Date end_time) {
-       // this.resources = resources;
+    public Reservation( Resource resource,Date start_date, Date start_time, Date end_time) {
+        this.resource = resource;
         this.start_date = start_date;
         this.start_time = start_time;
         this.end_time = end_time;
-        //this.clients = clients;
     }
 
-   private Set<Resource> resources=new HashSet<Resource>(0);
-  @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-  @JoinTable(name = "RESERVATION_RESOURCE",
-  joinColumns =
-  { @JoinColumn(name = "reservation_id") },
-    inverseJoinColumns = { @JoinColumn(name = "resource_id") })
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "resource_fk")
+    private Resource resource;
 
-     public Set<Resource> getResources() {
-        return resources;
+  public Resource getResource() {
+        return resource;
     }
 
-    public void setResources(Set<Resource> resources) {
-        this.resources = resources;
+    public void setResource(Resource resource) {
+        this.resource = resource;
     }
 
-  private Set<Client> clients=new HashSet<Client>(0);
-  @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+
+  @ManyToMany(targetEntity=Client.class,
+ cascade={CascadeType.PERSIST, CascadeType.MERGE})
   @JoinTable(name = "RESERVATION_CLIENT",
   joinColumns =
   { @JoinColumn(name = "reservation_id") },
-          inverseJoinColumns = { @JoinColumn(name = "client_id") })
-
+    inverseJoinColumns = { @JoinColumn(name = "client_id") })
+private Set<Client> clients=new HashSet<Client>(0);
     public Set<Client> getClients() {
         return clients;
     }
-
      public void setClients(Set<Client> clients) {
         this.clients = clients;
     }
-
+     
     public Date getEnd_time() {
         return end_time;
     }
 
-    public Date getStart_time() {
+    public Date  getStart_time() {
         return start_time;
     }
 
-    public void setEnd_time(Date end_time) {
+    public void setEnd_time(Date  end_time) {
         this.end_time = end_time;
     }
 
@@ -113,20 +110,17 @@ public class Reservation implements Serializable{
         this.start_time = start_time;
     }
 
-    @Id
      public Long getReservation_id() {
         return reservation_id;
     }
-
-    public Date getStart_date() {
-        return start_date;
-    }
-
 
     public void setReservation_id(Long reservation_id) {
         this.reservation_id = reservation_id;
     }
 
+ public Date getStart_date() {
+        return start_date;
+    }
 
     public void setStart_date(Date start_date) {
         this.start_date = start_date;
@@ -141,20 +135,26 @@ public class Reservation implements Serializable{
         if ( !start_time.equals( res.start_time) ) return false;
         if ( !end_time.equals( res.end_time ) ) return false;
         if ( !clients.equals( res.clients ) ) return false;
-        if ( !resources.equals( res.resources ) ) return false;
+        if ( !resource.equals( res.resource ) ) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
-       int result = 9*start_date.hashCode() +17*clients.hashCode()+19*resources.hashCode();
+       int result = 9*start_date.hashCode() +17*clients.hashCode()+19*resource.hashCode();
        return result;
     }
 
     @Override
     public String toString() {
-             return getStart_time()+" - "
-               + getEnd_time()+" "
+        DateFormat formatter = DateFormat.getTimeInstance();
+             return
+             formatter.format(getStart_time()) +" - "
+              + formatter.format(getEnd_time())+" "
                + getClients();
     }
- }
+
+ 
+
+}
+

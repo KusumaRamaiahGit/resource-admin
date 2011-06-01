@@ -1,4 +1,4 @@
-package ourproject;
+package utils;
 
 import entities.Resource;
 import java.util.ArrayList;
