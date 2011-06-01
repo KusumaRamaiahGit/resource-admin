@@ -1,6 +1,7 @@
 package utils;
 
 import model.Reservation;
+import model.Resource;
 import java.util.ArrayList;
 import org.hibernate.Session;
 import org.hibernate.Query;
@@ -58,6 +59,20 @@ public class ReservationDAO
         }
      }
 
+        public static void deleteReservation(Reservation r)
+    {
+        try {
+        Session sess = HibernateUtil.getSession();
+        sess.beginTransaction();
+
+       //sess.delete(r);
+        sess.getTransaction().commit();
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+     }
+
+
     public static Reservation getReservationById(Long id)
     {
         Reservation r=null;
@@ -76,7 +91,7 @@ public class ReservationDAO
         return r;
     }
 
-     public static List<Reservation> getReservationByDate(Date start_date)
+     public static List<Reservation> getReservationByDateAndResource(Date start_date,Resource resource)
      {
          List<Reservation> list=null;
 
@@ -84,7 +99,7 @@ public class ReservationDAO
          Session sess = HibernateUtil.getSession();
          sess.beginTransaction();
 
-        Query query = sess.getNamedQuery("FindReservation_ALL").setParameter(0,start_date);
+        Query query = sess.getNamedQuery("FindReservation_ALL_of_Day_by_Resource").setParameter(0,start_date).setParameter(1, resource);
         list = query.list();
 
         sess.getTransaction().commit();

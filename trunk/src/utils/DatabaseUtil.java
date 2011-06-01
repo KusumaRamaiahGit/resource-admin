@@ -1,9 +1,12 @@
 package utils;
 import java.util.ArrayList;
 import java.util.List;
+import model.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.Query;
 import java.util.Date;
 
-import model.*;
 
 /**
  * @author rsamoylov
@@ -25,7 +28,7 @@ public class DatabaseUtil
         Resource r = new Resource("some resource");
         ResourceDAO.addResource(r);
 
-        DiningRoom d = new DiningRoom("dinnner", 10);
+        DiningRoom d = new DiningRoom("dinnner", 1);
         ResourceDAO.addResource(d);
 
         Resource r1=new MeetingRoom("MeetingRoom");
@@ -50,58 +53,66 @@ public class DatabaseUtil
         //--------------------------------------------------------------------------------
         // reservation table filling
         //--------------------------------------------------------------------------------
-        Reservation res1 = new Reservation(r,new Date("2011/05/26"), new Date(" 2011/05/26 10:00"), new Date("2011/05/26 11:00"));
+        Reservation res1 = new Reservation(d, new Date(" 2011/05/26 10:00"), new Date("2011/05/26 11:00"));
         res1.getClients().add(c);
         res1.getClients().add(c1);
         ReservationDAO.addReservation(res1);
-
-        Reservation res2 = new Reservation(d, new Date("2011/05/26"), new Date(" 2011/05/26 12:00"), new Date("2011/05/26 14:00"));
+     
+        Reservation res2 = new Reservation(d, new Date(" 2011/05/26 12:00"), new Date("2011/05/26 14:00"));
         res2.getClients().add(c1);
         ReservationDAO.addReservation(res2);
 
-        
+ 
         System.out.println("Все брони за день");
         Date d1=new Date("2011/05/26");
 
-       List<Reservation> list = ReservationDAO.getReservationByDate(d1);
+       List<Reservation> list = ReservationDAO.getReservationByDateAndResource(d1,d);
          for( Reservation rn : list) {
            System.out.println(rn);
           }
         
-        System.out.println("Все ресурсы Для выпадающего списка");
+        System.out.println("All resources");
         ArrayList<Resource> resources = ResourceDAO.getAllResources();
-       for (Resource re: resources) {
+           for (Resource re: resources) {
             System.out.println(re.getResource_name());
          }
        
-        System.out.println("Внесение новой брони");
-        boolean overlay=true;
-        Date date= new Date("2011/05/26");
-        Date time_start= new Date("2011/05/26 9:00");
-        Date time_end=  new Date("2011/05/26 10:00");
+        System.out.println("Add new reservation");
+        Date time_start= new Date("2011/05/26 10:00");
+        Date time_end=  new Date("2011/05/26 19:00");
 
-        Reservation res = new Reservation(r,date,time_start,time_end);
+        Reservation res = new Reservation(d,time_start,time_end);
         res.getClients().add(c);
+        int i=0;
           for( Reservation rn : list) {
-                if (date.equals(rn.getStart_date())&&
-                   (time_start.getHours()<=rn.getStart_time().getHours())&&
-                   (time_end.getHours()<=rn.getStart_time().getHours())
-                   )
-             overlay=false;
+                if ((time_start.getDate()==rn.getStart_time().getDate())&&
+                   (time_start.getYear()==rn.getStart_time().getYear())&&
+                   (time_start.getMonth()==rn.getStart_time().getMonth())&&
+                   (time_start.getHours()<rn.getEnd_time().getHours())&&
+                   (time_end.getHours()>rn.getStart_time().getHours())
+                   ){
+                   i=i+ rn.getClients().size();
+              }
            }
-        if (overlay)
-           System.out.println("Перекрест времени!");
+        if (i>d.getMaxCapacity())
+        {
+           System.out.println("Time cross!");
+        }
         else{
             ReservationDAO.addReservation(res);
-            System.out.println("Бронь добавлена!");
+            System.out.println("Reservation added!");
         }
+         System.out.println(i);
 
-          Date d2=new Date("2011/05/26");
-         List<Reservation> list1 = ReservationDAO.getReservationByDate(d2);
+        // ReservationDAO.deleteReservation(res1);
+         //--------Show res lt-----------------
+         Date d2=new Date("2011/05/26");
+         List<Reservation> list1 = ReservationDAO.getReservationByDateAndResource(d2,d);
          for( Reservation rn : list1) {
            System.out.println(rn);
           }
-          
+         
+         
          }
 
     }
