@@ -3,6 +3,7 @@ package model;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.EnumType;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.JoinTable;
 
 /**
  * @author smihaylenko
@@ -24,14 +28,12 @@ import javax.persistence.ManyToMany;
 @Entity
 @Table(name = "CLIENT")
 
-@SequenceGenerator(name = "CLIENT_SEQUENCE", sequenceName = "CLIENT_ID_SEQ")
 @NamedQuery(name = "getClientByLogin", query = "from Client c where c.login = :login")
-
 
 public class Client implements Serializable
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "CLIENT_SEQUENCE")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "client_id", nullable = false, columnDefinition = "integer")
 
     private Long client_id;
@@ -58,6 +60,7 @@ public class Client implements Serializable
     }
 
 
+  
     public Client()
     {
     }
@@ -69,6 +72,21 @@ public class Client implements Serializable
         this.rating = rating;
         this.contact = contact;
     }
+
+
+  @ManyToMany(
+        cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+        mappedBy = "clients",
+        targetEntity = Reservation.class
+    )
+       private Set<Reservation> reservations=new HashSet<Reservation>(0);
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+     public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
 
     public Long getClient_id()
     {

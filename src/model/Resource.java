@@ -6,20 +6,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 /**
  * @author smihaylenko
  */
 @Entity
 @Table(name = "RES")
-@SequenceGenerator(name = "RESOURCE_SEQUENCE", sequenceName = "RESOURCE_ID_SEQ")
 public class Resource implements Serializable
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "RESOURCE_SEQUENCE")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "resource_id", nullable = false, columnDefinition = "integer")
     private Long resource_id;
 
@@ -27,6 +24,15 @@ public class Resource implements Serializable
     @Column(name = "resource_name", nullable = false)
     private String resource_name;
 
+   private Reservation reservation;
+   @OneToOne(mappedBy = "resource")
+   public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation= reservation;
+    }
     public Resource()
     {
     }

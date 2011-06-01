@@ -1,4 +1,4 @@
-package ourproject;
+package utils;
 import java.util.ArrayList;
 import java.util.List;
 import entities.*;
@@ -34,7 +34,7 @@ public class DatabaseUtil
         Resource r1=new MeetingRoom("MeetingRoom");
         ResourceDAO.addResource(r1);
 
-        Monitor m = new Monitor("monitor #1","100W21");
+        Monitor m = new Monitor("monitor #1","100W78");
         ResourceDAO.addResource(m);
       
         //--------------------------------------------------------------------------------
@@ -53,21 +53,20 @@ public class DatabaseUtil
         //--------------------------------------------------------------------------------
         // reservation table filling
         //--------------------------------------------------------------------------------
-        /*Reservation res1 = new Reservation(new Date("2011/05/26"), new Date(" 2011/05/26 10:00:00"), new Date("2011/05/26 11:00:00"));
-        res1.getResources().add(r);
+        Reservation res1 = new Reservation(r,new Date("2011/05/26"), new Date(" 2011/05/26 10:00"), new Date("2011/05/26 11:00"));
         res1.getClients().add(c);
+        res1.getClients().add(c1);
         ReservationDAO.addReservation(res1);
 
-        Reservation res2 = new Reservation( new Date("2011/05/26"), new Date(" 2011/05/26 12:00:00"), new Date("2011/05/26 14:00:00"));
-        res2.getResources().add(d);
-        res1.getClients().add(c1);
+        Reservation res2 = new Reservation(d, new Date("2011/05/26"), new Date(" 2011/05/26 12:00"), new Date("2011/05/26 14:00"));
+        res2.getClients().add(c1);
         ReservationDAO.addReservation(res2);
 
         
         System.out.println("Все брони за день");
         Date d1=new Date("2011/05/26");
 
-        List<Reservation> list = ReservationDAO.getReservationByDate(d1);
+       List<Reservation> list = ReservationDAO.getReservationByDate(d1);
          for( Reservation rn : list) {
            System.out.println(rn);
           }
@@ -81,11 +80,10 @@ public class DatabaseUtil
         System.out.println("Внесение новой брони");
         boolean overlay=true;
         Date date= new Date("2011/05/26");
-        Date time_start= new Date("2011/05/26 9:00:00");
-        Date time_end=  new Date("2011/05/26 10:00:00");
+        Date time_start= new Date("2011/05/26 9:00");
+        Date time_end=  new Date("2011/05/26 10:00");
 
-        Reservation res = new Reservation(date,time_start,time_end);
-        res.getResources().add(r);
+        Reservation res = new Reservation(r,date,time_start,time_end);
         res.getClients().add(c);
           for( Reservation rn : list) {
                 if (date.equals(rn.getStart_date())&&
@@ -105,7 +103,7 @@ public class DatabaseUtil
          List<Reservation> list1 = ReservationDAO.getReservationByDate(d2);
          for( Reservation rn : list1) {
            System.out.println(rn);
-          }*/
+          }
           
          }
 
