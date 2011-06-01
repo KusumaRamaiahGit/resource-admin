@@ -1,6 +1,6 @@
 package utils;
 
-import entities.Client;
+import model.Client;
 import java.util.ArrayList;
 import org.hibernate.Session;
 import org.hibernate.Query;

@@ -1,6 +1,6 @@
 package utils;
 
-import entities.Resource;
+import model.Resource;
 import java.util.ArrayList;
 import org.hibernate.Session;
 
