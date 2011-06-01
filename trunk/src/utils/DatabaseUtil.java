@@ -1,12 +1,9 @@
 package utils;
 import java.util.ArrayList;
 import java.util.List;
-import entities.*;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.Query;
 import java.util.Date;
 
+import model.*;
 
 /**
  * @author rsamoylov
