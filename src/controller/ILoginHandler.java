@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
  * @author Administrator
  *
  */
-public interface ILoginService {
+public interface ILoginHandler {
 	 boolean createUserSession(String login, String password, HttpSession session);
-	 boolean getLogin(String login,String password);
 }

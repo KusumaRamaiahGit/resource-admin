@@ -1,4 +1,6 @@
 <!-- author Martynenko Viktoria-->
+<%@page import="model.Resource"%>
+<%@page import="java.util.List"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="model.Client"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -61,7 +63,7 @@ document.Reservation.Showcalendarendar.focus();
 function selectDate() {
 var year = document.Reservation.year.value;
 if (normalYear(year)) {
-var month = getMonth(document.Reservation.radioGroup);
+var month = getMonth(document.Reservation.monthsRadioGroup);
 showCalendar(month, year);
 }
 }
@@ -73,13 +75,13 @@ var year = now.getFullYear();
 if (year < 2000)
 year = year + 1900;
 this.focusDay = day;
-setMonth(document.Reservation.radioGroup,month);
+setMonth(document.Reservation.monthsRadioGroup,month);
 document.Reservation.year.value = year;
 showCalendar(month, year);
 }
 function showPreviousMonth() {// показать предыдущий месяц
 var year = document.Reservation.year.value;
-var month = getMonth(document.Reservation.radioGroup);
+var month = getMonth(document.Reservation.monthsRadioGroup);
 if(((normalYear(year))&&(month!=0))||((normalYear(year-1))&&(month == 0))){
 if (month == 0){
 month = 11;
@@ -87,13 +89,13 @@ year--;document.Reservation.year.value = year;
 }
 else
 month--;
-setMonth(document.Reservation.radioGroup,month);
+setMonth(document.Reservation.monthsRadioGroup,month);
 showCalendar(month, year);
 }
 }
 function showNextMonth() {// показать следующий месяц
 var year = document.Reservation.year.value;
-var month = getMonth(document.Reservation.radioGroup);
+var month = getMonth(document.Reservation.monthsRadioGroup);
 if (normalYear(year)) {
 if (month == 11){
 month = 0;
@@ -101,7 +103,7 @@ year++;document.Reservation.year.value = year;
 }
 else
 month++;
-setMonth(document.Reservation.radioGroup,month);
+setMonth(document.Reservation.monthsRadioGroup,month);
 showCalendar(month, year);
 }
 }
@@ -140,39 +142,23 @@ else{
 return (false);
 }
 }
-function getMonth(radioGroup)
+function getMonth(monthsRadioGroup)
 {
-for (var i=0; i < radioGroup.length; i++)
-if (radioGroup[i].checked)
+for (var i=0; i < monthsRadioGroup.length; i++)
+if (monthsRadioGroup[i].checked)
 return i;
 //return null;
 }
-function setMonth(radioGroup,i)
+function setMonth(monthsRadioGroup,i)
 {
-radioGroup[i].checked=true;
+monthsRadioGroup[i].checked=true;
 }
 -->
 
 </SCRIPT>
 </head>
-<%!String[] arr = new String[5];
-
-	public void jspInit() {
-		String msg = "init method";
-		arr[0] = "hello0";
-		arr[1] = "hello1";
-		arr[2] = "hello2";
-		arr[3] = "hello3";
-		arr[4] = "hello4";
-	}%>
 <body onLoad="showCurrentMonth()" align="center">
 	<div id="block">
-		Hello,
-		<%
-		Client u = (Client) request.getSession().getAttribute("User");
-		out.println("" + u.getLogin() + ", your contact: " + u.getContact());
-	%>
-		<p>
 		<table width="100%" align="center">
 			<tr>
 				<td width="85%"><h1>Резервирование ресурсов</h1>
@@ -183,20 +169,20 @@ radioGroup[i].checked=true;
 					</form></td>
 			<tr>
 				<td>
-					<form action="Controller" method="POST" name="Reservation">
+					<form action="ReservationController" method="POST" name="Reservation">
 						<div>
 							<table align="center" border="1" cellspacing="2" cellpadding="2">
 								<tbody>
 									<tr>
-										<td>Ресурс:<br> <select name="Resource">
-												<%
-													for (int i = 0; i < arr.length; i++) {
-														out.println("<option> " + arr[i]);
-													}
-												%>
-												<option>Кухня
-												<option>Meating room
-												<option>English room
+										<td>Ресурс:<br> <select name="Resource">												
+											
+											<% 
+												List<Resource> resources = (List<Resource>)session.getAttribute("resources"); 
+												for(Resource r : resources) {
+													out.print("<option value='" + r.getResource_id() + "'>"+r.getResource_name());
+												}
+													
+											%>
 										</select><br></td>
 										<td align="center">
 											<div id="blockCalendar">
@@ -218,30 +204,30 @@ radioGroup[i].checked=true;
 														</tr>
 														<tr>
 															<td><br>
-															<input type="radio" name="radioGroup"
-																onClick="selectDate()" />Январь <br>
-															<input type="radio" name="radioGroup"
-																onClick="selectDate()" />Февраль <br>
-															<input type="radio" name="radioGroup"
-																onClick="selectDate()" />Март <br>
-															<input type="radio" name="radioGroup"
-																onClick="selectDate()" />Апрель <br>
-															<input type="radio" name="radioGroup"
-																onClick="selectDate()" />Май <br>
-															<input type="radio" name="radioGroup"
-																onClick="selectDate()" />Июнь <br>
-															<input type="radio" name="radioGroup"
-																onClick="selectDate()" />Июль <br>
-															<input type="radio" name="radioGroup"
-																onClick="selectDate()" />Август <br>
-															<input type="radio" name="radioGroup"
-																onClick="selectDate()" />Сентябрь <br>
-															<input type="radio" name="radioGroup"
-																onClick="selectDate()" />Октябрь <br>
-															<input type="radio" name="radioGroup"
-																onClick="selectDate()" />Ноябрь <br>
-															<input type="radio" name="radioGroup"
-																onClick="selectDate()" />Декабрь</td>
+															<input type="radio" name="monthsRadioGroup"
+																onClick="selectDate()" value="0" />Январь <br>
+															<input type="radio" name="monthsRadioGroup"
+																onClick="selectDate()" value="1" />Февраль <br>
+															<input type="radio" name="monthsRadioGroup"
+																onClick="selectDate()" value="2" />Март <br>
+															<input type="radio" name="monthsRadioGroup"
+																onClick="selectDate()" value="3" />Апрель <br>
+															<input type="radio" name="monthsRadioGroup"
+																onClick="selectDate()" value="4"/>Май <br>
+															<input type="radio" name="monthsRadioGroup"
+																onClick="selectDate()" value="5" />Июнь <br>
+															<input type="radio" name="monthsRadioGroup"
+																onClick="selectDate()" value="6" />Июль <br>
+															<input type="radio" name="monthsRadioGroup"
+																onClick="selectDate()" value="7" />Август <br>
+															<input type="radio" name="monthsRadioGroup"
+																onClick="selectDate()" value="8" />Сентябрь <br>
+															<input type="radio" name="monthsRadioGroup"
+																onClick="selectDate()" value="9" />Октябрь <br>
+															<input type="radio" name="monthsRadioGroup"
+																onClick="selectDate()" value="10" />Ноябрь <br>
+															<input type="radio" name="monthsRadioGroup"
+																onClick="selectDate()" value="11" />Декабрь</td>
 															<td><br>
 															<INPUT TYPE=BUTTON class="buttonVertical1"
 																NAME="previousMonth" onClick="showPreviousMonth()">
@@ -259,100 +245,100 @@ radioGroup[i].checked=true;
 																			<td>Вс</td>
 																		</tr>
 																		<tr>
-																			<td><input type="submit" class="day" name="day0"
+																			<td><input type="submit" class="day" name="day"
 																				id="0"></td>
-																			<td><input type="submit" class="day" name="day1"
+																			<td><input type="submit" class="day" name="day"
 																				id="1"></td>
-																			<td><input type="submit" class="day" name="day2"
+																			<td><input type="submit" class="day" name="day"
 																				id="2"></td>
-																			<td><input type="submit" class="day" name="day3"
+																			<td><input type="submit" class="day" name="day"
 																				id="3"></td>
-																			<td><input type="submit" class="day" name="day4"
+																			<td><input type="submit" class="day" name="day"
 																				id="4"></td>
-																			<td><input type="submit" class="day" name="day5"
+																			<td><input type="submit" class="day" name="day"
 																				id="5"></td>
-																			<td><input type="submit" class="day" name="day6"
+																			<td><input type="submit" class="day" name="day"
 																				id="6"><br></td>
 																		</tr>
 																		<tr>
-																			<td><input type="submit" class="day" name="day7"
+																			<td><input type="submit" class="day" name="day"
 																				id="7"></td>
-																			<td><input type="submit" class="day" name="day8"
+																			<td><input type="submit" class="day" name="day"
 																				id="8"></td>
-																			<td><input type="submit" class="day" name="day9"
+																			<td><input type="submit" class="day" name="day"
 																				id="9"></td>
 																			<td><input type="submit" class="day"
-																				name="day10" id="10"></td>
+																				name="day" id="10"></td>
 																			<td><input type="submit" class="day"
-																				name="day11" id="11"></td>
+																				name="day" id="11"></td>
 																			<td><input type="submit" class="day"
-																				name="day12" id="12"></td>
+																				name="day" id="12"></td>
 																			<td><input type="submit" class="day"
-																				name="day13" id="13"><br></td>
+																				name="day" id="13"><br></td>
 																		</tr>
 																		<tr>
 																			<td><input type="submit" class="day"
-																				name="day14" id="14"></td>
+																				name="day" id="14"></td>
 																			<td><input type="submit" class="day"
-																				name="day15" id="15"></td>
+																				name="day" id="15"></td>
 																			<td><input type="submit" class="day"
-																				name="day16" id="16"></td>
+																				name="day" id="16"></td>
 																			<td><input type="submit" class="day"
-																				name="day17" id="17"></td>
+																				name="day" id="17"></td>
 																			<td><input type="submit" class="day"
-																				name="day18" id="18"></td>
+																				name="day" id="18"></td>
 																			<td><input type="submit" class="day"
-																				name="day19" id="19"></td>
+																				name="day" id="19"></td>
 																			<td><input type="submit" class="day"
-																				name="day20" id="20"><br></td>
+																				name="day" id="20"><br></td>
 																		</tr>
 																		<tr>
 																			<td><input type="submit" class="day"
-																				name="day21" id="21"></td>
+																				name="day" id="21"></td>
 																			<td><input type="submit" class="day"
-																				name="day22" id="22"></td>
+																				name="day" id="22"></td>
 																			<td><input type="submit" class="day"
-																				name="day23" id="23"></td>
+																				name="day" id="23"></td>
 																			<td><input type="submit" class="day"
-																				name="day24" id="24"></td>
+																				name="day" id="24"></td>
 																			<td><input type="submit" class="day"
-																				name="day25" id="25"></td>
+																				name="day" id="25"></td>
 																			<td><input type="submit" class="day"
-																				name="day26" id="26"></td>
+																				name="day" id="26"></td>
 																			<td><input type="submit" class="day"
-																				name="day27" id="27"><br></td>
+																				name="day" id="27"><br></td>
 																		</tr>
 																		<tr>
 																			<td><input type="submit" class="day"
-																				name="day28" id="28"></td>
+																				name="day" id="28"></td>
 																			<td><input type="submit" class="day"
-																				name="day29" id="29"></td>
+																				name="day" id="29"></td>
 																			<td><input type="submit" class="day"
-																				name="day30" id="30"></td>
+																				name="day" id="30"></td>
 																			<td><input type="submit" class="day"
-																				name="day31" id="31"></td>
+																				name="day" id="31"></td>
 																			<td><input type="submit" class="day"
-																				name="day32" id="32"></td>
+																				name="day" id="32"></td>
 																			<td><input type="submit" class="day"
-																				name="day33" id="33"></td>
+																				name="day" id="33"></td>
 																			<td><input type="submit" class="day"
-																				name="day34" id="34"><br></td>
+																				name="day" id="34"><br></td>
 																		</tr>
 																		<tr>
 																			<td><input type="submit" class="day"
-																				name="day35" id="35"></td>
+																				name="day" id="35"></td>
 																			<td><input type="submit" class="day"
-																				name="day36" id="36"></td>
+																				name="day" id="36"></td>
 																			<td><input type="submit" class="day"
-																				name="day37" id="37"></td>
+																				name="day" id="37"></td>
 																			<td><input type="submit" class="day"
-																				name="day38" id="38"></td>
+																				name="day" id="38"></td>
 																			<td><input type="submit" class="day"
-																				name="day39" id="39"></td>
+																				name="day" id="39"></td>
 																			<td><input type="submit" class="day"
-																				name="day40" id="40"></td>
+																				name="day" id="40"></td>
 																			<td><input type="submit" class="day"
-																				name="day41" id="41"><br></td>
+																				name="day" id="41"><br></td>
 																		</tr>
 																	</table>
 																</div></td>

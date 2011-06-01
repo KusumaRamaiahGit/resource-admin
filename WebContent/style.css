@@ -38,6 +38,25 @@ body {
 	color: #0066cc;
 }
 
+
+
+#block #reservations {
+	width: 700px;
+	height: 222px;
+	margin: 100px auto 0px auto;	
+	background: url(img/reservations_bg.png) repeat-x top #C6DDFD;
+}
+
+#block #reservations .head {
+	text-align:center;
+	color: #666666;
+	font-size: 22px;
+}
+
+#block #reservations a {
+	color: #0066cc;
+}
+
 form {
 	padding-top: 19px;
 	height: 125px;
