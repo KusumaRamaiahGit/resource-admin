@@ -1,6 +1,6 @@
 package model;
 
-mport java.io.Serializable;
+import java.io.Serializable;
 import java.text.DateFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,9 +22,7 @@ import java.util.Set;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+
 
 
 @Entity
@@ -144,3 +142,8 @@ private Set<Client> clients=new HashSet<Client>(0);
               + formatter.format(getEnd_time())+" "
                + getClients();
     }
+
+ 
+
+}
+
