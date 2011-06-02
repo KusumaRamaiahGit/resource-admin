@@ -28,7 +28,7 @@
   <mapping class="model.DiningRoom"/>
   <mapping class="model.Reservation"/>
   <mapping class="model.MeetingRoom"/>
-  <mapping class="entities.EnglishRoom"/>
+  <mapping class="model.EnglishRoom"/>
   <mapping class="model.Monitor"/>
  </session-factory>
 </hibernate-configuration>
