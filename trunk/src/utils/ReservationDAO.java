@@ -2,14 +2,17 @@ package utils;
 
 import model.Reservation;
 import model.Resource;
+import model.Client;
 import java.util.ArrayList;
 import org.hibernate.Session;
 import org.hibernate.Query;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 /**
  * data access object to reservation table
- * @author rsamoylov
+ * @author rsamoylov & @smihajlenko
  */
 public class ReservationDAO
 {
@@ -64,8 +67,12 @@ public class ReservationDAO
         try {
         Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
-
-       //sess.delete(r);
+        Query query = sess.createSQLQuery("delete from reservation_client where reservation_id=?;")
+                .setParameter(0, r.getReservation_id());
+        query.executeUpdate();
+        Query query2 = sess.createSQLQuery("delete from reservation where reservation_id=?;")
+                .setParameter(0, r.getReservation_id());
+        query2.executeUpdate();
         sess.getTransaction().commit();
         } catch (Exception e) {
                 e.printStackTrace();
@@ -91,7 +98,7 @@ public class ReservationDAO
         return r;
     }
 
-     public static List<Reservation> getReservationByDateAndResource(Date start_date,Resource resource)
+     public static List<Reservation> getReservationByDateAndResourceAndClient(Date start_time,Resource resource,Client client)
      {
          List<Reservation> list=null;
 
@@ -99,7 +106,10 @@ public class ReservationDAO
          Session sess = HibernateUtil.getSession();
          sess.beginTransaction();
 
-        Query query = sess.getNamedQuery("FindReservation_ALL_of_Day_by_Resource").setParameter(0,start_date).setParameter(1, resource);
+        Query query = sess.getNamedQuery("FindReservation_ALL_of_Day_by_Resource_and_Client")
+                .setParameter(0,start_time)
+                .setParameter(1,resource)
+                .setParameter(2,client);
         list = query.list();
 
         sess.getTransaction().commit();
@@ -110,18 +120,28 @@ public class ReservationDAO
      return list;
 
      }
-     public static List<Reservation> getReservationByDate(Date start_date)
+
+
+      public static List<Reservation> getReservationByDateAndResource(Date start_time,Resource resource)
      {
          List<Reservation> list=null;
+
          try{
          Session sess = HibernateUtil.getSession();
          sess.beginTransaction();
-        Query query = sess.getNamedQuery("FindReservation_ALL_of_Day").setParameter(0,start_date);
+
+        Query query = sess.getNamedQuery("FindReservation_ALL_of_Day_by_Resource")
+                .setParameter(0,start_time)
+                .setParameter(1,resource);
         list = query.list();
+
         sess.getTransaction().commit();
          } catch (Exception e) {
                 e.printStackTrace();
         }
+
      return list;
-     }   
+
+     }
+   
 }

@@ -1,40 +1,41 @@
 package model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.NamedQuery;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.EntityResult;
+import javax.persistence.FetchType;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.SqlResultSetMapping;
 
 /**
  * @author smihaylenko
  */
 @Entity
+
 @Table(name = "CLIENT")
 
 @NamedQuery(name = "getClientByLogin", query = "from Client c where c.login = :login")
 
 public class Client implements Serializable
 {
- 
-
-
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "client_id", nullable = false, columnDefinition = "integer")
 
     private Long client_id;
-
 
     @Column(name = "login", nullable = false)
     private String login;
@@ -55,8 +56,6 @@ public class Client implements Serializable
         MIDDLE,
         LOW
     }
-
-
   
     public Client()
     {
@@ -71,12 +70,14 @@ public class Client implements Serializable
     }
 
 
-  @ManyToMany(
+        @ManyToMany(
         cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+        fetch = FetchType.LAZY,
         mappedBy = "clients",
         targetEntity = Reservation.class
     )
-       private Set<Reservation> reservations=new HashSet<Reservation>(0);
+    private Set<Reservation> reservations=new HashSet<Reservation>(0);
+        
     public Set<Reservation> getReservations() {
         return reservations;
     }
@@ -135,6 +136,7 @@ public class Client implements Serializable
         return password;
     }
 
+    @Override
     public boolean equals(Object o) {
         if ( this == o ) return true;
         if ( o == null || getClass() != o.getClass() ) return false;
@@ -146,6 +148,7 @@ public class Client implements Serializable
         return true;
     }
 
+     @Override
     public int hashCode() {
        int result = 9*login.hashCode() + 3*password.hashCode()+7*rating.hashCode()+13*contact.hashCode();
        return result;
