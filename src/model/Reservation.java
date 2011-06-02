@@ -39,6 +39,13 @@ query="select * "
         + "resource_fk = ? "
         + "ORDER BY start_time;",
         resultSetMapping="Reservation"),
+@NamedNativeQuery(name="FindReservation_ALL_of_Day",
+		query="select * "
+		        + "FROM RESERVATION "
+		        + "WHERE "
+		        + "DAYOFYEAR(start_time) = DAYOFYEAR(?) "
+		        + "ORDER BY start_time;",
+		        resultSetMapping="Reservation"),
     }
 )
 @Table(name= "RESERVATION")

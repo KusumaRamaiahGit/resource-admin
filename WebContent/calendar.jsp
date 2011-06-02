@@ -173,17 +173,15 @@ monthsRadioGroup[i].checked=true;
 						<div>
 							<table align="center" border="1" cellspacing="2" cellpadding="2">
 								<tbody>
-									<tr>
-										<td>Ресурс:<br> <select name="Resource">												
-											
-											<% 
-												List<Resource> resources = (List<Resource>)session.getAttribute("resources"); 
-												for(Resource r : resources) {
-													out.print("<option value='" + r.getResource_id() + "'>"+r.getResource_name());
-												}
-													
-											%>
-										</select><br></td>
+									<tr>									
+										<td><div class="blockResource">Ресурс:<br>
+										<%
+										List<Resource> resources = (List<Resource>)session.getAttribute("resources"); 
+										for(Resource r : resources) {
+											//out.print("<option value='" + r.getResource_id() + "'>"+r.getResource_name());
+											out.print("<input type='radio' name='resourcesRadioGroup' value='" + r.getResource_id() + "'>"+r.getResource_name()+"<br>");
+										}
+										%><br></div></td>									
 										<td align="center">
 											<div id="blockCalendar">
 												<table align="center">
