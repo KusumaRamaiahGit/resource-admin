@@ -4,13 +4,14 @@ body {
 	padding:0px;
 	background: url(img/bg.png);
 }
-#block
-{
+#block {
 	width: 950px;
-	height: 700px; 
+	height: 700px;
+	background:url(img/bg_light.png) no-repeat;
 	margin: 0px auto;
-	padding: 0px;	
+	padding:0px;
 }
+
 #block h1 {
 	color: #FFF;
 	font-size: 48px;
@@ -22,12 +23,7 @@ body {
 	font-size: 15pt;
 	color: paleturquoise;
 }
-#block option
-{
-	height: 20px;
-	background-color: #ccffff;
-	color: #33ccff;
-}
+
 .timetext
 {
 	height: 15px;

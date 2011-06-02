@@ -26,18 +26,22 @@ function Clear(id) {
 <body>
 <div id="block">
 	<h1>Resource admin</h1>
-	<%
-		List<Reservation> todaysReservations =   (List<Reservation>)request.getAttribute("reservationsList");
-		out.print(todaysReservations + " :  SIZE " + todaysReservations.size());
-		
-	
-	   
+	<%		
+	//out.print(todaysReservations + " :  SIZE " + todaysReservations.size());
 	   %>
     <div id="reservations">
     <div class="head">Зарезервированное время</div>
- 	
+    <%List<Reservation> todaysReservations =   (List<Reservation>)request.getAttribute("reservationsList");
+    if(todaysReservations.size()>0){
+		for(Reservation r:todaysReservations)
+			out.println(r.getResource());
+	}%>
+ 	<%// List<Reservation> selectDateReservations=(List<Reservation>)request.getAttribute("selectreservationList");
+ 	//out.println(selectDateReservations.get(0));
+ 	%>
     </div>
 </div>
+
 		
 		
 </body>
