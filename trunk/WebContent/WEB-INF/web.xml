@@ -44,6 +44,16 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+    <display-name>ReserveController</display-name>
+    <servlet-name>ReserveController</servlet-name>
+    <servlet-class>controller.ReserveController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReserveController</servlet-name>
+    <url-pattern>/ReserveController</url-pattern>
+  </servlet-mapping>
+<servlet>
+    <description></description>
     <display-name>StatisticView</display-name>
     <servlet-name>StatisticView</servlet-name>
     <servlet-class>view.StatisticView</servlet-class>
