@@ -76,6 +76,7 @@ if (year < 2000)
 year = year + 1900;
 this.focusDay = day;
 setMonth(document.Reservation.monthsRadioGroup,month);
+document.Reservation.resourcesRadioGroup[0].checked=true;
 document.Reservation.year.value = year;
 showCalendar(month, year);
 }
@@ -367,9 +368,14 @@ monthsRadioGroup[i].checked=true;
 										<td>Расписание<br>
 										</td>
 									</tr>
-									<tr colspan="2">
+									<tr>
 										<td colspan="2"><input type="submit"
 											class="buttonHorisontal" value="Зарезервировать" />
+										<td>
+									</tr>
+									<tr>
+										<td colspan="2"><input type="submit"
+											class="buttonHorisontal" value="Статистика" />
 										<td>
 									</tr>
 								</tbody>
