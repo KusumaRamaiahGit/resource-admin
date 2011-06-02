@@ -1,23 +1,25 @@
-package model;
+package entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
- * @author rsamoylov
+ * @author smihajlenko
  */
+
 @Entity
-public class DiningRoom extends Resource implements Countable
+
+public class EnglishRoom extends Resource implements Countable
 {
     @Column(name = "maxCapacity")
     private Integer maxCapacity;
 
-    public DiningRoom()
+    public EnglishRoom()
     {
         super();
     }
 
-    public DiningRoom(String name, Integer maxCapacity)
+    public EnglishRoom(String name, Integer maxCapacity)
     {
         super(name);
         this.maxCapacity = maxCapacity;

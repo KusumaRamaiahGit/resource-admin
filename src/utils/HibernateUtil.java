@@ -14,7 +14,6 @@ public class HibernateUtil
 
     static {
         try {
-
             sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
         } catch (Throwable ex) {
             // Log exception!
@@ -27,6 +26,5 @@ public class HibernateUtil
         return sessionFactory.openSession();
     }
 }
-
 
 

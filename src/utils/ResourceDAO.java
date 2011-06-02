@@ -34,8 +34,7 @@ public class ResourceDAO
         Session sess = HibernateUtil.getSession();
         sess.beginTransaction();
 
-        ArrayList<Resource> list = (ArrayList<Resource>) sess.createCriteria(Resource.class).list();
-		resources = list;
+        resources = (ArrayList<Resource>) sess.createCriteria(Resource.class).list();
 
         sess.getTransaction().commit();
         } catch (Exception e) {
@@ -77,3 +76,4 @@ public class ResourceDAO
         return r;
     }
 }
+

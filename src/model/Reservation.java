@@ -23,6 +23,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
+
+
 @Entity
 
 @SqlResultSetMapping(name = "Reservation", entities = @EntityResult(entityClass = Reservation.class))
@@ -37,13 +39,22 @@ query="select * "
         + "resource_fk = ? "
         + "ORDER BY start_time;",
         resultSetMapping="Reservation"),
-@NamedNativeQuery(name="FindReservation_ALL_of_Day",
-		query="select * "
-		        + "FROM RESERVATION "
-		        + "WHERE "
-		        + "DAYOFYEAR(start_time) = DAYOFYEAR(?) "
-		        + "ORDER BY start_time;",
-		        resultSetMapping="Reservation"),
+
+@NamedNativeQuery(name="FindReservation_ALL_of_Day_by_Resource_and_Client",
+query="SELECT * "
+        + "FROM RESERVATION r,RESERVATION_CLIENT rc,CLIENT c  "
+        + "WHERE "
+        + "DAYOFYEAR(start_time) = DAYOFYEAR(?) "
+        + "and  "
+        + "resource_fk = ? "
+        + "and "
+        + "r.reservation_id=rc.reservation_id "
+        + "and "
+        + "rc.client_id=c.client_id "
+        + "and "
+        + "c.client_id=?  "
+        + "ORDER BY start_time;",
+        resultSetMapping="Reservation"),
     }
 )
 @Table(name= "RESERVATION")
@@ -89,6 +100,7 @@ public class Reservation implements Serializable{
   joinColumns =
   { @JoinColumn(name = "reservation_id") },
     inverseJoinColumns = { @JoinColumn(name = "client_id") })
+
 private Set<Client> clients=new HashSet<Client>(0);
     public Set<Client> getClients() {
         return clients;
@@ -144,11 +156,9 @@ private Set<Client> clients=new HashSet<Client>(0);
         DateFormat formatter = DateFormat.getTimeInstance();
              return
              formatter.format(getStart_time()) +" - "
-              + formatter.format(getEnd_time())+" "
-               + getClients();
+              + formatter.format(getEnd_time());
     }
 
  
 
 }
-
