@@ -27,17 +27,10 @@ function Clear(id) {
 <body>
 <div id="block">
 	<h1>Resource admin</h1>
-<<<<<<< .mine
 	<%
 		List<Reservation> todaysReservations =   (List<Reservation>)request.getAttribute("reservationsList");	
 	%>
-=======
-	<%		
-	//out.print(todaysReservations + " :  SIZE " + todaysReservations.size());
-	   %>
->>>>>>> .r58
     <div id="reservations">
-<<<<<<< .mine
     <div class="head">Зарезервированное время на <% out.print(""+request.getAttribute("day")+"."+request.getAttribute("month")+"."+request.getAttribute("year"));  %></div>
  		<table class="timelineTable" width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -97,20 +90,8 @@ function Clear(id) {
 	            <input name="submit" type="submit"  value="Выбрать" />
 	        </form>
         </center>
-=======
-    <div class="head">Зарезервированное время</div>
-    <%List<Reservation> todaysReservations =   (List<Reservation>)request.getAttribute("reservationsList");
-    if(todaysReservations.size()>0){
-		for(Reservation r:todaysReservations)
-			out.println(r.getResource());
-	}%>
- 	<%// List<Reservation> selectDateReservations=(List<Reservation>)request.getAttribute("selectreservationList");
- 	//out.println(selectDateReservations.get(0));
- 	%>
->>>>>>> .r58
     </div>
 </div>
-
 		
 		
 </body>
