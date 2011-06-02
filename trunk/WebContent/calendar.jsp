@@ -166,10 +166,10 @@ monthsRadioGroup[i].checked=true;
 				</td>
 				<td width="15%">
 					<form action="LogOutController" Method="post">
-						<input align="right" type="submit" value="Log Out" />
+						<input align="right" type="submit" class="buttonHorisontal" value="Log Out" />
 					</form></td>
 			<tr>
-				<td>
+				<td colspan=2>
 					<form action="ReservationController" method="POST" name="Reservation">
 						<div>
 							<table align="center" border="1" cellspacing="2" cellpadding="2">
@@ -359,30 +359,31 @@ monthsRadioGroup[i].checked=true;
 												</table>
 											</div></td>
 									</tr>
-									<tr>
+									<tr>									
 										<td>Начало:<br> <input type="text" name="Begin"
 											value="" /><br> Окончание:<br> <input type="text"
 											name="End" value="" /><br>
 										</td>
-
 										<td>Расписание<br>
 										</td>
 									</tr>
-									<tr>
-										<td colspan="2"><input type="submit"
+									<tr align="center"><td></td>
+										<td><input type="submit"
 											class="buttonHorisontal" value="Зарезервировать" />
 										<td>
-									</tr>
-									<tr>
-										<td colspan="2"><input type="submit"
-											class="buttonHorisontal" value="Статистика" />
-										<td>
-									</tr>
+									</tr>																		
 								</tbody>
 							</table>
 						</div>
-					</form></td>
+					</form></td>					
 			</tr>
+			<tr align="center"><td></td>			
+				<td colspan=2>
+				<form action="StatisticView" method="POST">
+				<input type="submit" class="buttonHorisontal" value="Статистика" />
+					</form>
+				<td>
+			</tr>			
 		</table>
 	</div>
 </body>

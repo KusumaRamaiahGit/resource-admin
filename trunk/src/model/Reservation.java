@@ -23,8 +23,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
-
-
 @Entity
 
 @SqlResultSetMapping(name = "Reservation", entities = @EntityResult(entityClass = Reservation.class))
