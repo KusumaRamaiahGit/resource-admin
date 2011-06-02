@@ -110,6 +110,18 @@ public class ReservationDAO
      return list;
 
      }
-
-   
+     public static List<Reservation> getReservationByDate(Date start_date)
+     {
+         List<Reservation> list=null;
+         try{
+         Session sess = HibernateUtil.getSession();
+         sess.beginTransaction();
+        Query query = sess.getNamedQuery("FindReservation_ALL_of_Day").setParameter(0,start_date);
+        list = query.list();
+        sess.getTransaction().commit();
+         } catch (Exception e) {
+                e.printStackTrace();
+        }
+     return list;
+     }   
 }
