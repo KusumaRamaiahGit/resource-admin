@@ -1,9 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
 <%@page import="model.Client"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Reservation"%>
 <%@page import="java.util.List"%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!--
 image range coordinates : 
 
@@ -11,24 +13,18 @@ start side: 0 (max) 22(min)
 middle side : -8
 end side: -96 (max) ...  -118 (min)
 -->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Resource admin</title>
 <link href="style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript">
-function Clear(id) { 
-	document.getElementById(id).value = '';67
-}
-</script>
 </head>
 <body>
 <div id="block">
 	<h1>Resource admin</h1>
 	<%
-		List<Reservation> todaysReservations =   (List<Reservation>)request.getAttribute("reservationsList");	
+		List<Reservation> todaysReservations = (List<Reservation>)request.getAttribute("reservationsList");	
 	%>
     <div id="reservations">
     <div class="head">Зарезервированное время на <% out.print(""+request.getAttribute("day")+"."+request.getAttribute("month")+"."+request.getAttribute("year"));  %></div>
@@ -92,7 +88,6 @@ function Clear(id) {
         </center>
     </div>
 </div>
-		
 		
 </body>
 </html>

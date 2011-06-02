@@ -35,7 +35,7 @@ public class ReserveController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
-		out.print(request.getParameter("start_time") +" : "+request.getAttribute("day") );
+		out.print(request.getParameter("start_time") );
 	}
 
 }
