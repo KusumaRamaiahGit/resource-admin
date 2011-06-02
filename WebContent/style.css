@@ -64,20 +64,37 @@ a {
 	color: blue;
 }
 
-input {
+.timelineTable  td{
+	border-left: 1px #CCC dashed;
+	text-align: center;
+	width: 20px;
+}
+
+.login-input {
 	width: 206px;
 	margin: 15px 35px 1px 35px;
 	background: none;
 	border: none;
 	color: #999;
-font-style: italic;
-font-family: Georgia;
-font-size: medium;
+	font-style: italic;
+	font-family: Georgia;
+	font-size: medium;
+}
+
+.time-input {
+	background: none;
+	border: 1px #CCC dotted;
+	color: #999;
+	font-style: italic;
+	font-family: Georgia;
+	font-size: medium;
 }
 
 #submit {
 	width: 90px;
+	margin: 15px 35px 1px 35px;
 	height:35px;
+	border: none;
 	background:url(img/button.png);
 	float: right;
 	cursor: pointer;

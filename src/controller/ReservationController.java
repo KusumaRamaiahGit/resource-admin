@@ -55,6 +55,10 @@ public class ReservationController extends HttpServlet {
 		Date selectedDate = new Date(y, m, d);
 		List<Reservation> todaysReservations = ReservationDAO.getReservationByDate(selectedDate);
 		request.setAttribute("reservationsList", todaysReservations);
+		request.setAttribute("year", y + 1900);
+		request.setAttribute("month", m + 1);
+		request.setAttribute("day", d);
+		
 		RequestDispatcher dispatch = request.getRequestDispatcher("reservations.jsp");
 		dispatch.forward(request, response);
 	}
