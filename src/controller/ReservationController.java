@@ -13,11 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import utils.ReservationDAO;
+import utils.ResourceDAO;
 
 import model.Reservation;
+import model.Resource;
 
 /**
- * @author OKupriianova Servlet implementation class ReservationController
+ * @author OKupriianova 
+ * Servlet implementation class ReservationController
  */
 public class ReservationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -40,20 +43,27 @@ public class ReservationController extends HttpServlet {
 
 		String day = request.getParameter("day");
 		String month = request.getParameter("monthsRadioGroup");
-		String year = request.getParameter("year");
+		String year = request.getParameter("year");	
+		String res_id = request.getParameter("resourcesRadioGroup");		
 
 		GregorianCalendar currDate = new GregorianCalendar();
 		int y = currDate.get(Calendar.YEAR) - 1900;
 		int m = currDate.get(Calendar.MONTH);
 		int d = currDate.get(Calendar.DAY_OF_MONTH);
+		long r_id=1l;
 		try {
+			r_id=Long.parseLong(res_id);
 			y = Integer.parseInt(year) - 1900;
 			m = Integer.parseInt(month);
 			d = Integer.parseInt(day);
-		} catch (Exception e) {
-		}
+		} catch (Exception e)
+		{	
+			response.sendRedirect("calendar.jsp");
+		}		
+		Resource res=ResourceDAO.getResourceById(r_id);
 		Date selectedDate = new Date(y, m, d);
-		List<Reservation> todaysReservations = ReservationDAO.getReservationByDate(selectedDate);
+		List<Reservation> todaysReservations = ReservationDAO.getReservationByDateAndResource(selectedDate, res);	
+		
 		request.setAttribute("reservationsList", todaysReservations);
 		request.setAttribute("year", y + 1900);
 		request.setAttribute("month", m + 1);
