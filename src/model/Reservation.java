@@ -23,8 +23,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
-
-
 @Entity
 
 @SqlResultSetMapping(name = "Reservation", entities = @EntityResult(entityClass = Reservation.class))
@@ -36,6 +34,8 @@ query="select * "
         + "WHERE "
         + "DAYOFYEAR(start_time) = DAYOFYEAR(?) "
         + "and "
+        + "YEAR(start_time)=YEAR(?)"
+        + "and "
         + "resource_fk = ? "
         + "ORDER BY start_time;",
         resultSetMapping="Reservation"),
@@ -45,6 +45,8 @@ query="SELECT * "
         + "FROM RESERVATION r,RESERVATION_CLIENT rc,CLIENT c  "
         + "WHERE "
         + "DAYOFYEAR(start_time) = DAYOFYEAR(?) "
+        + "and "
+        + "YEAR(start_time)=YEAR(?)"
         + "and  "
         + "resource_fk = ? "
         + "and "
@@ -55,6 +57,18 @@ query="SELECT * "
         + "c.client_id=?  "
         + "ORDER BY start_time;",
         resultSetMapping="Reservation"),
+    @NamedNativeQuery(name="FindReservation_ALL_in_Time",
+   query="select * "
+        + "FROM RESERVATION "
+        + "WHERE "
+        + "resource_fk = ? "
+        + "and "
+        + "(start_time between ? and ? "
+        + "or end_time "
+        + "between ? and ?) "
+        + "ORDER BY start_time;",
+        resultSetMapping="Reservation"),
+
     }
 )
 @Table(name= "RESERVATION")
@@ -95,7 +109,7 @@ public class Reservation implements Serializable{
 
 
   @ManyToMany(targetEntity=Client.class,
- cascade={CascadeType.PERSIST,CascadeType.MERGE})
+  cascade={CascadeType.PERSIST,CascadeType.MERGE})
   @JoinTable(name = "RESERVATION_CLIENT",
   joinColumns =
   { @JoinColumn(name = "reservation_id") },
@@ -162,3 +176,4 @@ private Set<Client> clients=new HashSet<Client>(0);
  
 
 }
+
