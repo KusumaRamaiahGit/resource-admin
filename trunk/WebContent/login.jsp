@@ -18,7 +18,7 @@ function Clear(id) {
 
     <div id="auth">
     <div class="head">Авторизация</div>
-    <form method="POST" action="LoginViewController">
+    <form class="login-form" method="POST" action="LoginViewController">
             <input name="login" type="text" class='login-input'  id='login' value="логин" onclick="return Clear('login');"/>
             <input name="password" type="password" class='login-input' id="password" value="??????" onclick="return Clear('password');"/>
             <input name="submit" type="submit" id="submit" value="" />

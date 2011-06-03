@@ -57,6 +57,14 @@ public class DatePairs {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "[" + start_time.getHours() + ":"+ start_time.getMinutes()+" ; " + end_time.getHours() + ":" + end_time.getMinutes()
+				+ "]";
+	}
+	
+	
 	
 	
 }
