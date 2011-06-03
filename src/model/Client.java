@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,18 +10,12 @@ import javax.persistence.Table;
 import javax.persistence.NamedQuery;
 import javax.persistence.Enumerated;
 import javax.persistence.EnumType;
-import javax.persistence.ManyToMany;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.EntityResult;
-import javax.persistence.FetchType;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.SqlResultSetMapping;
+import javax.persistence.OneToOne;
 
 /**
  * @author smihaylenko
  */
+ 
 @Entity
 
 @Table(name = "CLIENT")
@@ -31,6 +24,8 @@ import javax.persistence.SqlResultSetMapping;
 
 public class Client implements Serializable
 {
+    private static final long serialVersionUID = 4895898373317713855L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "client_id", nullable = false, columnDefinition = "integer")
@@ -69,23 +64,16 @@ public class Client implements Serializable
         this.contact = contact;
     }
 
-
-        @ManyToMany(
-        cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-        fetch = FetchType.LAZY,
-        mappedBy = "clients",
-        targetEntity = Reservation.class
-    )
-    private Set<Reservation> reservations=new HashSet<Reservation>(0);
-        
-    public Set<Reservation> getReservations() {
-        return reservations;
-    }
-     public void setReservations(Set<Reservation> reservations) {
-        this.reservations = reservations;
+     private Reservation reservation;
+     @OneToOne(mappedBy = "client")
+     public Reservation getReservation() {
+        return reservation;
     }
 
-
+    public void setReservation(Reservation reservation) {
+        this.reservation= reservation;
+    }
+  
     public Long getClient_id()
     {
         return client_id;
@@ -160,3 +148,4 @@ public class Client implements Serializable
     }
 
 }
+
