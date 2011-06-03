@@ -55,21 +55,11 @@ public class ReservationController extends HttpServlet {
 		String year = request.getParameter("year");	
 		String res_id = request.getParameter("resourcesRadioGroup");		
 
-		GregorianCalendar currDate = new GregorianCalendar();
-		int y = currDate.get(Calendar.YEAR) - 1900;
-		int m = currDate.get(Calendar.MONTH);
-		int d = currDate.get(Calendar.DAY_OF_MONTH);
-		long r_id=1l;
-		try {
-			r_id=Long.parseLong(res_id);
-			y = Integer.parseInt(year) - 1900;
-			m = Integer.parseInt(month);
-			d = Integer.parseInt(day);
-		} catch (Exception e) {	
-			response.setContentType("text/html; charset=UTF-8;");
-			PrintWriter out = response.getWriter();
-			out.print("Parse error");
-		}		
+		Long r_id=Long.parseLong(res_id);
+		int y = Integer.parseInt(year.trim()) - 1900;
+		int m = Integer.parseInt(month.trim());
+		int d = Integer.parseInt(day.trim());
+		 
 		Resource res=ResourceDAO.getResourceById(r_id);
 		Date selectedDate = new Date(y, m, d);
 		
@@ -100,6 +90,7 @@ public class ReservationController extends HttpServlet {
 		request.setAttribute("year", y + 1900);
 		request.setAttribute("month", m + 1);
 		request.setAttribute("day", d);
+		request.setAttribute("resourceName", res.getResource_name());
 		
 		RequestDispatcher dispatch = request.getRequestDispatcher("reservations.jsp");
 		dispatch.forward(request, response);

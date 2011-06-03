@@ -40,7 +40,6 @@ body {
 
 #block #reservations {
 	width: 700px;
-	height: 222px;
 	margin: 100px auto 0px auto;	
 	background: url(img/reservations_bg.png) repeat-x top #C6DDFD;
 }
@@ -55,7 +54,7 @@ body {
 	color: #0066cc;
 }
 
-form {
+.login-form {
 	padding-top: 19px;
 	height: 125px;
 }
@@ -68,6 +67,7 @@ a {
 	border-left: 1px #CCC dashed;
 	text-align: center;
 	width: 20px;
+	
 }
 
 .login-input {
