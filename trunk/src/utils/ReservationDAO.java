@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import org.hibernate.Session;
 import org.hibernate.Query;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 /**
  * data access object to reservation table
- * @author rsamoylov & @smihajlenko
+ * @author rsamoylov & smihajlenko
  */
 public class ReservationDAO
 {
@@ -108,8 +107,9 @@ public class ReservationDAO
 
         Query query = sess.getNamedQuery("FindReservation_ALL_of_Day_by_Resource_and_Client")
                 .setParameter(0,start_time)
-                .setParameter(1,resource)
-                .setParameter(2,client);
+                .setParameter(1,start_time)
+                .setParameter(2,resource)
+                .setParameter(3,client);
         list = query.list();
 
         sess.getTransaction().commit();
@@ -132,7 +132,34 @@ public class ReservationDAO
 
         Query query = sess.getNamedQuery("FindReservation_ALL_of_Day_by_Resource")
                 .setParameter(0,start_time)
-                .setParameter(1,resource);
+                .setParameter(1,start_time)
+                .setParameter(2,resource);
+        list = query.list();
+
+        sess.getTransaction().commit();
+         } catch (Exception e) {
+                e.printStackTrace();
+        }
+
+     return list;
+
+     }
+
+       public static List<Reservation> getReservationInTime(Resource resource,Date start_time,Date end_time)
+     {
+         List<Reservation> list=null;
+
+         try{
+         Session sess = HibernateUtil.getSession();
+         sess.beginTransaction();
+
+        Query query = sess.getNamedQuery("FindReservation_ALL_in_Time")
+                .setParameter(0,resource)
+                .setParameter(1,start_time)
+                .setParameter(2,end_time)
+                .setParameter(3,start_time)
+                .setParameter(4,end_time);
+                
         list = query.list();
 
         sess.getTransaction().commit();
