@@ -2,6 +2,7 @@ package utils;
 
 import model.*;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Date;
 
@@ -58,92 +59,92 @@ public class DatabaseUtil {
         //--------------------------------------------------------------------------------
 
         //---DinnerRoom---
-        Reservation res1 = new Reservation(dr, new Date(" 2011/06/20 10:00"), new Date("2011/06/20 11:00"), c4);
+        GregorianCalendar.getInstance();
+        Reservation res1 = new Reservation(dr, new GregorianCalendar(2011, 6, 20, 10, 00),new GregorianCalendar(2011, 6, 20, 11, 00), c4);
         ReservationDAO.addReservation(res1);
 
-        Reservation res2 = new Reservation(dr, new Date(" 2011/06/20 12:00"), new Date("2011/06/20 14:00"), c2);
+         Reservation res2 = new Reservation(dr, new GregorianCalendar(2011, 6, 20, 12, 00),new GregorianCalendar(2011, 6, 20, 14, 00), c2);
         ReservationDAO.addReservation(res2);
 
-        Reservation res3 = new Reservation(dr, new Date(" 2011/06/20 14:00"), new Date("2011/06/20 15:00"), c1);
+        Reservation res3 = new Reservation(dr, new GregorianCalendar(2011, 6, 20, 14, 00), new GregorianCalendar(2011, 6, 20, 15, 00), c1);
         ReservationDAO.addReservation(res3);
 
-        Reservation res4 = new Reservation(dr, new Date(" 2011/06/20 12:15"), new Date("2011/06/20 12:45"), c3);
+        Reservation res4 = new Reservation(dr,new GregorianCalendar(2011, 6, 20, 12, 15), new GregorianCalendar(2011, 6, 20, 12, 45), c3);
         ReservationDAO.addReservation(res4);
 
-        Reservation res5 = new Reservation(dr, new Date(" 2011/06/20 13:20"), new Date("2011/06/20 13:45"), c3);
+        Reservation res5 = new Reservation(dr, new GregorianCalendar(2011, 6, 20, 13, 20), new GregorianCalendar(2011, 6, 20, 13, 45), c3);
         ReservationDAO.addReservation(res5);
 
-        Reservation res6 = new Reservation(dr, new Date(" 2011/06/20 14:20"), new Date("2011/06/20 15:00"), c2);
+        Reservation res6 = new Reservation(dr,new GregorianCalendar(2011, 6, 20, 14, 20),new GregorianCalendar(2011, 6, 20, 15, 00), c2);
         ReservationDAO.addReservation(res6);
 
-        Reservation res7 = new Reservation(dr, new Date(" 2011/06/20 14:00"), new Date("2011/06/20 15:00"), c4);
+        Reservation res7 = new Reservation(dr, new GregorianCalendar(2011, 6, 20, 14, 00), new GregorianCalendar(2011, 6, 20, 15, 00), c4);
         ReservationDAO.addReservation(res7);
 
-        Reservation res8 = new Reservation(dr, new Date(" 2011/06/20 14:15"), new Date("2011/06/20 14:50"), c1);
+        Reservation res8 = new Reservation(dr, new GregorianCalendar(2011, 6, 20, 14, 15), new GregorianCalendar(2011, 6, 20, 14, 50), c1);
         ReservationDAO.addReservation(res8);
 
-        Reservation res9 = new Reservation(dr, new Date(" 2011/06/20 11:00"), new Date("2011/06/20 11:20"), c2);
+        Reservation res9 = new Reservation(dr, new GregorianCalendar(2011, 6, 20, 11, 00), new GregorianCalendar(2011, 6, 20, 11, 30), c2);
         ReservationDAO.addReservation(res9);
 
-        Reservation res10 = new Reservation(dr, new Date(" 2011/06/20 16:00"), new Date("2011/06/20 16:40"), c3);
+        Reservation res10 = new Reservation(dr, new GregorianCalendar(2011, 6, 20, 16, 00), new GregorianCalendar(2011, 6, 20, 16, 40), c3);
         ReservationDAO.addReservation(res10);
 
         //---EnglishRoom---
-        Reservation res11 = new Reservation(er, new Date(" 2011/06/20 12:00"), new Date("2011/06/20 12:00"), c1);
+        Reservation res11 = new Reservation(er, new GregorianCalendar(2011, 6, 20, 12, 00), new GregorianCalendar(2011, 6, 20, 14, 00), c1);
         ReservationDAO.addReservation(res11);
 
-        Reservation res12 = new Reservation(er, new Date(" 2011/06/20 12:00"), new Date("2011/06/20 12:00"), c2);
+        Reservation res12 = new Reservation(er, new GregorianCalendar(2011, 6, 20, 12, 00), new GregorianCalendar(2011, 6, 20, 14, 00), c2);
         ReservationDAO.addReservation(res12);
 
-        Reservation res13 = new Reservation(er, new Date(" 2011/06/20 12:00"), new Date("2011/06/20 12:00"), c3);
+        Reservation res13 = new Reservation(er, new GregorianCalendar(2011, 6, 20, 12, 00), new GregorianCalendar(2011, 6, 20, 14, 00), c3);
         ReservationDAO.addReservation(res13);
 
-        Reservation res14 = new Reservation(er, new Date(" 2011/06/20 12:00"), new Date("2011/06/20 12:00"), c4);
+        Reservation res14 = new Reservation(er, new GregorianCalendar(2011, 6, 20, 12, 00), new GregorianCalendar(2011, 6, 20, 14, 00), c4);
         ReservationDAO.addReservation(res14);
 
         //--------Monitors-----------------
-        Reservation res15 = new Reservation(m1, new Date(" 2011/06/20 00:00"), new Date("2012/01/01 00:00"), c2);
+        Reservation res15 = new Reservation(m1, new GregorianCalendar(2011, 6, 20, 00, 00), new GregorianCalendar(2012, 1, 1, 00, 00), c2);
         ReservationDAO.addReservation(res15);
 
-        Reservation res16 = new Reservation(m2, new Date(" 2011/06/20 00:00"), new Date("2012/01/01 00:00"), c3);
+        Reservation res16 = new Reservation(m2, new GregorianCalendar(2011, 6, 20, 00, 00), new GregorianCalendar(2012, 1, 1, 00, 00), c3);
         ReservationDAO.addReservation(res16);
 
-        Reservation res17 = new Reservation(m3, new Date(" 2011/06/20 00:00"), new Date("2012/01/01 00:00"), c4);
+        Reservation res17 = new Reservation(m3, new GregorianCalendar(2011, 6, 20, 00, 00),new GregorianCalendar(2012, 1, 1, 00, 00), c4);
         ReservationDAO.addReservation(res17);
 
         //------------MeetingRoom-----------
-        Reservation res18 = new Reservation(mr, new Date(" 2011/06/20 10:00"), new Date("2011/06/20 11:00"), c1);
+        Reservation res18 = new Reservation(mr, new GregorianCalendar(2011, 6, 20, 10, 00), new GregorianCalendar(2011, 6, 20, 11, 00), c1);
         ReservationDAO.addReservation(res18);
 
-        Reservation res19 = new Reservation(mr, new Date(" 2011/06/20 11:15"), new Date("2011/06/20 12:00"), c2);
+        Reservation res19 = new Reservation(mr, new GregorianCalendar(2011, 6, 20, 11, 15), new GregorianCalendar(2011, 6, 20, 12, 00), c2);
         ReservationDAO.addReservation(res19);
 
-        Reservation res20 = new Reservation(mr, new Date(" 2011/06/20 13:00"), new Date("2011/06/20 14:00"), c4);
+        Reservation res20 = new Reservation(mr, new GregorianCalendar(2011, 6, 20, 13, 00), new GregorianCalendar(2011, 6, 20, 14, 00), c4);
         ReservationDAO.addReservation(res20);
 
-        Reservation res21 = new Reservation(mr, new Date(" 2011/06/20 16:00"), new Date("2011/06/20 17:00"), c1);
+        Reservation res21 = new Reservation(mr, new GregorianCalendar(2011, 6, 20, 16, 00), new GregorianCalendar(2011, 6, 20, 17, 00), c1);
         ReservationDAO.addReservation(res21);
 
         //-------------------------------------------------------------------
         //All reservations by Date with Showing Cliet
         //-------------------------------------------------------------------
 
+        
         Client c = new Client();
         c = ClientDAO.getClientByLogin("boss");
         System.out.println(c);
 
         System.out.println("All reservations per day");
-        Date d1 = new Date("2011/06/20");
+        GregorianCalendar.getInstance();
+        GregorianCalendar d1= new GregorianCalendar(2011, 6, 20, 10, 00);
 
 
         System.out.println("All reservations per day DinningRoom");
-        ArrayList<Client> clients = ClientDAO.getAllClients();
-        for (Client cl : clients) {
-            List<Reservation> list = ReservationDAO.getReservationByDateAndResourceAndClient(d1, dr, cl);
+
+            List<Reservation> list = ReservationDAO.getReservationByDateAndResource(d1, dr);
             for (Reservation rn : list) {
                 System.out.println(rn);
-            }
-            System.out.println("--------");
         }
         //-------------------------------------------------------------------
         //All resources
@@ -160,8 +161,9 @@ public class DatabaseUtil {
         //-------------------------------------------------------------------
 
         System.out.println("Add new reservation");
-        Date time_start = new Date("2011/06/20 10:00");
-        Date time_end = new Date("2011/06/20 19:00");
+        GregorianCalendar.getInstance();
+        GregorianCalendar time_start= new GregorianCalendar(2011, 6, 20, 10, 00);
+        GregorianCalendar time_end= new GregorianCalendar(2011, 6, 20, 19, 00);
 
         Reservation res = new Reservation(dr, time_start, time_end, c1);
         Long currCount = 0L;
@@ -198,14 +200,13 @@ public class DatabaseUtil {
         //-------------------------------------------------------------------
         //Just check how it works
         //-------------------------------------------------------------------
-
-        Date d2 = new Date("2011/06/20");
+        GregorianCalendar.getInstance();
+        GregorianCalendar d2= new GregorianCalendar(2011, 6, 20, 10, 00);
         System.out.println("All");
-        for (Client cl : clients) {
-            List<Reservation> list = ReservationDAO.getReservationByDateAndResourceAndClient(d2, dr, cl);
-            for (Reservation rn : list) {
-                System.out.println(rn + " " + cl.getLogin());
-            }
-        }
+            List<Reservation> list3 = ReservationDAO.getReservationByDateAndResource(d2, dr);
+            for (Reservation rn : list3) {
+                System.out.println(rn + " " +rn.getClient().getLogin());
+           }
+        
     }
 }

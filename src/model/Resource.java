@@ -1,5 +1,4 @@
 package model;
-package entities;
 
 import java.io.Serializable;
 import javax.persistence.Column;

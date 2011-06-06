@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -16,7 +17,6 @@ import javax.persistence.NamedNativeQuery;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.EntityResult;
-import java.util.Date;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -62,31 +62,30 @@ import javax.persistence.OneToOne;
 public class Reservation implements Serializable {
 	private static final long serialVersionUID = -388790269627716780L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "reservation_id", nullable = false, columnDefinition = "integer")
-	private Long reservation_id;
-	@Column(name = "start_time", nullable = false)
-	@Temporal(value = TemporalType.TIMESTAMP)
-	private Date start_time;
-	@Column(name = "end_time", nullable = false)
-	@Temporal(value = TemporalType.TIMESTAMP)
-	private Date end_time;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "reservation_id", nullable = false, columnDefinition = "integer")
+    private Long reservation_id;
+    @Column(name = "start_time", nullable = false)
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Calendar start_time;
+    @Column(name = "end_time", nullable = false)
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Calendar end_time;
+	
 
 	public Reservation() {
 	}
-
-	public Reservation(Resource resource, Date start_time, Date end_time,
-			Client client) {
-		this.resource = resource;
-		this.start_time = start_time;
-		this.end_time = end_time;
-		this.client = client;
-	}
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "resource_fk")
-	private Resource resource;
+    
+    public Reservation(Resource resource, Calendar start_time, Calendar end_time, Client client) {
+        this.resource = resource;
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.client = client;
+    }
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "resource_fk")
+    private Resource resource;
 
 	public Resource getResource() {
 		return resource;
@@ -100,29 +99,28 @@ public class Reservation implements Serializable {
 	@JoinColumn(name = "client_fk")
 	private Client client;
 
+    public Calendar getEnd_time() {
+        return end_time;
+    }
+
 	public void setClient(Client client) {
 		this.client = client;
 	}
-
+    public Calendar getStart_time() {
+        return start_time;
+    }
 	public Client getClient() {
 		return client;
 	}
 
-	public Date getEnd_time() {
-		return end_time;
-	}
+    public void setEnd_time(Calendar end_time) {
+        this.end_time = end_time;
+    }
 
-	public Date getStart_time() {
-		return start_time;
-	}
+    public void setStart_time(Calendar start_time) {
+        this.start_time = start_time;
+    }
 
-	public void setEnd_time(Date end_time) {
-		this.end_time = end_time;
-	}
-
-	public void setStart_time(Date start_time) {
-		this.start_time = start_time;
-	}
 
 	public Long getReservation_id() {
 		return reservation_id;
@@ -165,7 +163,8 @@ public class Reservation implements Serializable {
 	@Override
 	public String toString() {
 		DateFormat formatter = DateFormat.getTimeInstance();
-		return formatter.format(getStart_time()) + " - "
-				+ formatter.format(getEnd_time());
+		return formatter.format(getStart_time().getTime()) + " - "
+				+ formatter.format(getEnd_time().getTime());
 	}
+
 }

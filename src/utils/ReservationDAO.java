@@ -6,8 +6,10 @@ import model.Client;
 import java.util.ArrayList;
 import org.hibernate.Session;
 import org.hibernate.Query;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 /**
  * data access object to reservation table
@@ -28,8 +30,10 @@ public class ReservationDAO {
         }
     }
 
-    public static ArrayList<Reservation> getAllReservations() {
-        ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+    @SuppressWarnings("unchecked")
+	public static ArrayList<Reservation> getAllReservations() {
+
+            ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 
         try {
             Session sess = HibernateUtil.getSession();
@@ -39,8 +43,8 @@ public class ReservationDAO {
 
             sess.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace();
-        }
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка при попытке получить все брони за день!", JOptionPane.OK_OPTION);
+          }
 
         return reservations;
     }
@@ -87,7 +91,8 @@ public class ReservationDAO {
         return r;
     }
 
-    public static List<Reservation> getReservationByDateAndResourceAndClient(Date start_time, Resource resource, Client client) {
+    @SuppressWarnings("unchecked")
+	public static List<Reservation> getReservationByDateAndResourceAndClient(Calendar start_time, Resource resource, Client client) {
         List<Reservation> list = null;
 
         try {
@@ -106,7 +111,8 @@ public class ReservationDAO {
 
     }
 
-    public static List<Reservation> getReservationInTime(Resource resource, Date start_time, Date end_time) {
+    @SuppressWarnings("unchecked")
+	public static List<Reservation> getReservationInTime(Resource resource, Calendar start_time, Calendar end_time) {
         List<Reservation> list = null;
         try {
             Session sess = HibernateUtil.getSession();
@@ -123,7 +129,8 @@ public class ReservationDAO {
 
     }
 
-    public static Long getReservationCurrentCount(Resource resource, Date start_time, Date end_time) {
+    @SuppressWarnings("rawtypes")
+	public static Long getReservationCurrentCount(Resource resource, Calendar start_time, Calendar end_time) {
         Long count = 0L;
         try {
             Session sess = HibernateUtil.getSession();
@@ -142,7 +149,8 @@ public class ReservationDAO {
 
     }
 
-    public static Long getReservationAllCount(Resource resource, Date start_time, Date end_time) {
+	@SuppressWarnings("rawtypes")
+	public static Long getReservationAllCount(Resource resource, Calendar start_time, Calendar end_time) {
         Long count = 0L;
         try {
             Session sess = HibernateUtil.getSession();
@@ -162,7 +170,8 @@ public class ReservationDAO {
     }
 
 
-    public static List<Reservation> getReservationByDateAndResource(Date start_date,Resource resource)
+    @SuppressWarnings("unchecked")
+	public static List<Reservation> getReservationByDateAndResource(Calendar start_date,Resource resource)
     {
         List<Reservation> list=null;
 
