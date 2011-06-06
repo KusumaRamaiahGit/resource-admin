@@ -160,4 +160,25 @@ public class ReservationDAO {
         return count;
 
     }
+
+
+    public static List<Reservation> getReservationByDateAndResource(Date start_date,Resource resource)
+    {
+        List<Reservation> list=null;
+
+        try{
+        Session sess = HibernateUtil.getSession();
+        sess.beginTransaction();
+
+       Query query = sess.getNamedQuery("FindReservation_ALL_of_Day_by_Resource").setParameter(0,start_date).setParameter(1, resource);
+       list = query.list();
+
+       sess.getTransaction().commit();
+        } catch (Exception e) {
+               e.printStackTrace();
+       }
+
+    return list;
+
+    }
 }
