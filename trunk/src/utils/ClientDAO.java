@@ -24,7 +24,8 @@ public class ClientDAO
         }
     }
 
-    public static ArrayList<Client> getAllClients()
+    @SuppressWarnings("unchecked")
+	public static ArrayList<Client> getAllClients()
     {
         ArrayList<Client> clients = new ArrayList<Client>();
         try {

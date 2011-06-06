@@ -24,7 +24,8 @@ public class ResourceDAO {
 
     }
 
-    public static ArrayList<Resource> getAllResources() {
+    @SuppressWarnings("unchecked")
+	public static ArrayList<Resource> getAllResources() {
 
         ArrayList<Resource> resources = new ArrayList<Resource>();
 

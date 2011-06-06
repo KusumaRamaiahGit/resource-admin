@@ -8,6 +8,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 /**
  * @author smihaylenko
  */
+@SuppressWarnings("deprecation")
 public class HibernateUtil
 {
    private static final SessionFactory sessionFactory;
