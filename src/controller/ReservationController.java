@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
@@ -63,8 +62,8 @@ public class ReservationController extends HttpServlet {
 		Resource res=ResourceDAO.getResourceById(r_id);
 		Date selectedDate = new Date(y, m, d);
 		
-		List<Reservation> todaysReservations = ReservationDAO.getReservationByDateAndResource(selectedDate, res);					
-		Map<Client, List<DatePairs>> hashMap = new HashMap<Client, List<DatePairs>>();
+							
+		/*Map<Client, List<DatePairs>> hashMap = new HashMap<Client, List<DatePairs>>();
 		
 		for (Reservation reservation: todaysReservations)
 		{			
@@ -87,6 +86,10 @@ public class ReservationController extends HttpServlet {
 		}
 		
 		request.setAttribute("reservationsHashMap", hashMap);
+		*/
+		List<Reservation> todaysReservations = ReservationDAO.getReservationByDateAndResource(selectedDate, res);
+		request.setAttribute("reservationsList", todaysReservations);
+		
 		request.setAttribute("year", y + 1900);
 		request.setAttribute("month", m + 1);
 		request.setAttribute("day", d);
