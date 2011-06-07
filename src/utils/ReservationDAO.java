@@ -190,4 +190,22 @@ public class ReservationDAO {
     return list;
 
     }
+    @SuppressWarnings("unchecked")
+	public static List<Reservation> getReservationInTime2(Resource resource, Calendar start_time,Calendar end_time) {
+        List<Reservation> list = null;
+        try {
+            Session sess = HibernateUtil.getSession();
+            sess.beginTransaction();
+
+            Query query = sess.getNamedQuery("FindReservation_ALL_in_Time_2").setParameter(0, resource).setParameter(1, start_time).setParameter(2, end_time);
+            list = query.list();
+
+            sess.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+
+    }
+    
 }
