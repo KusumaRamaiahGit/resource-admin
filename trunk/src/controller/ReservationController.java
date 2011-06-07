@@ -1,29 +1,17 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import utils.DatePairs;
 import utils.ReservationDAO;
 import utils.ResourceDAO;
 
-import model.Client;
 import model.Reservation;
 import model.Resource;
 /**
@@ -49,18 +37,19 @@ public class ReservationController extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		String day = request.getParameter("day");
-		String month = request.getParameter("monthsRadioGroup");
-		String year = request.getParameter("year");	
-		String res_id = request.getParameter("resourcesRadioGroup");		
+		String dayStr = request.getParameter("day");
+		String monthStr = request.getParameter("monthsRadioGroup");
+		String yearStr = request.getParameter("year");	
+		String res_idStr = request.getParameter("resourcesRadioGroup");		
 
-		Long r_id=Long.parseLong(res_id);
-		int y = Integer.parseInt(year.trim()) - 1900;
-		int m = Integer.parseInt(month.trim());
-		int d = Integer.parseInt(day.trim());
+		Long res_id=Long.parseLong(res_idStr);
+		int year = Integer.parseInt(yearStr.trim());
+		int month = Integer.parseInt(monthStr.trim());
+		int day = Integer.parseInt(dayStr.trim());
 		 
-		Resource res=ResourceDAO.getResourceById(r_id);
-		Date selectedDate = new Date(y, m, d);
+		Resource res=ResourceDAO.getResourceById(res_id);
+		//Date selectedDate = new Date(y, m, d);
+		GregorianCalendar calendar=new GregorianCalendar(year, month, day);
 		
 							
 		/*Map<Client, List<DatePairs>> hashMap = new HashMap<Client, List<DatePairs>>();
@@ -83,20 +72,22 @@ public class ReservationController extends HttpServlet {
 					hashMap.put(c,dp);
 				}
 			}
-		}
-		
+		}		
 		request.setAttribute("reservationsHashMap", hashMap);
 		*/
-		List<Reservation> todaysReservations = ReservationDAO.getReservationByDateAndResource(selectedDate, res);
+		
+		List<Reservation> todaysReservations = ReservationDAO.getReservationByDateAndResource(calendar, res);
 		request.setAttribute("reservationsList", todaysReservations);
 		
-		request.setAttribute("year", y + 1900);
-		request.setAttribute("month", m + 1);
-		request.setAttribute("day", d);
-		request.setAttribute("resourceName", res.getResource_name());
+		request.setAttribute("year", year);
+		request.setAttribute("month", month);
+		request.setAttribute("day", day);
+		request.setAttribute("resourceName", res.getResource_name());//TODO: bad idea, we can save resource id
+		request.setAttribute("resourceID", res_idStr);
 		
 		RequestDispatcher dispatch = request.getRequestDispatcher("reservations.jsp");
 		dispatch.forward(request, response);
 	}
 
 }
+
