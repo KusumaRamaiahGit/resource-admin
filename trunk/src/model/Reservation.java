@@ -57,7 +57,16 @@ import javax.persistence.OneToOne;
 				+ "and "
 				+ "(start_time between ? and ? "
 				+ "or end_time "
-				+ "between ? and ?) " + "ORDER BY start_time;", resultSetMapping = "Reservation"), })
+				+ "between ? and ?) " + "ORDER BY start_time;", resultSetMapping = "Reservation"), 
+				
+				@NamedNativeQuery(name = "FindReservation_ALL_in_Time_2", query = "select * "
+					+ "FROM RESERVATION "
+					+ "WHERE "
+					+ "resource_fk = ? "
+					+ "and "
+					+ "(? between start_time and end_time "
+					+ "or " 
+					+ "? between start_time and end_time);", resultSetMapping = "Reservation")})
 @Table(name = "RESERVATION")
 public class Reservation implements Serializable {
 	private static final long serialVersionUID = -388790269627716780L;
