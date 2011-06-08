@@ -118,7 +118,7 @@ public class ReservationDAO {
             Session sess = HibernateUtil.getSession();
             sess.beginTransaction();
 
-            Query query = sess.getNamedQuery("FindReservation_ALL_in_Time").setParameter(0, resource).setParameter(1, start_time).setParameter(2, end_time).setParameter(3, start_time).setParameter(4, end_time);
+            Query query = sess.getNamedQuery("FindReservation_ALL_in_Time").setParameter("resource_fk", resource).setParameter("start_time", start_time).setParameter("end_time", end_time);
             list = query.list();
 
             sess.getTransaction().commit();
@@ -190,22 +190,5 @@ public class ReservationDAO {
     return list;
 
     }
-    @SuppressWarnings("unchecked")
-	public static List<Reservation> getReservationInTime2(Resource resource, Calendar start_time,Calendar end_time) {
-        List<Reservation> list = null;
-        try {
-            Session sess = HibernateUtil.getSession();
-            sess.beginTransaction();
-
-            Query query = sess.getNamedQuery("FindReservation_ALL_in_Time_2").setParameter(0, resource).setParameter(1, start_time).setParameter(2, end_time);
-            list = query.list();
-
-            sess.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-
-    }
-    
+       
 }

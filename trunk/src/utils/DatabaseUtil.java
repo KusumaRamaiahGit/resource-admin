@@ -19,7 +19,7 @@ public class DatabaseUtil {
 		// resource table filling
 		// --------------------------------------------------------------------------------
 
-		DiningRoom dr = new DiningRoom("DinnnerRoom", 5);
+		DiningRoom dr = new DiningRoom("DiningRoom", 5);
 		ResourceDAO.addResource(dr);
 
 		Resource mr = new MeetingRoom("MeetingRoom");
@@ -144,7 +144,7 @@ public class DatabaseUtil {
 
 		List<Reservation> list = ReservationDAO.getReservationByDateAndResource(d1, dr);
 		for (Reservation rn : list) {
-			//System.out.println(rn);
+			System.out.println(rn);
 		}
 		// -------------------------------------------------------------------
 		// All resources
@@ -153,7 +153,7 @@ public class DatabaseUtil {
 		System.out.println("All resources");
 		ArrayList<Resource> resources = ResourceDAO.getAllResources();
 		for (Resource re : resources) {
-			//System.out.println(re.getResource_name());
+			System.out.println(re.getResource_name());
 		}
 
 		// -------------------------------------------------------------------
@@ -161,7 +161,7 @@ public class DatabaseUtil {
 		// -------------------------------------------------------------------
 
 		System.out.println("Add new reservation");
-		Resource resource = ResourceDAO.getResourceById(5L);                       //  resource for reservation
+		Resource resource = ResourceDAO.getResourceById(4L);                       //  resource for reservation
 		Client client = ClientDAO.getClientByLogin("boss");                        //  client for reservation
 		GregorianCalendar.getInstance();										   //  gets a calendar using the default time zone and locale
 		GregorianCalendar time_start = new GregorianCalendar(2011, 5, 20, 10, 00); //  start time of reservation, where month from 0
@@ -197,11 +197,8 @@ public class DatabaseUtil {
 				if (client.getRating().compareTo(Client.RATINGS.HIGH) == 0) {								 //  if the client is a boss
 					System.out.println("Time cross! You may try another date or free some human!");
 					if (want_free) {																		 //  if boss wants to free some resource
-						if (resource instanceof Monitor) {													 //  check that resource is a monitor
-							list_res = ReservationDAO.getReservationInTime2(resource, time_start, time_end); //  get reservations where time of our reservation is between times of other reservations
-						} else {
-							list_res = ReservationDAO.getReservationInTime(resource, time_start, time_end);	 //  get reservations where time of other reservations is between time of our reservation
-						}
+						list_res = ReservationDAO.getReservationInTime(resource, time_start, time_end);	     //  get reservations where time of other reservations is between time of our reservation
+						
 						for (Reservation rn : list_res) {													 //  show that reservations
 							System.out.println(rn);
 
