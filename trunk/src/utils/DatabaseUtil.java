@@ -161,24 +161,25 @@ public class DatabaseUtil {
 		// -------------------------------------------------------------------
 
 		System.out.println("Add new reservation");
-		Resource resource = ResourceDAO.getResourceById(5L);
-		Client client = ClientDAO.getClientByLogin("boss");
-		GregorianCalendar.getInstance();
-		GregorianCalendar time_start = new GregorianCalendar(2011, 5, 20, 10, 00);
-		GregorianCalendar time_end = new GregorianCalendar(2011, 5, 20, 19, 00);
-		Reservation res = new Reservation(resource, time_start, time_end, client);
+		Resource resource = ResourceDAO.getResourceById(5L);                       //  resource for reservation
+		Client client = ClientDAO.getClientByLogin("boss");                        //  client for reservation
+		GregorianCalendar.getInstance();										   //  gets a calendar using the default time zone and locale
+		GregorianCalendar time_start = new GregorianCalendar(2011, 5, 20, 10, 00); //  start time of reservation, where month from 0
+		GregorianCalendar time_end = new GregorianCalendar(2011, 5, 20, 19, 00);   //  end time of reservation
+		Reservation res = new Reservation(resource, time_start, time_end, client); //  create a new reservation
 		
-		List<Reservation> list_res = null;
-		int capacity = 0;
-		boolean want_free = true;
-		Long currCount = 0L;
+		List<Reservation> list_res = null;										   //  reservation in the same time of day
+		int capacity = 0;														   //  maxCapacity of resource
+		boolean want_free = true;                                                  //  wish of boss to free some resource
+		Long currCount = 0L; 												       //  current count of people for one resource
 		
-		if (!res.getStart_time().before(new Date())) {
-			currCount = ReservationDAO.getReservationCurrentCount(resource,	time_start, time_end);
+		if (!res.getStart_time().before(new Date())) {							   //  check that added date not in the past
+			currCount = ReservationDAO.getReservationCurrentCount(resource,	time_start, time_end);   //  get current count of people for one resource
+																									 //  between start and end time
 
-			if (resource instanceof Countable) {
+			if (resource instanceof Countable) { 												 	 // check whether a countable
 				try {
-					capacity = (Integer) resource.getClass().getDeclaredMethod("getMaxCapacity").invoke(resource);
+					capacity = (Integer) resource.getClass().getDeclaredMethod("getMaxCapacity").invoke(resource); 	 //  get maxCapacity from method subclass of Resource 
 				} catch (IllegalArgumentException e1) {
 					e1.printStackTrace();
 				} catch (SecurityException e1) {
@@ -192,41 +193,41 @@ public class DatabaseUtil {
 				}
 			}
 
-			if (currCount >= capacity) {
-				if (client.getRating().compareTo(Client.RATINGS.HIGH) == 0) {
+			if (currCount >= capacity) {																	 //  check current count
+				if (client.getRating().compareTo(Client.RATINGS.HIGH) == 0) {								 //  if the client is a boss
 					System.out.println("Time cross! You may try another date or free some human!");
-					if (want_free) {
-						if (resource instanceof Monitor) {
-							list_res = ReservationDAO.getReservationInTime2(resource, time_start, time_end);
+					if (want_free) {																		 //  if boss wants to free some resource
+						if (resource instanceof Monitor) {													 //  check that resource is a monitor
+							list_res = ReservationDAO.getReservationInTime2(resource, time_start, time_end); //  get reservations where time of our reservation is between times of other reservations
 						} else {
-							list_res = ReservationDAO.getReservationInTime(resource, time_start, time_end);
+							list_res = ReservationDAO.getReservationInTime(resource, time_start, time_end);	 //  get reservations where time of other reservations is between time of our reservation
 						}
-						for (Reservation rn : list_res) {
+						for (Reservation rn : list_res) {													 //  show that reservations
 							System.out.println(rn);
 
-							if (currCount >= capacity) {
-								if (client.getRating().compareTo(rn.getClient().getRating()) < 0) {
-									ReservationDAO.deleteReservation(rn);
-									currCount--;
+							if (currCount >= capacity) {													//  check again current count
+								if (client.getRating().compareTo(rn.getClient().getRating()) < 0) {			//  if other clients in reservation has rank lower
+									ReservationDAO.deleteReservation(rn);									//  delete that reservation from database
+ 									currCount--;															//  reduce current count
 								}
 							}
 						}
-						ReservationDAO.addReservation(res);
-						System.out.println("Reservation added!");
+						ReservationDAO.addReservation(res);													//  add our reservation to database
+ 						System.out.println("Reservation added!");
 					}
-					else{
+					else{																				    //  if client doesn't want to free resource
 						System.out.println("You can choose another time!");
 					}
-				} else {
+				} else {																				    //  if rank of client lower boss 
 					System.out.println("Time cross! You can't change it!");
 				}
-			} else {
+			} else {																						//  if resource was free from beginning
 				ReservationDAO.addReservation(res);
 				System.out.println("Reservation added!");
 			}
 		}
 
-		else {
+		else {																								//  if date of reservation was before current time
 			System.out.println("You can't reservate in PAST!");
 		}
 
