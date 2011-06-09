@@ -54,16 +54,6 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>StatisticView</display-name>
-    <servlet-name>StatisticView</servlet-name>
-    <servlet-class>view.StatisticView</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>StatisticView</servlet-name>
-    <url-pattern>/StatisticView</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
     <display-name>StatisticController</display-name>
     <servlet-name>StatisticController</servlet-name>
     <servlet-class>controller.StatisticController</servlet-class>
