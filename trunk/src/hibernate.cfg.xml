@@ -17,7 +17,7 @@
   <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
   <!-- Echo all executed SQL to stdout -->
   <property name="show_sql">false</property>
-  <property name="hbm2ddl.auto">update</property>
+  <property name="hbm2ddl.auto">create</property>
   <!-- annotation fix for JBoss -->
   <property name="hibernate.validator.apply_to_ddl">false</property>
   <property name="hibernate.validator.autoregister_listeners">false</property>
@@ -25,6 +25,7 @@
   <mapping class="example1.Resource_type"/> -->
   <mapping class="model.Resource"/>
   <mapping class="model.Client"/>
+  <mapping class="model.Admin"/>
   <mapping class="model.DiningRoom"/>
   <mapping class="model.Reservation"/>
   <mapping class="model.MeetingRoom"/>
