@@ -62,4 +62,14 @@
     <servlet-name>StatisticController</servlet-name>
     <url-pattern>/StatisticController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Diagram</display-name>
+    <servlet-name>Diagram</servlet-name>
+    <servlet-class>view.Diagram</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Diagram</servlet-name>
+    <url-pattern>/Diagram</url-pattern>
+  </servlet-mapping>
 </web-app>

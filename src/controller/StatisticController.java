@@ -54,23 +54,24 @@ public class StatisticController extends HttpServlet {
 		//FileOutputStream fos=new FileOutputStream("/img/graph1.jpg");
 		JPEGImageEncoder encoder= JPEGCodec.createJPEGEncoder(fos);
 		encoder.encode(image);*/
+		/*
+		System.setProperty("java.awt.headless", "true");
+		BufferedImage buffImg = new BufferedImage(250,100,BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = buffImg.createGraphics();        
+		g.draw3DRect(10, 10, 30, 30, true);
+		g.setFont(new Font("Serif", Font.ITALIC,14));
+		g.setColor(Color.RED);
+		g.drawString("dfdfdfdf",1,1);
+		g.drawLine(0, 0, 200, 200);
+		//Encodes ands sends the buffered image
+		ServletOutputStream sOs = response.getOutputStream();
+		response.setContentType("image/jpeg");
+		JPEGCodec.createJPEGEncoder(sOs).encode(buffImg);
+		sOs.close();
+		*/
 		RequestDispatcher dispatch=request.getRequestDispatcher("statistic.jsp");
 		dispatch.forward(request, response);
 
 	}
-	/*
-	System.setProperty("java.awt.headless", "true");
-	BufferedImage buffImg = new BufferedImage(250,100,BufferedImage.TYPE_INT_RGB);
-	Graphics2D g = buffImg.createGraphics();        
-	g.draw3DRect(10, 10, 30, 30, true);
-	g.setFont(new Font("Serif", Font.ITALIC,14));
-	g.setColor(Color.RED);
-	g.drawString("dfdfdfdf",1,1);
-	g.drawLine(0, 0, 200, 200);
-	//Encodes ands sends the buffered image
-	ServletOutputStream sOs = response.getOutputStream();
-	response.setContentType("image/jpeg");
-	JPEGCodec.createJPEGEncoder(sOs).encode(buffImg);
-	sOs.close();
-	*/
+	
 }
