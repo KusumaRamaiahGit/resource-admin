@@ -379,7 +379,7 @@ monthsRadioGroup[i].checked=true;
 			</tr>
 			<tr align="center"><td></td>			
 				<td colspan=2>
-				<form action="StatisticView" method="POST">
+				<form action="StatisticController" method="POST">
 				<input type="submit" class="buttonHorisontal" value="Статистика" />
 					</form>
 				<td>
