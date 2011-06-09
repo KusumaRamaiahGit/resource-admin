@@ -1,10 +1,11 @@
 <%@page import="model.Resource"%>
+<%@page import="view.Diagram"%>
 <%@page import="java.awt.*"%>
 <%@page import="java.awt.image.*"%>
 <%@page import="com.sun.image.codec.jpeg.*"%>
 <%@ page contentType="image/jpeg"%>
 <%
-	int width = 200, height = 200;
+/*	int width = 200, height = 200;
 	BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	Graphics g = image.getGraphics();
 	g.setColor(Color.GREEN);
@@ -14,4 +15,6 @@
 	ServletOutputStream sos = response.getOutputStream();
 	JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(sos);
 	encoder.encode(image);
+	*/
+	Diagram.drawDiagram(response);
 %>
