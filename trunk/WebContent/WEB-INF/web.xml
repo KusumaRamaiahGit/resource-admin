@@ -52,7 +52,7 @@
     <servlet-name>ReserveController</servlet-name>
     <url-pattern>/ReserveController</url-pattern>
   </servlet-mapping>
-<servlet>
+  <servlet>
     <description></description>
     <display-name>StatisticView</display-name>
     <servlet-name>StatisticView</servlet-name>
@@ -61,5 +61,15 @@
   <servlet-mapping>
     <servlet-name>StatisticView</servlet-name>
     <url-pattern>/StatisticView</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>StatisticController</display-name>
+    <servlet-name>StatisticController</servlet-name>
+    <servlet-class>controller.StatisticController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StatisticController</servlet-name>
+    <url-pattern>/StatisticController</url-pattern>
   </servlet-mapping>
 </web-app>
