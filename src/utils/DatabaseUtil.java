@@ -44,17 +44,30 @@ public class DatabaseUtil {
 		// client table filling
 		// --------------------------------------------------------------------------------
 
-		Client c1 = new Client("boss", "pass", Client.RATINGS.HIGH,"boss@mail.ru");
+		Client c0 = new Client("super-boss", "super-pass", Client.RATINGS.HIGH,"boss@mail.ru",Client.LOCATIONS.KYIV);
+		ClientDAO.addClient(c0);
+		
+		Client c1 = new Client("boss", "pass", Client.RATINGS.HIGH,"boss@mail.ru",Client.LOCATIONS.ODESSA);
 		ClientDAO.addClient(c1);
 
-		Client c2 = new Client("manager", "manager", Client.RATINGS.MIDDLE,"manager@mail.ru");
+		Client c2 = new Client("manager", "manager", Client.RATINGS.MIDDLE,"manager@mail.ru",Client.LOCATIONS.ODESSA);
 		ClientDAO.addClient(c2);
 
-		Client c3 = new Client("developer #1", "developer1", Client.RATINGS.LOW, "developer1@mail.ru");
+		Client c3 = new Client("developer #1", "developer1", Client.RATINGS.LOW, "developer1@mail.ru",Client.LOCATIONS.ODESSA);
 		ClientDAO.addClient(c3);
 
-		Client c4 = new Client("developer #2", "developer2", Client.RATINGS.LOW, "developer2@mail.ru");
+		Client c4 = new Client("developer #2", "developer2", Client.RATINGS.LOW, "developer2@mail.ru",Client.LOCATIONS.ODESSA);
 		ClientDAO.addClient(c4);
+		
+		Admin admin = new Admin("admin", "admin", Client.RATINGS.LOW, "admin@mail.ru",Client.LOCATIONS.ODESSA);
+		admin.setRegistered(true);
+		ClientDAO.addClient(admin);
+
+		// --------------------------------------------------------------------------------
+		// NewClient table filling
+		// --------------------------------------------------------------------------------
+		//NewClient nc =new NewClient("developer #2", "developer2", Client.RATINGS.LOW, "developer2@mail.ru");
+		//ClientDAO.addClient(nc);
 
 		// --------------------------------------------------------------------------------
 		// reservation table filling
@@ -194,16 +207,17 @@ public class DatabaseUtil {
 			}
 
 			if (currCount >= capacity) {																	 //  check current count
-				if (client.getRating().compareTo(Client.RATINGS.HIGH) == 0) {								 //  if the client is a boss
+				ClientComparator cc=new ClientComparator();													 //  create a new comparator of clients
+				if (cc.compareByRatingMax(client) == 0) {								                     //  if the client is a highest by comparable parameter
 					System.out.println("Time cross! You may try another date or free some human!");
-					if (want_free) {																		 //  if boss wants to free some resource
+					if (want_free) {																		 //  if client wants to free some resource
 						list_res = ReservationDAO.getReservationInTime(resource, time_start, time_end);	     //  get reservations where time of other reservations is between time of our reservation
 						
 						for (Reservation rn : list_res) {													 //  show that reservations
 							System.out.println(rn);
 
 							if (currCount >= capacity) {													//  check again current count
-								if (client.getRating().compareTo(rn.getClient().getRating()) < 0) {			//  if other clients in reservation has rank lower
+								if (cc.compareByRating(client, c2)<0) {		                             	//  if other clients in reservation has rank lower
 									ReservationDAO.deleteReservation(rn);									//  delete that reservation from database
  									currCount--;															//  reduce current count
 								}
@@ -215,7 +229,7 @@ public class DatabaseUtil {
 					else{																				    //  if client doesn't want to free resource
 						System.out.println("You can choose another time!");
 					}
-				} else {																				    //  if rank of client lower boss 
+				} else {																				    //  if rank of client lower then highest
 					System.out.println("Time cross! You can't change it!");
 				}
 			} else {																						//  if resource was free from beginning
