@@ -3,11 +3,20 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import model.Reservation;
+import model.Resource;
+
+import utils.ReservationDAO;
+import utils.ResourceDAO;
 
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
@@ -41,6 +50,8 @@ public class Diagram extends HttpServlet {
 		// TODO Auto-generated method stub
 	}
 	public static void drawDiagram(HttpServletResponse response) throws ServletException, IOException {
+			
+		//
 		int origin=40,width = 500+3*origin, height = 500+3*origin,countRes=10,marking_size=1,sizeOfRect=(width-3*origin)/countRes;
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics g = image.getGraphics();
@@ -64,4 +75,13 @@ public class Diagram extends HttpServlet {
 		JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(sos);
 		encoder.encode(image);
 	}
+	public HashMap<String,Integer> getDiagramData(){
+		HashMap<String,Integer> m=new HashMap<String,Integer>();
+		List<Resource> resources=ResourceDAO.getAllResources();
+		for(Resource res:resources){
+			List<Reservation> r=ReservationDAO.getReservationByResource(res);
+			m.put(res.getResource_name(), ReservationDAO.getReservedTimeForResource(res));
+		}		
+		return m;		
+	}	
 }
