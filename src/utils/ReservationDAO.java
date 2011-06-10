@@ -229,12 +229,13 @@ public class ReservationDAO {
 
 		return list;
 	}
-	public static Integer getMinutesInPeriod(Date start,Date end){
+	public static Long getMinutesInPeriod(Date start,Date end){
 		Long minutes=(end.getTime()-start.getTime())/60000;
-		return Integer.parseInt(minutes.toString());		
+		//return Integer.parseInt(minutes.toString());
+		return minutes;
 	}
-	public static Integer getReservedTimeForResource(Resource resource){
-		Integer time=0;Long time1=new Long(0);
+	public static Long getReservedTimeForResource(Resource resource){
+		Long time=new Long(0);
 		List<Reservation> res=getReservationByResource(resource);
 		if(res.size()>0){
 			Date start=new Date();Date end=new Date();int startpos=0;
@@ -243,12 +244,16 @@ public class ReservationDAO {
 			for(Reservation r:res){
 				if(end.compareTo(r.getStart_time().getTime())>=0) {//если конец текущего промежутка зарезервированного времени>=начало следующей резервации 
 					end=r.getEnd_time().getTime();//концу текущего промежутка зарезервированного времени присвоить конец следующей резервации
-					//startpos=
 				}
-				else
-					break;	//доделать для остальных промежутков!!!			
-			}			
-			time+=getMinutesInPeriod(start,end);			
+				else {
+					time+=getMinutesInPeriod(start,end);//увеличим время
+					start=r.getStart_time().getTime();//начало следующего промежутка зарезервированного времени
+					end=r.getEnd_time().getTime();//конец следующего промежутка зарезервированного времени										
+				}
+				if(r.equals(res.get(res.size()-1))) {//если дошли до последнего элемента в списке
+					time+=getMinutesInPeriod(start,end);//увеличим время					
+				}
+			}						
 		}				
 		return time;
 	}

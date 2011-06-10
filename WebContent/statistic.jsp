@@ -1,3 +1,4 @@
+<!-- author - Martynenko Viktoria-->
 <%@page import="model.Resource"%>
 <%@page import="java.text.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,8 +15,12 @@
 <h1>Статистика</h1>
 <br><br><br><br><br><br><br><br>
 <html>
-  <body>		 
+  <body>
+  <table border=0  align="center">
+  <tr><td>		 
 <img src="graphic1.jsp" />
+</td></tr>
+</table>
   </body>
 </html>
 </div>

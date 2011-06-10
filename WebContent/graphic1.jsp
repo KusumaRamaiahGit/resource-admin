@@ -1,3 +1,4 @@
+<!-- author - Martynenko Viktoria-->
 <%@page import="model.Resource"%>
 <%@page import="view.Diagram"%>
 <%@page import="java.awt.*"%>

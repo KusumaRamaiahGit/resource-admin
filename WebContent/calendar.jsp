@@ -1,4 +1,4 @@
-<!-- author Martynenko Viktoria-->
+<!-- author - Martynenko Viktoria-->
 <%@page import="model.Resource"%>
 <%@page import="java.util.List"%>
 <%@page import="java.io.PrintWriter"%>
