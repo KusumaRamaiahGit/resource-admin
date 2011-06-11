@@ -71,7 +71,7 @@ import javax.persistence.OneToOne;
 				+ "or :end_time between start_time and end_time) )"
 				+ "ORDER BY start_time;", 
 				resultSetMapping = "Reservation"),
-		@NamedNativeQuery(name = "FindReservation_by_Resource", 
+		@NamedNativeQuery(name = "FindReservation_by_Resource", //query for statistic
 				query = "SELECT * "
 				+ "FROM RESERVATION  "
 				+ "WHERE "
