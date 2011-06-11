@@ -13,7 +13,7 @@
 <body>
 <div id="block">
 <h1>Статистика</h1>
-<br><br><br><br><br><br><br><br>
+<br><br><br>
 <html>
   <body>
   <table border=0  align="center">

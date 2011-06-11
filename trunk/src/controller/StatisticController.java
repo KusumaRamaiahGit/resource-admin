@@ -1,3 +1,4 @@
+//author - Martynenko Viktoria
 package controller;
 
 import java.awt.Color;

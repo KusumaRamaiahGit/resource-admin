@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Date;
 
 /**
- * @author rsamoylov & @smihajlenko)
+ * @author rsamoylov & @smihajlenko & Martynenko Viktoria
  */
 public class DatabaseUtil {
 
@@ -28,8 +28,20 @@ public class DatabaseUtil {
 		EnglishRoom er = new EnglishRoom("EnglishRoom", 4);
 		ResourceDAO.addResource(er);
 
-		Monitor m1 = new Monitor("monitor", "100W78");
+		Monitor m1 = new Monitor("monitor #1", "100W78");
 		ResourceDAO.addResource(m1);
+
+		Monitor m2 = new Monitor("monitor #2", "100W79");
+		ResourceDAO.addResource(m2);
+
+		Monitor m3 = new Monitor("monitor #3", "100W77");
+		ResourceDAO.addResource(m3);
+
+		Monitor m4 = new Monitor("monitor #4", "100W76");
+		ResourceDAO.addResource(m4);
+
+                Monitor m5 = new Monitor("monitor #5", "100W75");
+		ResourceDAO.addResource(m5);
 
 		// --------------------------------------------------------------------------------
 		// client table filling
@@ -55,24 +67,31 @@ public class DatabaseUtil {
 		ClientDAO.addClient(admin);
 
 		// --------------------------------------------------------------------------------
+		// NewClient table filling
+		// --------------------------------------------------------------------------------
+		//NewClient nc =new NewClient("developer #2", "developer2", Client.RATINGS.LOW, "developer2@mail.ru");
+		//ClientDAO.addClient(nc);
+
+		// --------------------------------------------------------------------------------
 		// reservation table filling
 		// --------------------------------------------------------------------------------
 
 		// ---DinnerRoom---
+
 		GregorianCalendar.getInstance();
-		Reservation res1 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 10, 00), new GregorianCalendar(2011, 5, 20, 11, 00), c4);
+		/*Reservation res1 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 10, 00), new GregorianCalendar(2011, 5, 20, 11, 00), c4);
 		ReservationDAO.addReservation(res1);
 
-		Reservation res2 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 12, 00), new GregorianCalendar(2011, 5, 20, 14, 00), c2);
+		Reservation res2 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 11, 00), new GregorianCalendar(2011, 5, 20, 12, 00), c2);
 		ReservationDAO.addReservation(res2);
 
 		Reservation res3 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 14, 00), new GregorianCalendar(2011, 5, 20, 15, 00), c1);
 		ReservationDAO.addReservation(res3);
 
-		Reservation res4 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 12, 15), new GregorianCalendar(2011, 5, 20, 12, 45), c3);
+		Reservation res4 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 11, 15), new GregorianCalendar(2011, 5, 20, 11, 45), c3);
 		ReservationDAO.addReservation(res4);
 
-		Reservation res5 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 13, 20), new GregorianCalendar(2011, 5, 20, 13, 45), c3);
+		Reservation res5 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 11, 20), new GregorianCalendar(2011, 5, 20, 11, 45), c3);
 		ReservationDAO.addReservation(res5);
 
 		Reservation res6 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 14, 20), new GregorianCalendar(2011, 5, 20, 15, 00), c2);
@@ -104,22 +123,76 @@ public class DatabaseUtil {
 		ReservationDAO.addReservation(res14);
 
 		// --------Monitors-----------------
-		Reservation res15 = new Reservation(m1, new GregorianCalendar(2011, 5, 20, 00, 00), new GregorianCalendar(2011, 5, 20, 23, 59), c2);
+		Reservation res15 = new Reservation(m1, new GregorianCalendar(2011, 5, 20, 00, 00), new GregorianCalendar(2011, 6, 20, 00, 00), c2);
 		ReservationDAO.addReservation(res15);
+
+		Reservation res16 = new Reservation(m2, new GregorianCalendar(2011, 5, 20, 00, 00), new GregorianCalendar(2011, 6, 20, 00, 00), c3);
+		ReservationDAO.addReservation(res16);
+
+		Reservation res17 = new Reservation(m3, new GregorianCalendar(2011, 5, 20, 00, 00), new GregorianCalendar(2011, 6, 20, 00, 00), c4);
+		ReservationDAO.addReservation(res17);
+		
+		ReservationDAO.addReservation(new Reservation(m4, new GregorianCalendar(2011, 5, 21, 00, 00), new GregorianCalendar(2011, 6, 21, 00, 00), c1));
 
 		// ------------MeetingRoom-----------
 		Reservation res18 = new Reservation(mr, new GregorianCalendar(2011, 5, 20, 10, 00), new GregorianCalendar(2011, 5, 20, 11, 00), c1);
 		ReservationDAO.addReservation(res18);
 
-		Reservation res19 = new Reservation(mr, new GregorianCalendar(2011, 5, 20, 11, 15), new GregorianCalendar(2011, 5, 20, 12, 00), c2);
+		Reservation res19 = new Reservation(mr, new GregorianCalendar(2011, 5, 20, 15, 00), new GregorianCalendar(2011, 5, 20, 16, 00), c2);
 		ReservationDAO.addReservation(res19);
 
 		Reservation res20 = new Reservation(mr, new GregorianCalendar(2011, 5, 20, 13, 00), new GregorianCalendar(2011, 5, 20, 14, 00), c4);
 		ReservationDAO.addReservation(res20);
 
-		Reservation res21 = new Reservation(mr, new GregorianCalendar(2011, 5, 20, 16, 00), new GregorianCalendar(2011, 5, 20, 17, 00), c1);
+		Reservation res21 = new Reservation(mr, new GregorianCalendar(2011, 5, 20, 18, 00), new GregorianCalendar(2011, 5, 20, 19, 00), c1);
 		ReservationDAO.addReservation(res21);
+                 */
 
+		//-------------------------------------------------------------------
+		//add reservations for statistic - Martynenko Vika
+		//-------------------------------------------------------------------
+		ArrayList<Client> clients=ClientDAO.getAllClients();
+		ArrayList<Resource> resources = ResourceDAO.getAllResources();
+                int countOfYear=3;
+		for(int year=0;year<countOfYear;year++) {
+			for(int month=0;month<12;month++) {
+				for(int day=1;day<20;day++) {
+					ReservationDAO.addReservation(new Reservation(dr, new GregorianCalendar(2009+year, month, day, 12, 00), new GregorianCalendar(2009+year, month, day,13, 00), c0));
+					ReservationDAO.addReservation(new Reservation(dr, new GregorianCalendar(2009+year, month, day, 12, 00), new GregorianCalendar(2009+year, month, day,14, 00), c1));
+					ReservationDAO.addReservation(new Reservation(dr, new GregorianCalendar(2009+year, month, day, 13, 00), new GregorianCalendar(2009+year, month, day,14, 00), c2));
+					ReservationDAO.addReservation(new Reservation(dr, new GregorianCalendar(2009+year, month, day, 15, 00), new GregorianCalendar(2009+year, month, day,16, 00), c3));
+					ReservationDAO.addReservation(new Reservation(dr, new GregorianCalendar(2009+year, month, day, 11, 00), new GregorianCalendar(2009+year, month, day,13, 00), c4));
+					ReservationDAO.addReservation(new Reservation(dr, new GregorianCalendar(2009+year, month, day, 16, 00), new GregorianCalendar(2009+year, month, day,17, 00), c3));
+					ReservationDAO.addReservation(new Reservation(dr, new GregorianCalendar(2009+year, month, day, 15, 00), new GregorianCalendar(2009+year, month, day,15, 30), c4));
+					ReservationDAO.addReservation(new Reservation(dr, new GregorianCalendar(2009+year, month, day, 17, 00), new GregorianCalendar(2009+year, month, day,17, 15), c4));
+                    if(day>15) {
+                        ReservationDAO.addReservation(new Reservation(mr, new GregorianCalendar(2009+year, month, day, 12, 00), new GregorianCalendar(2009+year, month, day,13, 00), c0));
+                        ReservationDAO.addReservation(new Reservation(mr, new GregorianCalendar(2009+year, month, day, 12, 00), new GregorianCalendar(2009+year, month, day,13, 00), c1));
+                        ReservationDAO.addReservation(new Reservation(mr, new GregorianCalendar(2009+year, month, day, 12, 00), new GregorianCalendar(2009+year, month, day,13, 00), c2));
+                    }
+                }
+                ReservationDAO.addReservation(new Reservation(mr, new GregorianCalendar(2009+year, month, 1, 12, 00), new GregorianCalendar(2009+year, month, 1,13, 00), c0));
+                ReservationDAO.addReservation(new Reservation(mr, new GregorianCalendar(2009+year, month, 1, 12, 00), new GregorianCalendar(2009+year, month, 1,13, 00), c1));
+                ReservationDAO.addReservation(new Reservation(mr, new GregorianCalendar(2009+year, month, 1, 12, 00), new GregorianCalendar(2009+year, month, 1,13, 00), c2));
+                ReservationDAO.addReservation(new Reservation(mr, new GregorianCalendar(2009+year, month, 2, 15, 00), new GregorianCalendar(2009+year, month, 2,16, 00), c3));
+                ReservationDAO.addReservation(new Reservation(mr, new GregorianCalendar(2009+year, month, 2, 15, 00), new GregorianCalendar(2009+year, month, 2,16, 00), c4));
+                if((month==0)||(month==6)) {
+                    for(int day=0;day<20;day++) {
+                        ReservationDAO.addReservation(new Reservation(er, new GregorianCalendar(2009+year, month, day, 12, 00), new GregorianCalendar(2009+year, month, day,13, 00), c0));
+                        ReservationDAO.addReservation(new Reservation(er, new GregorianCalendar(2009+year, month, day, 12, 00), new GregorianCalendar(2009+year, month, day,13, 00), c1));
+                        ReservationDAO.addReservation(new Reservation(er, new GregorianCalendar(2009+year, month, day, 12, 00), new GregorianCalendar(2009+year, month, day,13, 00), c2));
+                        ReservationDAO.addReservation(new Reservation(er, new GregorianCalendar(2009+year, month, day, 12, 00), new GregorianCalendar(2009+year, month, day,13, 00), c3));
+                        ReservationDAO.addReservation(new Reservation(er, new GregorianCalendar(2009+year, month, day, 12, 00), new GregorianCalendar(2009+year, month, day,13, 00), c4));
+                    }
+                }
+        }
+        ReservationDAO.addReservation(new Reservation(m1, new GregorianCalendar(2009+year, 0, 1, 12, 00), new GregorianCalendar(2009+year, 11, 25,13, 00), c0));
+        ReservationDAO.addReservation(new Reservation(m2, new GregorianCalendar(2009+year, 0, 0, 12, 00), new GregorianCalendar(2009+year, 9, 25,13, 00), c1));
+        ReservationDAO.addReservation(new Reservation(m3, new GregorianCalendar(2009+year, 0, 1, 12, 00), new GregorianCalendar(2009+year, 6, 25,13, 00), c2));
+        ReservationDAO.addReservation(new Reservation(m4, new GregorianCalendar(2009+year, 0, 1, 12, 00), new GregorianCalendar(2009+year, 10, 25,13, 00), c3));
+        ReservationDAO.addReservation(new Reservation(m5, new GregorianCalendar(2009+year, 0, 0, 12, 00), new GregorianCalendar(2009+year, 11, 25,13, 00), admin));
+}
+		
 		// -------------------------------------------------------------------
 		// All reservations by Date with Showing Cliet
 		// -------------------------------------------------------------------
@@ -135,15 +208,19 @@ public class DatabaseUtil {
 		System.out.println("All reservations per day DinningRoom");
 
 		List<Reservation> list = ReservationDAO.getReservationByDateAndResource(d1, dr);
+                List<Reservation> list1 = ReservationDAO.getAllReservations();
 		for (Reservation rn : list) {
+			System.out.println(rn);
+		}
+                System.out.println("All reservations");
+                for (Reservation rn : list1) {
 			System.out.println(rn);
 		}
 		// -------------------------------------------------------------------
 		// All resources
 		// -------------------------------------------------------------------
 
-		System.out.println("All resources");
-		ArrayList<Resource> resources = ResourceDAO.getAllResources();
+		System.out.println("All resources");		
 		for (Resource re : resources) {
 			System.out.println(re.getResource_name());
 		}

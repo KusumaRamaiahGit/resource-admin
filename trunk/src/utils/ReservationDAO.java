@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 /**
  * data access object to reservation table
  * 
- * @author rsamoylov & smihajlenko
+ * @author rsamoylov & smihajlenko & Martynenko Viktoria
  */
 public class ReservationDAO {
 
@@ -213,6 +213,7 @@ public class ReservationDAO {
 
 	}
 
+	//functions for statistic, author - Martynenko Viktoria
 	@SuppressWarnings("unchecked")
 	public static List<Reservation> getReservationByResource(Resource resource) {
 		List<Reservation> list = null;
@@ -231,7 +232,6 @@ public class ReservationDAO {
 	}
 	public static Long getMinutesInPeriod(Date start,Date end){
 		Long minutes=(end.getTime()-start.getTime())/60000;
-		//return Integer.parseInt(minutes.toString());
 		return minutes;
 	}
 	public static Long getReservedTimeForResource(Resource resource){
