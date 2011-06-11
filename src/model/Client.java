@@ -17,11 +17,8 @@ import javax.persistence.OneToOne;
  */
 
 @Entity
-
 @Table(name = "CLIENT")
-
 @NamedQuery(name = "getClientByLogin", query = "from Client c where c.login = :login")
-
 public class Client implements Serializable {
 	private static final long serialVersionUID = 4895898373317713855L;
 
@@ -43,25 +40,26 @@ public class Client implements Serializable {
 	public enum RATINGS {
 		HIGH, MIDDLE, LOW
 	}
-	
+
 	@Column(name = "contact", nullable = false)
 	private String contact;
 
 	@Column(name = "registered", nullable = false)
 	private Boolean registered;
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "location", nullable = false, length = 20)
 	private LOCATIONS location;
-	
+
 	public enum LOCATIONS {
 		KYIV, ODESSA
 	}
-	
+
 	public Client() {
 	}
 
-	public Client(String login, String password, RATINGS rating, String contact, LOCATIONS location) {
+	public Client(String login, String password, RATINGS rating,
+			String contact, LOCATIONS location) {
 		this.login = login;
 		this.password = password;
 		this.rating = rating;
@@ -88,7 +86,7 @@ public class Client implements Serializable {
 	public String getContact() {
 		return contact;
 	}
-	
+
 	public Boolean getRegistered() {
 		return registered;
 	}
@@ -100,7 +98,7 @@ public class Client implements Serializable {
 	public RATINGS getRating() {
 		return rating;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
@@ -108,11 +106,11 @@ public class Client implements Serializable {
 	public LOCATIONS getLocation() {
 		return location;
 	}
-	
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 	public void setClient_id(Long client_id) {
 		this.client_id = client_id;
 	}
@@ -136,7 +134,7 @@ public class Client implements Serializable {
 	public void setRegistered(Boolean registered) {
 		this.registered = registered;
 	}
-	
+
 	public void setLocation(LOCATIONS location) {
 		this.location = location;
 	}

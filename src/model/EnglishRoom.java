@@ -22,11 +22,15 @@ public class EnglishRoom extends Resource implements Countable {
 		this.maxCapacity = maxCapacity;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 	@Override
 	public int getMaxCapacity() {
 		return maxCapacity;
 	}
-
+	
 	@Override
 	public void setMaxCapacity(int maxCapacity) {
 		this.maxCapacity = maxCapacity;

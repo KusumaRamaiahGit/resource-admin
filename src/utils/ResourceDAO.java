@@ -6,70 +6,75 @@ import org.hibernate.Session;
 
 /**
  * data access object to resource table
+ * 
  * @author rsamoylov
  */
 public class ResourceDAO {
 
-    public static void addResource(Resource r) {
-        try {
-            Session sess = HibernateUtil.getSession();
-            sess.beginTransaction();
+	public static void addResource(Resource r) {
+		try {
+			Session sess = HibernateUtil.getSession();
+			sess.beginTransaction();
 
-            sess.save(r);
+			sess.save(r);
 
-            sess.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			sess.getTransaction().commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    }
+	}
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public static ArrayList<Resource> getAllResources() {
 
-        ArrayList<Resource> resources = new ArrayList<Resource>();
+		ArrayList<Resource> resources = new ArrayList<Resource>();
 
-        try {
-            Session sess = HibernateUtil.getSession();
-            sess.beginTransaction();
+		try {
+			Session sess = HibernateUtil.getSession();
+			sess.beginTransaction();
 
-            resources = (ArrayList<Resource>) sess.createCriteria(Resource.class).list();
+			resources = (ArrayList<Resource>) sess.createCriteria(Resource.class).list();
 
-            sess.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			sess.getTransaction().commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        return resources;
-    }
+		return resources;
+	}
 
-    public static void updateResource(Resource r) {
-        try {
-            Session sess = HibernateUtil.getSession();
-            sess.beginTransaction();
+	public static void updateResource(Resource r) {
+		try {
+			Session sess = HibernateUtil.getSession();
+			sess.beginTransaction();
 
-            sess.update(r);
+			sess.update(r);
 
-            sess.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+			sess.getTransaction().commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    public static Resource getResourceById(Long id) {
-        Resource r = null;
+	public static Resource getResourceById(Long id) {
+		Resource r = null;
 
-        try {
-            Session sess = HibernateUtil.getSession();
-            sess.beginTransaction();
+		try {
+			Session sess = HibernateUtil.getSession();
+			sess.beginTransaction();
 
-            r = (Resource) sess.get(Resource.class, id);
+			r = (Resource) sess.get(Resource.class, id);
 
-            sess.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			sess.getTransaction().commit();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        return r;
-    }
+		return r;
+	}
 }

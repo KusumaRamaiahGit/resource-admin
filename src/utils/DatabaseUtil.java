@@ -28,17 +28,8 @@ public class DatabaseUtil {
 		EnglishRoom er = new EnglishRoom("EnglishRoom", 4);
 		ResourceDAO.addResource(er);
 
-		Monitor m1 = new Monitor("monitor #1", "100W78");
+		Monitor m1 = new Monitor("monitor", "100W78");
 		ResourceDAO.addResource(m1);
-
-		Monitor m2 = new Monitor("monitor #2", "100W79");
-		ResourceDAO.addResource(m2);
-
-		Monitor m3 = new Monitor("monitor #3", "100W77");
-		ResourceDAO.addResource(m3);
-
-		Monitor m4 = new Monitor("monitor #4", "100W76");
-		ResourceDAO.addResource(m4);
 
 		// --------------------------------------------------------------------------------
 		// client table filling
@@ -62,12 +53,6 @@ public class DatabaseUtil {
 		Admin admin = new Admin("admin", "admin", Client.RATINGS.LOW, "admin@mail.ru",Client.LOCATIONS.ODESSA);
 		admin.setRegistered(true);
 		ClientDAO.addClient(admin);
-
-		// --------------------------------------------------------------------------------
-		// NewClient table filling
-		// --------------------------------------------------------------------------------
-		//NewClient nc =new NewClient("developer #2", "developer2", Client.RATINGS.LOW, "developer2@mail.ru");
-		//ClientDAO.addClient(nc);
 
 		// --------------------------------------------------------------------------------
 		// reservation table filling
@@ -119,14 +104,8 @@ public class DatabaseUtil {
 		ReservationDAO.addReservation(res14);
 
 		// --------Monitors-----------------
-		Reservation res15 = new Reservation(m1, new GregorianCalendar(2011, 5, 20, 00, 00), new GregorianCalendar(2012, 1, 1, 00, 00), c2);
+		Reservation res15 = new Reservation(m1, new GregorianCalendar(2011, 5, 20, 00, 00), new GregorianCalendar(2011, 5, 20, 23, 59), c2);
 		ReservationDAO.addReservation(res15);
-
-		Reservation res16 = new Reservation(m2, new GregorianCalendar(2011, 5, 20, 00, 00), new GregorianCalendar(2012, 1, 1, 00, 00), c3);
-		ReservationDAO.addReservation(res16);
-
-		Reservation res17 = new Reservation(m3, new GregorianCalendar(2011, 5, 20, 00, 00), new GregorianCalendar(2012, 1, 1, 00, 00), c4);
-		ReservationDAO.addReservation(res17);
 
 		// ------------MeetingRoom-----------
 		Reservation res18 = new Reservation(mr, new GregorianCalendar(2011, 5, 20, 10, 00), new GregorianCalendar(2011, 5, 20, 11, 00), c1);
@@ -174,25 +153,26 @@ public class DatabaseUtil {
 		// -------------------------------------------------------------------
 
 		System.out.println("Add new reservation");
-		Resource resource = ResourceDAO.getResourceById(4L);                       //  resource for reservation
-		Client client = ClientDAO.getClientByLogin("boss");                        //  client for reservation
-		GregorianCalendar.getInstance();										   //  gets a calendar using the default time zone and locale
-		GregorianCalendar time_start = new GregorianCalendar(2011, 5, 20, 10, 00); //  start time of reservation, where month from 0
-		GregorianCalendar time_end = new GregorianCalendar(2011, 5, 20, 19, 00);   //  end time of reservation
-		Reservation res = new Reservation(resource, time_start, time_end, client); //  create a new reservation
+		List<Reservation> list_res = null; 														// reservation in the same time of day
+		int capacity = 0; 																		// maxCapacity of resource
+		boolean want_free = true; 																// wish of boss to free some resource
+		Long currCount = 0L; 																	// current count of people for one resource
 		
-		List<Reservation> list_res = null;										   //  reservation in the same time of day
-		int capacity = 0;														   //  maxCapacity of resource
-		boolean want_free = true;                                                  //  wish of boss to free some resource
-		Long currCount = 0L; 												       //  current count of people for one resource
-		
-		if (!res.getStart_time().before(new Date())) {							   //  check that added date not in the past
-			currCount = ReservationDAO.getReservationCurrentCount(resource,	time_start, time_end);   //  get current count of people for one resource
-																									 //  between start and end time
+		Resource resource = ResourceDAO.getResourceById(1L); 									// resource for reservation
+		Client client = ClientDAO.getClientByLogin("boss"); 									// client for reservation
+		GregorianCalendar.getInstance(); 														// gets a calendar using the default time zone and locale
+		GregorianCalendar time_start = new GregorianCalendar(2011, 5, 20, 10, 00); 				// start time of reservation, where month from 0
+		GregorianCalendar time_end = new GregorianCalendar(2011, 5, 20, 19, 00); 				// end time of reservation
+		Reservation res = new Reservation(resource, time_start, time_end, client); 				// create a new reservation
 
-			if (resource instanceof Countable) { 												 	 // check whether a countable
+		if (!res.getStart_time().before(new Date())) { 											// check that added date not in the past
+			currCount = ReservationDAO.getReservationCurrentCount(resource, time_start, time_end); // get current count of people for
+																								// one resource between start and end time
+
+			if (resource instanceof Countable) { 												// check whether a countable
 				try {
-					capacity = (Integer) resource.getClass().getDeclaredMethod("getMaxCapacity").invoke(resource); 	 //  get maxCapacity from method subclass of Resource 
+					capacity = (Integer) resource.getClass().getDeclaredMethod("getMaxCapacity").invoke(resource); // get maxCapacity from method	
+																													//subclass of Resource
 				} catch (IllegalArgumentException e1) {
 					e1.printStackTrace();
 				} catch (SecurityException e1) {
@@ -206,39 +186,49 @@ public class DatabaseUtil {
 				}
 			}
 
-			if (currCount >= capacity) {																	 //  check current count
-				ClientComparator cc=new ClientComparator();													 //  create a new comparator of clients
-				if (cc.compareByRatingMax(client) == 0) {								                     //  if the client is a highest by comparable parameter
+			if (currCount >= capacity) { 														// check current count
+				ClientComparator cc = new ClientComparator();									// create a new comparator of clients
+				if (cc.compareByLoginMin(client) != 0) { 										// if the client is a highest by comparable parameter
 					System.out.println("Time cross! You may try another date or free some human!");
-					if (want_free) {																		 //  if client wants to free some resource
-						list_res = ReservationDAO.getReservationInTime(resource, time_start, time_end);	     //  get reservations where time of other reservations is between time of our reservation
+					if (want_free) { 															// if client wants to free some resource
 						
-						for (Reservation rn : list_res) {													 //  show that reservations
+						List<Reservation> list_res_delete = new ArrayList<Reservation>();
+						
+						list_res = ReservationDAO.getReservationInTime(resource, time_start, time_end); // get reservations where time of other
+																										// reservations is between time of our reservation
+
+						for (Reservation rn : list_res) {										 // show that reservations
 							System.out.println(rn);
 
-							if (currCount >= capacity) {													//  check again current count
-								if (cc.compareByRating(client, c2)<0) {		                             	//  if other clients in reservation has rank lower
-									ReservationDAO.deleteReservation(rn);									//  delete that reservation from database
- 									currCount--;															//  reduce current count
+							if (currCount >= capacity) { 										// check again current count
+								if (cc.compareByLogin(client, rn.getClient()) < 0) { 			// if other clients in reservation has rank lower
+									list_res_delete.add(rn);									// add that reservation to list for removal
+									currCount--; 												// reduce current count
 								}
 							}
 						}
-						ReservationDAO.addReservation(res);													//  add our reservation to database
- 						System.out.println("Reservation added!");
-					}
-					else{																				    //  if client doesn't want to free resource
+						if (currCount < capacity) { 											// if current count less then capacity 
+							for (Reservation res_delete : list_res_delete) {
+								ReservationDAO.deleteReservation(res_delete);                   // delete reservations from database by list for removal
+							}
+							ReservationDAO.addReservation(res);                                 // add our new reservation to database
+							System.out.println("Reservation added!");
+						} else {																// if level of client not allowed to delete required number of reservations
+							System.out.println("Your level is not enough to remove all  available users. You can choose another time!");
+						}
+					} else { 																	// if client doesn't want to free resource
 						System.out.println("You can choose another time!");
 					}
-				} else {																				    //  if rank of client lower then highest
+				} else { 																		// if rank of client lower then highest
 					System.out.println("Time cross! You can't change it!");
 				}
-			} else {																						//  if resource was free from beginning
-				ReservationDAO.addReservation(res);
+			} else { 																			// if resource was free from beginning
+				ReservationDAO.addReservation(res);												// simple add our new reservation to database
 				System.out.println("Reservation added!");
 			}
 		}
 
-		else {																								//  if date of reservation was before current time
+		else { 																					// if date of reservation was before current time
 			System.out.println("You can't reservate in PAST!");
 		}
 
