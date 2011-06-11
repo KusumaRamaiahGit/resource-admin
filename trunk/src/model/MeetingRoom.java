@@ -17,4 +17,8 @@ public class MeetingRoom extends Resource {
 	public MeetingRoom(String name) {
 		super(name);
 	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }

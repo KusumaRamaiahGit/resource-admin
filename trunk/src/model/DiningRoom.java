@@ -21,6 +21,10 @@ public class DiningRoom extends Resource implements Countable {
 		super(name);
 		this.maxCapacity = maxCapacity;
 	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	@Override
 	public int getMaxCapacity() {

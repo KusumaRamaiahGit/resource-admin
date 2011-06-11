@@ -26,6 +26,10 @@ public class Monitor extends Resource implements Inventarable {
 	public String getInvenarno() {
 		return inventarno;
 	};
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	@Override
 	public void setInvenarno(String inventarno) {
