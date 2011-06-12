@@ -5,6 +5,9 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+//import java.util.ArrayList;
+import java.util.Calendar;
+//import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -51,26 +54,45 @@ public class Diagram extends HttpServlet {
 	private Integer i;//номер ресурса
 	private int fullWidth;//ширина всего изображения
 	private int fullHeight;//высота всего изображения
+	private int shiftX;//смещение по Х для 3D
+	private int shiftY;////смещение по Y для 3D
 	
     public Diagram() {
         super();
+		hm=new HashMap<String,Long>();
         // TODO Auto-generated constructor stub
     }
-    
+   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
-	public void drawImage(HttpServletResponse response) throws ServletException, IOException {		
+	public void drawAllResourcesAndFullTime(HttpServletResponse response) throws ServletException, IOException {		
 		setParametrsForDiagram();
 		BufferedImage image = new BufferedImage(fullWidth, fullHeight, BufferedImage.TYPE_INT_RGB);
 		g = image.createGraphics();
 		drawBackground();//рисуем фон, устанавливаем шрифт
 		drawMarkingForAxes();//разметка для оси ординат, оси абсцисс и полосы (фон для диаграммы)
-		drawAxes();//рисуем оси координат		
-		drawDiagram();//рисуем диаграмму		
+		drawAxes("Занятость за все время (в днях)");//рисуем оси координат
+		hm=getDiagramData();//получаем данные для диаграммы
+		drawDiagram(1440);//рисуем диаграмму, делим на 1440	минуты, чтобы получить дни	
+		g.dispose();
+		ServletOutputStream sos = response.getOutputStream();
+		JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(sos);
+		encoder.encode(image);
+	}
+	public void drawAllResourcesForMonth(HttpServletResponse response,Calendar startDate,Calendar endDate) throws ServletException, IOException {		
+		setParametrsForDiagram();
+		BufferedImage image = new BufferedImage(fullWidth, fullHeight, BufferedImage.TYPE_INT_RGB);
+		g = image.createGraphics();
+		drawBackground();//рисуем фон, устанавливаем шрифт
+		drawMarkingForAxes();//разметка для оси ординат, оси абсцисс и полосы (фон для диаграммы)
+		drawAxes("Занятость за все время (в часах)");//рисуем оси координат
+		hm.clear();
+		hm=getDiagramData(startDate,endDate);//получаем данные для диаграммы
+		drawDiagram(60);//рисуем диаграмму, делим на 60	минуты, чтобы получить часы	
 		g.dispose();
 		ServletOutputStream sos = response.getOutputStream();
 		JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(sos);
@@ -104,16 +126,26 @@ public class Diagram extends HttpServlet {
 		}
 		//
 		fullWidth=width+widthForNames+origin;
-		fullHeight=height+distanceForTimeRect;    	
+		fullHeight=height+distanceForTimeRect;
+		shiftX=10;//смещение по Х для 3D
+		shiftY=10;////смещение по Y для 3D
     }
 	public HashMap<String,Long> getDiagramData(){//данные для диаграммы: зарезервированное время(имя ресурса)
 		HashMap<String,Long> m=new HashMap<String,Long>();
 		List<Resource> resources=ResourceDAO.getAllResources();
 		for(Resource res:resources){
-			List<Reservation> r=ReservationDAO.getReservationByResource(res);
+			//List<Reservation> r=ReservationDAO.getReservationByResource(res);
 			m.put(res.getResource_name(), ReservationDAO.getReservedTimeForResource(res));
-		}		
-		return m;		
+		}
+		return m;
+	}
+	public HashMap<String,Long> getDiagramData(Calendar startDate,Calendar endDate){//данные для диаграммы: зарезервированное время(имя ресурса) за месяц
+		HashMap<String,Long> m=new HashMap<String,Long>();
+		List<Resource> resources=ResourceDAO.getAllResources();
+		for(Resource res:resources){
+			m.put(res.getResource_name(), ReservationDAO.getReservedTimeForResourceByMonth(startDate,endDate,res));
+		}
+		return m;
 	}
 	public double scaleY() {//масштабирование по оси ординат
 		Long maxtime=Collections.max(hm.values());//максимальный временной промежуток (для масштабирования)
@@ -163,7 +195,7 @@ public class Diagram extends HttpServlet {
 		}		
 	}
 	
-	public void drawAxes() {
+	public void drawAxes(String nameOfY) {
 		//рисуем оси координат
 		g.setColor(Color.blue);
 		g.drawLine(origin, height-origin,origin, origin);//ось абсцисс
@@ -173,35 +205,76 @@ public class Diagram extends HttpServlet {
 		g.drawLine(origin, origin, origin-marking_size, origin+2*marking_size);//стрелка для оси ординат
 		g.drawLine(origin, origin, origin+marking_size, origin+2*marking_size);//стрелка для оси ординат
 		g.drawString("Ресурс", width-3*origin/2, height-origin/2);//надпись для оси абсцисс
-		g.drawString("Занятость за все время (в днях)", 0, origin/2);//надпись для оси ординат
+		g.drawString(nameOfY, 0, origin/2);//надпись для оси ординат
 	}
-	public void drawDiagram() {
+	public void drawDiagram(double timeIn) {
 		//рисуем диаграмму
-		hm=getDiagramData();
-		double scale=scaleY();//масштабирование взависимости от максимального промежутка времени
-		Long time=new Long(0);i=0;
-		double d;
-		Integer timeInDays;
-		for(Resource r:resources) {			
-			time=hm.get(r.getResource_name());
-			timeInDays=(int)((double)time/1440);
-			d=(double)time*scale;
-			heightOfBigRect=(int)d;
-			//
-			//прямоугольники с занятым временем
-			g.setColor(Color.white);
-			g.fill3DRect(i*widthOfBigRect+origin, height-origin-heightOfBigRect-heightForTimeRect-distanceForTimeRect, widthForTimeRect, heightForTimeRect,true);
-			g.setColor(new Color(0,0,150));
-			g.drawString(timeInDays.toString(),i*widthOfBigRect+origin+indentForTimeRect, height-origin-heightOfBigRect-heightForTimeRect-distanceForTimeRect+fontSize);//занятость каждого ресурса						
-			//
-			g.setColor(colorForDiagram()[i]);//цвета больших прямоугольников			
-			g.fill3DRect(i*widthOfBigRect+origin, height-origin-heightOfBigRect, widthOfBigRect, heightOfBigRect,true);//большие прямоугольники для диаграммы
-			//названия ресурсов						
-			g.fill3DRect(width, i*heightOfNameRect+scanningSeparation+origin, widthOfNameRect, heightOfNameRect, true);
-			i++;
-			g.drawString(i.toString()+". "+r.getResource_name(), width+widthOfNameRect+5, (i-1)*heightOfNameRect+scanningSeparation+origin+heightOfNameRect);//названия ресурсов
-			//
-		}
+		//hm=getDiagramData();
+		if(hm.size()!=0) {
+			double scale=scaleY();//масштабирование взависимости от максимального промежутка времени
+			Long time=new Long(0);i=0;
+			double d;
+			Integer timeInDays;
+			for(Resource r:resources) {			
+				time=hm.get(r.getResource_name());
+				timeInDays=(int)((double)time/timeIn);
+				d=(double)time*scale;
+				heightOfBigRect=(int)d;
+				//
+				//прямоугольники с занятым временем
+				int[] coordX=new int[4];//массив координат по оси Х для полигона
+				int[] coordY=new int[4];//массив координат по оси У для полигона
+				g.setColor(Color.white);
+				//draw 3d TimeRect
+				g.fill3DRect(i*widthOfBigRect+origin, height-origin-heightOfBigRect-heightForTimeRect-distanceForTimeRect-shiftY, widthForTimeRect, heightForTimeRect,true);
+				g.setColor(Color.green);
+				g.drawRect(i*widthOfBigRect+origin, height-origin-heightOfBigRect-heightForTimeRect-distanceForTimeRect-shiftY, widthForTimeRect, heightForTimeRect);//границы прямоугольника
+				g.setColor(Color.white);
+				coordX[0]=i*widthOfBigRect+origin;coordY[0]=height-origin-heightOfBigRect-heightForTimeRect-distanceForTimeRect-shiftY;
+				coordX[1]=coordX[0]+widthOfBigRect;coordY[1]=coordY[0];
+				coordX[2]=coordX[1]+shiftX;coordY[2]=coordY[1]-shiftY;
+				coordX[3]=coordX[0]+shiftX;coordY[3]=coordY[0]-shiftY;
+				g.fillPolygon(coordX,coordY, 4);//параллелограмм сверху
+				g.setColor(Color.green);
+				g.drawPolygon(coordX,coordY, 4) ;//границы параллелограмма сверху
+				g.setColor(Color.white);
+				coordX[0]=coordX[1];coordY[0]=coordY[1]+heightForTimeRect;
+				coordX[3]=coordX[2];coordY[3]=coordY[2]+heightForTimeRect;
+				g.fillPolygon(coordX,coordY, 4);//параллелограмм справа
+				g.setColor(Color.green);
+				g.drawPolygon(coordX,coordY, 4) ;//границы параллелограмма справа
+				//
+				g.setColor(new Color(0,0,150));
+				g.drawString(timeInDays.toString(),i*widthOfBigRect+origin+indentForTimeRect, height-origin-heightOfBigRect-heightForTimeRect-distanceForTimeRect-shiftY+fontSize);//занятость каждого ресурса						
+				//
+				g.setColor(colorForDiagram()[i]);//цвета больших прямоугольников			
+				//draw 3d BigRect
+				g.fill3DRect(i*widthOfBigRect+origin, height-origin-heightOfBigRect, widthOfBigRect, heightOfBigRect,true);//большие прямоугольники для диаграммы				
+				g.setColor(Color.white);
+				g.drawRect(i*widthOfBigRect+origin, height-origin-heightOfBigRect, widthOfBigRect, heightOfBigRect);//границы прямоугольника
+				g.setColor(colorForDiagram()[i]);//цвета больших прямоугольников			
+				coordX[0]=i*widthOfBigRect+origin;coordY[0]=height-origin-heightOfBigRect;
+				coordX[1]=coordX[0]+widthOfBigRect;coordY[1]=coordY[0];
+				coordX[2]=coordX[1]+shiftX;coordY[2]=coordY[1]-shiftY;
+				coordX[3]=coordX[0]+shiftX;coordY[3]=coordY[0]-shiftY;
+				g.fillPolygon(coordX,coordY, 4);//параллелограмм сверху
+				g.setColor(Color.white);
+				g.drawPolygon(coordX,coordY, 4);//параллелограмм сверху
+				coordX[0]=coordX[1];coordY[0]=coordY[1]+heightOfBigRect;
+				coordX[3]=coordX[2];coordY[3]=coordY[2]+heightOfBigRect;
+				g.setColor(colorForDiagram()[i]);//цвета больших прямоугольников
+				g.fillPolygon(coordX,coordY, 4);//параллелограмм справа
+				g.setColor(Color.white);
+				g.drawPolygon(coordX,coordY, 4);//параллелограмм справа
+				g.setColor(colorForDiagram()[i]);//цвета больших прямоугольников
+				//
+				//названия ресурсов						
+				g.fill3DRect(width, i*heightOfNameRect+scanningSeparation+origin, widthOfNameRect, heightOfNameRect, true);
+				i++;
+				g.drawString(i.toString()+". "+r.getResource_name(), width+widthOfNameRect+5, (i-1)*heightOfNameRect+scanningSeparation+origin+heightOfNameRect);//названия ресурсов
+				//
+			}			
+		}		
 	}
 	/*public void drawNamesOfResources() {
 		int i=0;		
@@ -211,4 +284,5 @@ public class Diagram extends HttpServlet {
 			i++;
 		}
 	}*/
+	
 }
