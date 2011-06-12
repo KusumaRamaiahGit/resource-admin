@@ -146,7 +146,7 @@ public class DatabaseUtil {
 		//add reservations for statistic - Martynenko Vika
 		//-------------------------------------------------------------------
 		ArrayList<Resource> resources = ResourceDAO.getAllResources();
-		int countOfYear = 3;
+		/*int countOfYear = 3;
 		for (int year = 0; year < countOfYear; year++) {
 			for (int month = 0; month < 12; month++) {
 				for (int day = 1; day < 20; day++) {
@@ -185,7 +185,7 @@ public class DatabaseUtil {
 			ReservationDAO.addReservation(new Reservation(m4, new GregorianCalendar(2009 + year, 0, 1, 12, 00), new GregorianCalendar(2009 + year, 10, 25, 13, 00), c3));
 			ReservationDAO.addReservation(new Reservation(m5, new GregorianCalendar(2009 + year, 0, 0, 12, 00), new GregorianCalendar(2009 + year, 11, 25, 13, 00), admin));
 		}
-		
+		*/
 		// -------------------------------------------------------------------
 		// All reservations by Date with Showing Cliet
 		// -------------------------------------------------------------------

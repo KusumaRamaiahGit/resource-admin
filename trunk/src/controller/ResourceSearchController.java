@@ -1,0 +1,54 @@
+package controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import utils.ResourceDAO;
+
+import model.Resource;
+
+/**
+ * Servlet implementation class ResourceSearchController
+ */
+public class ResourceSearchController extends HttpServlet
+{
+	private static final long serialVersionUID = 1L;
+
+	public ResourceSearchController()
+	{
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException
+	{
+	}
+
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException
+	{
+		Long id = (Long)request.getAttribute("resourceSelector");		
+
+		if (id != null)
+		{
+			Resource r = ResourceDAO.getResourceById(id);
+			request.setAttribute("resource", r);
+			
+			RequestDispatcher dispatch = request.getRequestDispatcher("resource-edit.jsp");
+		    dispatch.forward(request, response);
+		}
+		else
+		{
+			request.setAttribute("message", "! You have to select resource");
+			RequestDispatcher dispatch = request.getRequestDispatcher("resource-search.jsp");
+		    dispatch.forward(request, response);
+		}
+	}
+
+}
