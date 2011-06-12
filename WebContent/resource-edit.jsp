@@ -24,6 +24,7 @@
 
 	<form action="ResourceDeleteController" method="POST">
 		<h3>Удалить ресурс</h3>
+    <input type="hidden" name="resource_id" value="<%=r.getResource_id() %>"/>
 		<input type="submit" value="Удалить">
 	</form>
 	
