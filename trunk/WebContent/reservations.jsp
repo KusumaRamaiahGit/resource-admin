@@ -25,7 +25,7 @@
 				| Зарезервированное время на
 				<%
 				out.print("" + request.getAttribute("day") + "."
-						+ request.getAttribute("month") + "."
+						+ (Integer.parseInt(request.getAttribute("month").toString()) + 1) + "."
 						+ request.getAttribute("year"));
 			%>
 			</div>
