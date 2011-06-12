@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,13 +32,12 @@ public class ResourceSearchController extends HttpServlet
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException
 	{
-		Long id = (Long)request.getAttribute("resourceSelector");		
+		Long id = Long.parseLong(request.getParameter("resourceSelector"));		
 
 		if (id != null)
 		{
 			Resource r = ResourceDAO.getResourceById(id);
-			request.setAttribute("resource", r);
-			
+			request.setAttribute("resource", r);			
 			RequestDispatcher dispatch = request.getRequestDispatcher("resource-edit.jsp");
 		    dispatch.forward(request, response);
 		}
