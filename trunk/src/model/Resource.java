@@ -21,9 +21,12 @@ public class Resource implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "resource_id", nullable = false, columnDefinition = "integer")
 	private Long resource_id;
+	
+	@Column(name = "resource_name", nullable = false)
 	private String resource_name;
+	
 	private Reservation reservation;
-
+	
 	@OneToOne(mappedBy = "resource")
 	public Reservation getReservation() {
 		return reservation;
@@ -40,7 +43,6 @@ public class Resource implements Serializable {
 		this.resource_name = resource_name;
 	}
 
-	@Column(name = "resource_name", nullable = false)
 	public String getResource_name() {
 		return resource_name;
 	}
@@ -70,6 +72,9 @@ public class Resource implements Serializable {
 			return false;
 		}
 		final Resource res = (Resource) o;
+		if (!resource_id.equals(res.resource_id)) {
+			return false;
+		}
 		if (!resource_name.equals(res.resource_name)) {
 			return false;
 		}
@@ -78,7 +83,7 @@ public class Resource implements Serializable {
 
 	@Override
 	public int hashCode() {
-		int result = 15 * resource_name.hashCode();
+		int result = 13 * resource_id.hashCode() + 15 * resource_name.hashCode();
 		return result;
 	}
 

@@ -2,6 +2,9 @@ package utils;
 
 import model.Resource;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import org.hibernate.Session;
 
 /**
@@ -21,7 +24,9 @@ public class ResourceDAO {
 			sess.getTransaction().commit();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not add new resource!",
+					JOptionPane.OK_OPTION);
 		}
 
 	}
@@ -40,7 +45,9 @@ public class ResourceDAO {
 			sess.getTransaction().commit();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not show all resources!",
+					JOptionPane.OK_OPTION);
 		}
 
 		return resources;
@@ -56,7 +63,9 @@ public class ResourceDAO {
 			sess.getTransaction().commit();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not update resource!",
+					JOptionPane.OK_OPTION);
 		}
 	}
 
@@ -72,7 +81,9 @@ public class ResourceDAO {
 			sess.getTransaction().commit();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not get resource by ID!",
+					JOptionPane.OK_OPTION);
 		}
 
 		return r;

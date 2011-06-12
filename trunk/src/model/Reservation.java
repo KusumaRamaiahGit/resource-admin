@@ -86,9 +86,11 @@ public class Reservation implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "reservation_id", nullable = false, columnDefinition = "integer")
 	private Long reservation_id;
+	
 	@Column(name = "start_time", nullable = false)
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Calendar start_time;
+	
 	@Column(name = "end_time", nullable = false)
 	@Temporal(value = TemporalType.TIMESTAMP)
 	private Calendar end_time;
@@ -96,8 +98,7 @@ public class Reservation implements Serializable {
 	public Reservation() {
 	}
 
-	public Reservation(Resource resource, Calendar start_time,
-			Calendar end_time, Client client) {
+	public Reservation(Resource resource, Calendar start_time, Calendar end_time, Client client) {
 		this.resource = resource;
 		this.start_time = start_time;
 		this.end_time = end_time;
@@ -161,6 +162,9 @@ public class Reservation implements Serializable {
 			return false;
 		}
 		final Reservation res = (Reservation) o;
+		if (!reservation_id.equals(res.reservation_id)) {
+			return false;
+		}
 		if (!start_time.equals(res.start_time)) {
 			return false;
 		}
@@ -178,7 +182,7 @@ public class Reservation implements Serializable {
 
 	@Override
 	public int hashCode() {
-		int result = 17 * client.hashCode() + 19 * resource.hashCode();
+		int result = 21 * reservation_id.hashCode() + 3 * start_time.hashCode() + 7 * end_time.hashCode() + 17 * client.hashCode() + 19 * resource.hashCode();
 		return result;
 	}
 
