@@ -7,7 +7,7 @@ package utils;
 public class RegistrationValidator {
 	public static boolean Validate(String login, String pass1, String pass2, String email)
 	{
-		return checkPasswords(pass1, pass2) && checkEmail(email);
+		return checkLoginForUniqueness(login) && checkPasswords(pass1, pass2) && checkEmail(email);
 	}
 	public static boolean checkPasswords(String pass1, String pass2)
 	{		
@@ -16,5 +16,9 @@ public class RegistrationValidator {
 	public static boolean checkEmail(String email)
 	{
 		return email.matches("[a-zA-Z\\-_]+@[A-Za-z0-9]+\\.[a-zA-Z]{2,4}");
+	}
+	public static boolean checkLoginForUniqueness(String login)
+	{
+		return (ClientDAO.getClientByLogin(login)==null);
 	}
 }
