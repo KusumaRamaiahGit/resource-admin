@@ -1,8 +1,9 @@
 package controller;
 
 import java.io.IOException;
-import java.util.GregorianCalendar;
-import java.util.List;
+//import java.util.GregorianCalendar;
+import java.util.*;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,22 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import utils.ReservationDAO;
 import utils.ResourceDAO;
 
+import model.Client;
 import model.Reservation;
 import model.Resource;
 /**
- * @author OKupriianova 
+ * @author OKupriianova, IKalashnikov
  * Servlet implementation class ReservationController
  */
 public class ReservationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public ReservationController() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
@@ -35,8 +30,8 @@ public class ReservationController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
+		response.setContentType("text/html;charset=UTF-8");
+		
 		String dayStr = request.getParameter("day");
 		String monthStr = request.getParameter("monthsRadioGroup");
 		String yearStr = request.getParameter("year");	
@@ -48,36 +43,39 @@ public class ReservationController extends HttpServlet {
 		int day = Integer.parseInt(dayStr.trim());
 		 
 		Resource res=ResourceDAO.getResourceById(res_id);
-		//Date selectedDate = new Date(y, m, d);
+		
 		GregorianCalendar calendar=new GregorianCalendar(year, month, day);
 		
-							
-		/*Map<Client, List<DatePairs>> hashMap = new HashMap<Client, List<DatePairs>>();
+								
+		List<Reservation> todaysReservations = ReservationDAO.getReservationByDateAndResource(calendar, res);
+				
+		ListIterator<Reservation> i = todaysReservations.listIterator();
+		Map<Client,List<Reservation>> resMap = new HashMap<Client,List<Reservation>>();
 		
-		for (Reservation reservation: todaysReservations)
-		{			
-			for (Client c:reservation.getClients())
-			{		
-				List<DatePairs> dp;
-				if (hashMap.containsKey(c))
-				{
-					dp=hashMap.get(c);
-					dp.add(new DatePairs(reservation.getStart_time(), reservation.getEnd_time()));			
-					hashMap.put(c,dp);
-				}
-				else
-				{
-					dp=new LinkedList<DatePairs>();
-					dp.add(new DatePairs(reservation.getStart_time(),reservation.getEnd_time()));
-					hashMap.put(c,dp);
+		while(i.hasNext()) {
+			Reservation bufRes = i.next();
+			Client curClient = bufRes.getClient();
+			if (!resMap.containsKey(curClient)) {
+				resMap.put(curClient, new LinkedList<Reservation>());
+			}
+			
+			List<Reservation> clientDateList = resMap.get(curClient);
+			if (clientDateList.isEmpty()) {
+				clientDateList.add(bufRes);
+			} else {
+				// merge overlapping dates
+				Reservation lastListRes = clientDateList.get(clientDateList.size()-1);
+				if (lastListRes.getEnd_time().after(bufRes.getStart_time())) {
+					// then merging;
+					lastListRes.setEnd_time(bufRes.getEnd_time());
+				} else {
+					clientDateList.add(bufRes);
 				}
 			}
-		}		
-		request.setAttribute("reservationsHashMap", hashMap);
-		*/
+		}
 		
-		List<Reservation> todaysReservations = ReservationDAO.getReservationByDateAndResource(calendar, res);
-		request.setAttribute("reservationsList", todaysReservations);
+		request.setAttribute("reservationsMap", resMap);
+	
 		
 		request.setAttribute("year", year);
 		request.setAttribute("month", month);
