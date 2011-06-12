@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  * data access object to resource table
@@ -15,77 +16,71 @@ import org.hibernate.Session;
 public class ResourceDAO {
 
 	public static void addResource(Resource r) {
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;	
 		try {
-			Session sess = HibernateUtil.getSession();
-			sess.beginTransaction();
-
+			tx = sess.beginTransaction();
 			sess.save(r);
-
-			sess.getTransaction().commit();
-			
+			sess.getTransaction().commit();			
 		} catch (Exception e) {
+			if (tx!=null) tx.rollback();
 			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not add new resource!",
-					JOptionPane.OK_OPTION);
+					"Could not add new resource!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
 		}
-
 	}
 
 	@SuppressWarnings("unchecked")
 	public static ArrayList<Resource> getAllResources() {
-
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;	
 		ArrayList<Resource> resources = new ArrayList<Resource>();
-
 		try {
-			Session sess = HibernateUtil.getSession();
-			sess.beginTransaction();
-
+			tx = sess.beginTransaction();
 			resources = (ArrayList<Resource>) sess.createCriteria(Resource.class).list();
-
-			sess.getTransaction().commit();
-			
+			sess.getTransaction().commit();			
 		} catch (Exception e) {
+			if (tx!=null) tx.rollback();
 			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not show all resources!",
-					JOptionPane.OK_OPTION);
+					"Could not show all resources!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
 		}
-
 		return resources;
 	}
 
 	public static void updateResource(Resource r) {
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;	
 		try {
-			Session sess = HibernateUtil.getSession();
-			sess.beginTransaction();
-
+			tx = sess.beginTransaction();
 			sess.update(r);
-
-			sess.getTransaction().commit();
-			
+			sess.getTransaction().commit();			
 		} catch (Exception e) {
+			if (tx!=null) tx.rollback();
 			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not update resource!",
-					JOptionPane.OK_OPTION);
+					"Could not update resource!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
 		}
 	}
 
 	public static Resource getResourceById(Long id) {
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;	
 		Resource r = null;
-
 		try {
-			Session sess = HibernateUtil.getSession();
-			sess.beginTransaction();
-
+			tx = sess.beginTransaction();
 			r = (Resource) sess.get(Resource.class, id);
-
 			sess.getTransaction().commit();
-			
-		} catch (Exception e) {
+					} catch (Exception e) {
+			if (tx!=null) tx.rollback();
 			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not get resource by ID!",
-					JOptionPane.OK_OPTION);
+					"Could not get resource by ID!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
 		}
-
 		return r;
 	}
 }
