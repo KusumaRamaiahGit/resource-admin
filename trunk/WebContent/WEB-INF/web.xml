@@ -82,4 +82,44 @@
     <servlet-name>RegistrationController</servlet-name>
     <url-pattern>/RegistrationController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ResourceSearchController</display-name>
+    <servlet-name>ResourceSearchController</servlet-name>
+    <servlet-class>controller.ResourceSearchController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ResourceSearchController</servlet-name>
+    <url-pattern>/ResourceSearchController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ResourceCreateController</display-name>
+    <servlet-name>ResourceCreateController</servlet-name>
+    <servlet-class>controller.ResourceCreateController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ResourceCreateController</servlet-name>
+    <url-pattern>/ResourceCreateController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ResourceDeleteController</display-name>
+    <servlet-name>ResourceDeleteController</servlet-name>
+    <servlet-class>controller.ResourceDeleteController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ResourceDeleteController</servlet-name>
+    <url-pattern>/ResourceDeleteController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ResourceEditController</display-name>
+    <servlet-name>ResourceEditController</servlet-name>
+    <servlet-class>controller.ResourceEditController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ResourceEditController</servlet-name>
+    <url-pattern>/ResourceEditController</url-pattern>
+  </servlet-mapping>
 </web-app>
