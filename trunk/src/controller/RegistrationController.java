@@ -113,7 +113,7 @@ public class RegistrationController extends HttpServlet {
 				Client regClient = new Client(loginString, pass1String,
 						Client.RATINGS.valueOf(ratingString), emailString,
 						Client.LOCATIONS.valueOf(locationString));
-				// ïî óìîë÷àíèþ ðåãèñòðàöèÿ íå ïîäòâåðæäåíà ÏÅÐÅÄÅËÀÒÜ!!!
+				// по умолчанию регистрация не подтверждена ПЕРЕДЕЛАТЬ!!!
 				ClientDAO.addClient(regClient);
 				
 				
@@ -127,25 +127,20 @@ public class RegistrationController extends HttpServlet {
 				out.println("</body>");
 				out.println("</html>");
 			} else {
-				redirect(request, response,
-						"You have put wrong data! Try to register once again");
+				/*redirect(request, response,
+						"You have put wrong data! Try to register once again");*/
+				PrintWriter out = response.getWriter();
+				out.println("<html>");
+				out.println("<head>");
+				out.println("<title>Servlet RegistrationController</title>");
+				out.println("</head>");
+				out.println("<body>");
+				out.println("Registration failed!");
+				out.println("</body>");
+				out.println("</html>");
 			}
 		}
-		/*
-		 * PrintWriter out = response.getWriter();
-		 * 
-		 * 
-		 * out.println("<html>"); out.println("<head>");
-		 * out.println("<title>Servlet RegistrationController</title>");
-		 * out.println("</head>"); out.println("<body>");
-		 * out.println("<h1>Servlet NewServlet at " + request.getContextPath ()
-		 * + "</h1>");
-		 * 
-		 * out.println("1 submit  "+request.getParameter("checkLogin"));
-		 * out.println("2 submit  "+request.getParameter("register"));
-		 * 
-		 * out.println("</body>"); out.println("</html>");
-		 */
+
 
 	}
 
@@ -155,5 +150,6 @@ public class RegistrationController extends HttpServlet {
 		response.sendRedirect("registerError.jsp");
 
 	}
+	
 
 }
