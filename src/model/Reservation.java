@@ -185,7 +185,7 @@ public class Reservation implements Serializable {
 	@Override
 	public String toString() {
 		DateFormat formatter = DateFormat.getTimeInstance();
-		return formatter.format(getStart_time().getTime()) + " - "
+		return "{"+client+"} "+formatter.format(getStart_time().getTime()) + " - "
 				+ formatter.format(getEnd_time().getTime());
 	}
 

@@ -1,35 +1,36 @@
 @charset "windows-1251";
+
 body {
 	margin: 0px;
-	padding:0px;
+	padding: 0px;
 	background: url(img/bg.png);
 }
 
 #block {
 	width: 950px;
 	height: 700px;
-	background:url(img/bg_light.png) no-repeat;
+	background: url(img/bg_light.png) no-repeat;
 	margin: 0px auto;
-	padding:0px;
+	padding: 0px;
 }
 
 #block h1 {
 	color: #FFF;
 	font-size: 48px;
-	text-align:center;
+	text-align: center;
 	padding-top: 25px;
-	margin:0px;
+	margin: 0px;
 }
 
 #block #auth {
 	width: 281px;
 	height: 222px;
-	margin: 100px auto 0px auto;	
+	margin: 100px auto 0px auto;
 	background: url(img/form_bg.png) no-repeat bottom;
 }
 
 #block #auth .head {
-	text-align:center;
+	text-align: center;
 	color: #FFF;
 	font-size: 22px;
 }
@@ -40,12 +41,12 @@ body {
 
 #block #reservations {
 	width: 700px;
-	margin: 100px auto 0px auto;	
+	margin: 100px auto 0px auto;
 	background: url(img/reservations_bg.png) repeat-x top #C6DDFD;
 }
 
 #block #reservations .head {
-	text-align:center;
+	text-align: center;
 	color: #666666;
 	font-size: 22px;
 }
@@ -63,11 +64,38 @@ a {
 	color: blue;
 }
 
-.timelineTable  td{
-	border-left: 1px #CCC dashed;
+.reservedTimeTable {
+	vertical-align: top;
+	margin: 0px auto 0px auto;
+}
+
+.timelineTable  td {
 	text-align: center;
 	width: 20px;
-	
+	padding: 0px;
+	margin: 0px;
+}
+
+.time-trow {
+	vertical-align: top;
+}
+
+.time-trow td {
+	border-bottom: 1px dotted #CCC;
+}
+
+.bar {
+	border-left: 1px #ccc dotted;
+	border-right: 1px #ccc dotted;
+	position: absolute;
+	height: 20px;
+	background-image: url(img/bar.png);
+	background-repeat: repeat-x;
+}
+
+.bar-holder {
+	border-top: 1px #ccc dotted;
+	position: absolute;
 }
 
 .login-input {
@@ -93,9 +121,9 @@ a {
 #submit {
 	width: 90px;
 	margin: 15px 35px 1px 35px;
-	height:35px;
+	height: 35px;
 	border: none;
-	background:url(img/button.png);
+	background: url(img/button.png);
 	float: right;
 	cursor: pointer;
 }
