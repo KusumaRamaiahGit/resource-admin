@@ -30,7 +30,7 @@ public class ResourceDeleteController extends HttpServlet
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException
 	{
-		Resource r = (Resource)request.getAttribute("resource");
+		Resource r = ResourceDAO.getResourceById(Long.parseLong(request.getParameter("resource_id")));
 		
 		ResourceDAO.deleteResource(r);
 		
