@@ -7,5 +7,5 @@
 <%@ page contentType="image/jpeg"%>
 <%
 	Diagram d=new Diagram();
-	d.drawImage(response);
+	d.drawAllResourcesAndFullTime(response);
 %>

@@ -76,7 +76,7 @@ import javax.persistence.OneToOne;
 				+ "FROM RESERVATION  "
 				+ "WHERE "
 				+ "resource_fk = ? " 
-				+ "ORDER BY start_time;", 
+				+ "ORDER BY start_time,end_time;", 
 				resultSetMapping = "Reservation")})
 @Table(name = "RESERVATION")
 public class Reservation implements Serializable {
