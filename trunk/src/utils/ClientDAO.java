@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import org.hibernate.Session;
 import org.hibernate.Query;
+import org.hibernate.Transaction;
 
 /**
  * data access object to client table
@@ -15,89 +16,89 @@ import org.hibernate.Query;
  */
 public class ClientDAO {
 	public static void addClient(Client c) {
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;
 		try {
-			Session sess = HibernateUtil.getSession();
-			sess.beginTransaction();
-
+			tx = sess.beginTransaction();
 			sess.save(c);
-
 			sess.getTransaction().commit();
-			
 		} catch (Exception e) {
+			if (tx != null) tx.rollback();
 			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not add new user!",
-					JOptionPane.OK_OPTION);
+					"Could not add new user!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public static ArrayList<Client> getAllClients() {
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;
 		ArrayList<Client> clients = new ArrayList<Client>();
 		try {
-			Session sess = HibernateUtil.getSession();
-			sess.beginTransaction();
-
+			tx = sess.beginTransaction();
 			clients = (ArrayList<Client>) sess.createCriteria(Client.class).list();
-
 			sess.getTransaction().commit();
-			
 		} catch (Exception e) {
+			if (tx != null) tx.rollback();
 			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not show all users!",
-					JOptionPane.OK_OPTION);
+					"Could not show all users!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
 		}
 		return clients;
 	}
 
 	public static void updateClient(Client c) {
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;
 		try {
-			Session sess = HibernateUtil.getSession();
-			sess.beginTransaction();
-
+			tx = sess.beginTransaction();
 			sess.update(c);
-
 			sess.getTransaction().commit();
-			
 		} catch (Exception e) {
+			if (tx != null) tx.rollback();
 			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not update user!",
-					JOptionPane.OK_OPTION);
+					"Could not update user!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
 		}
 	}
 
 	public static Client getClientById(Long id) {
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;
 		Client c = null;
 		try {
-			Session sess = HibernateUtil.getSession();
-			sess.beginTransaction();
-
+			tx = sess.beginTransaction();
 			c = (Client) sess.get(Client.class, id);
-
 			sess.getTransaction().commit();
-			
 		} catch (Exception e) {
+			if (tx != null) tx.rollback();
 			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not get user by ID!",
-					JOptionPane.OK_OPTION);
+					"Could not get user by ID!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
 		}
 		return c;
 	}
 
 	public static Client getClientByLogin(String login) {
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;
 		Client c = null;
 		try {
-			Session sess = HibernateUtil.getSession();
-			sess.beginTransaction();
-
+			tx = sess.beginTransaction();
 			Query query = sess.getNamedQuery("getClientByLogin").setParameter("login", login);
 			c = (Client) query.uniqueResult();
-			
 			sess.getTransaction().commit();
-			
 		} catch (Exception e) {
+			if (tx != null) tx.rollback();
 			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not get user by login!",
-					JOptionPane.OK_OPTION);
+					"Could not get user by login!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
 		}
 		return c;
 	}
