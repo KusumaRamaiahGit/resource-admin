@@ -72,7 +72,7 @@ public class RegistrationController extends HttpServlet {
 				}
 			}
 			// request.setAttribute("login", s);
-			RequestDispatcher rd = request.getRequestDispatcher("regg.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("registration.jsp");
 			rd.forward(request, response);
 
 		} else
@@ -113,7 +113,7 @@ public class RegistrationController extends HttpServlet {
 				Client regClient = new Client(loginString, pass1String,
 						Client.RATINGS.valueOf(ratingString), emailString,
 						Client.LOCATIONS.valueOf(locationString));
-				// по умолчанию регистрация не подтверждена ПЕРЕДЕЛАТЬ!!!
+				// ГЇГ® ГіГ¬Г®Г«Г·Г Г­ГЁГѕ Г°ГҐГЈГЁГ±ГІГ°Г Г¶ГЁГї Г­ГҐ ГЇГ®Г¤ГІГўГҐГ°Г¦Г¤ГҐГ­Г  ГЏГ…ГђГ…Г„Г…Г‹ГЂГ’Гњ!!!
 				ClientDAO.addClient(regClient);
 				
 				
