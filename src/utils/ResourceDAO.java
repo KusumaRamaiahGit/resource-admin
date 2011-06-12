@@ -83,4 +83,18 @@ public class ResourceDAO {
 		}
 		return r;
 	}
+	
+	 public static void deleteResource(Resource r)
+    {
+    	 try {
+             Session sess = HibernateUtil.getSession();
+             sess.beginTransaction();
+
+             sess.delete(r);
+
+             sess.getTransaction().commit();
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+    }
 }
