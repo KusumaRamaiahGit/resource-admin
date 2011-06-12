@@ -28,7 +28,9 @@ public class ReservationDAO {
 
 			sess.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not add new reservation!",
+					JOptionPane.OK_OPTION);
 		}
 	}
 
@@ -47,7 +49,7 @@ public class ReservationDAO {
 			sess.getTransaction().commit();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Ошибка при попытке получить все брони за день!",
+					"Could not show all reservations!",
 					JOptionPane.OK_OPTION);
 		}
 
@@ -63,7 +65,9 @@ public class ReservationDAO {
 
 			sess.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not update reservation!",
+					JOptionPane.OK_OPTION);
 		}
 	}
 
@@ -77,7 +81,9 @@ public class ReservationDAO {
 			query2.executeUpdate();
 			sess.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not delete reservation!",
+					JOptionPane.OK_OPTION);
 		}
 	}
 
@@ -92,7 +98,9 @@ public class ReservationDAO {
 
 			sess.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not get reservation by ID!",
+					JOptionPane.OK_OPTION);
 		}
 
 		return r;
@@ -116,7 +124,9 @@ public class ReservationDAO {
 
 			sess.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not get reservation by resource and client!",
+					JOptionPane.OK_OPTION);
 		}
 
 		return list;
@@ -139,7 +149,9 @@ public class ReservationDAO {
 
 			sess.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not get reservationsin in time!",
+					JOptionPane.OK_OPTION);
 		}
 		return list;
 
@@ -163,7 +175,9 @@ public class ReservationDAO {
 
 			sess.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not count current reservations in time!",
+					JOptionPane.OK_OPTION);
 		}
 		return count;
 
@@ -184,7 +198,9 @@ public class ReservationDAO {
 
 			sess.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not count all reservations!",
+					JOptionPane.OK_OPTION);
 		}
 		return count;
 
@@ -206,7 +222,9 @@ public class ReservationDAO {
 
 			sess.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not get reservations by resurce and date!",
+					JOptionPane.OK_OPTION);;
 		}
 
 		return list;
@@ -225,7 +243,9 @@ public class ReservationDAO {
 			list = query.list();
 			sess.getTransaction().commit();
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not get all reservations by resource!",
+					JOptionPane.OK_OPTION);
 		}
 
 		return list;
@@ -238,7 +258,7 @@ public class ReservationDAO {
 		Long time=new Long(0);
 		List<Reservation> res=getReservationByResource(resource);
 		if(res.size()>0){
-			Date start=new Date();Date end=new Date();int startpos=0;
+			Date start=new Date();Date end=new Date();
 			start=res.get(0).getStart_time().getTime();//начало промежутка зарезервированного времени
 			end=res.get(0).getEnd_time().getTime();//конец промежутка зарезервированного времени
 			for(Reservation r:res){

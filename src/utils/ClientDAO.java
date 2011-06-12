@@ -2,6 +2,9 @@ package utils;
 
 import model.Client;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import org.hibernate.Session;
 import org.hibernate.Query;
 
@@ -21,7 +24,9 @@ public class ClientDAO {
 			sess.getTransaction().commit();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not add new user!",
+					JOptionPane.OK_OPTION);
 		}
 	}
 
@@ -37,7 +42,9 @@ public class ClientDAO {
 			sess.getTransaction().commit();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not show all users!",
+					JOptionPane.OK_OPTION);
 		}
 		return clients;
 	}
@@ -52,7 +59,9 @@ public class ClientDAO {
 			sess.getTransaction().commit();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not update user!",
+					JOptionPane.OK_OPTION);
 		}
 	}
 
@@ -67,7 +76,9 @@ public class ClientDAO {
 			sess.getTransaction().commit();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not get user by ID!",
+					JOptionPane.OK_OPTION);
 		}
 		return c;
 	}
@@ -84,7 +95,9 @@ public class ClientDAO {
 			sess.getTransaction().commit();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not get user by login!",
+					JOptionPane.OK_OPTION);
 		}
 		return c;
 	}

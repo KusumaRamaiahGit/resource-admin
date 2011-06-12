@@ -146,6 +146,8 @@ public class Client implements Serializable {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		final Client client = (Client) o;
+		if (!client_id.equals(client.client_id))
+			return false;
 		if (!login.equals(client.login))
 			return false;
 		if (!password.equals(client.password))
@@ -159,7 +161,7 @@ public class Client implements Serializable {
 
 	@Override
 	public int hashCode() {
-		int result = 9 * login.hashCode() + 3 * password.hashCode() + 7
+		int result = 15* client_id.hashCode() + 9 * login.hashCode() + 3 * password.hashCode() + 7
 				* rating.hashCode() + 13 * contact.hashCode();
 		return result;
 	}
