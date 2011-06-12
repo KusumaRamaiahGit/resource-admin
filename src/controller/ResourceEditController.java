@@ -25,22 +25,20 @@ public class ResourceEditController extends HttpServlet
 	{
 		super();
 	}
-	
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException
-	{
-	}
-	
+		
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException
 	{
-		Resource r = (Resource)request.getAttribute("resource");
-		String newName = (String)request.getAttribute("resourceNameNew");		
-		String newInvent = (String)request.getAttribute("resourceInventNumNew");
+		//Почему все смешалось: и инвентарный номер, и вместимость?! @OKupriianova
+		//ну зачем путать параметры и аттрибуты?! каждая ошибка - 20 минут @OKupriianova
+		//Resource r = (Resource)request.getAttribute("resource");//сюда аттрибут РЕСУРС уже не дойдет!
+		Resource r = ResourceDAO.getResourceById(Long.parseLong(request.getParameter("resource_id")));//хотя бы так
+		String newName = (String)request.getParameter("resourceNameNew");		
+		String newInvent = (String)request.getParameter("resourceInventNumNew");
 		Integer newCount = null;
 		try
 		{
-			newCount = Integer.parseInt((String)request.getAttribute("resourceCountNew"));
+			newCount = Integer.parseInt((String)request.getParameter("resourceCountNew"));
 		}
 		catch(NumberFormatException ex)
 		{
