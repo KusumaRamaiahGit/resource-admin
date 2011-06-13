@@ -51,6 +51,7 @@ public class Client implements Serializable {
 	@Column(name = "location", nullable = false, length = 20)
 	private LOCATIONS location;
 
+	//delete this field
 	public enum LOCATIONS {
 		KYIV, ODESSA
 	}
@@ -65,6 +66,16 @@ public class Client implements Serializable {
 		this.rating = rating;
 		this.contact = contact;
 		this.location = location;
+		this.registered = false;
+	}
+	
+	public Client(String login, String password, RATINGS rating,
+			String contact) {
+		this.login = login;
+		this.password = password;
+		this.rating = rating;
+		this.contact = contact;
+		this.location = LOCATIONS.ODESSA;//delete later
 		this.registered = false;
 	}
 
