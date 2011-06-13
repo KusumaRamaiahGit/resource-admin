@@ -60,7 +60,7 @@ document.getElementById(encodeURIComponent(daysarray[i])).value=" ";
 document.getElementById(encodeURIComponent(daysarray[i])).value+=nextMonth;
 document.getElementById(encodeURIComponent(daysarray[i])).disabled="disabled";
 }
-document.Reservation.Showcalendarendar.focus();
+//document.Reservation.Showcalendarendar.focus();
 }
 function selectDate() {
 var year = document.Reservation.year.value;
@@ -177,8 +177,7 @@ monthsRadioGroup[i].checked=true;
 						%>
 						| <a href="StatisticController">Статистика</a> | <a
 							href="LogOutController">Выход</a>
-					</p>
-				</td>
+					</p></td>
 			<tr>
 				<td colspan=2>
 					<form action="ReservationController" method="POST"
@@ -189,9 +188,9 @@ monthsRadioGroup[i].checked=true;
 								<tbody>
 									<tr>
 										<td><div class="blockResource">
-												<div >
-													<img src="img/resources-icon.png" width="25"
-														style="vertical-align: middle; padding-right: 5px;"><span
+												<div>
+													<img src="img/resources-icon.png"
+														style="vertical-align: middle;"><span
 														style="vertical-align: middle;">Ресурсы:</span>
 												</div>
 												<%
@@ -206,15 +205,15 @@ monthsRadioGroup[i].checked=true;
 																+ "<br></label>");
 													}
 												%><br>
-											</div></td>
+											</div>
+										</td>
 										<td align="center">
 											<div id="blockCalendar">
 												<table align="center">
 													<tbody>
 														<tr>
 															<td colspan="4"><h3 align="center">Выберите
-																	дату резервирования</h3>
-															</td>
+																	дату резервирования</h3></td>
 														</tr>
 														<tr>
 															<td><center>
@@ -223,15 +222,13 @@ monthsRadioGroup[i].checked=true;
 																		TYPE="button" class="refresh-button"
 																		NAME="Showcalendarendar" value=""
 																		onClick="selectDate()">
-																</center>
-															</td>
+																</center></td>
 															<td></td>
 															<td><center>
 																	<input TYPE="BUTTON" id="current-month-btn"
 																		NAME="currentMonth" VALUE=""
 																		onClick="showCurrentMonth()">
-																</center>
-															</td>
+																</center></td>
 															<td></td>
 														</tr>
 														<tr>
@@ -262,7 +259,8 @@ monthsRadioGroup[i].checked=true;
 																	onClick="selectDate()" value="10" />Ноябрь </label> <br>
 																<label> <input type="radio"
 																	name="monthsRadioGroup" onClick="selectDate()"
-																	value="11" />Декабрь</label></td>
+																	value="11" />Декабрь</label>
+															</td>
 															<td style="vertical-align: middle;"><INPUT
 																TYPE=BUTTON class="arrow-left" style="cursor: pointer;"
 																NAME="previousMonth" onClick="showPreviousMonth()">
@@ -281,106 +279,148 @@ monthsRadioGroup[i].checked=true;
 																		</tr>
 																		<tr>
 																			<td><input type="submit" class="day" name="day"
-																				id="0"></td>
+																				id="0">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="1"></td>
+																				id="1">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="2"></td>
+																				id="2">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="3"></td>
+																				id="3">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="4"></td>
+																				id="4">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="5"></td>
+																				id="5">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="6"><br></td>
+																				id="6"><br>
+																			</td>
 																		</tr>
 																		<tr>
 																			<td><input type="submit" class="day" name="day"
-																				id="7"></td>
+																				id="7">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="8"></td>
+																				id="8">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="9"></td>
+																				id="9">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="10"></td>
+																				id="10">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="11"></td>
+																				id="11">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="12"></td>
+																				id="12">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="13"><br></td>
+																				id="13"><br>
+																			</td>
 																		</tr>
 																		<tr>
 																			<td><input type="submit" class="day" name="day"
-																				id="14"></td>
+																				id="14">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="15"></td>
+																				id="15">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="16"></td>
+																				id="16">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="17"></td>
+																				id="17">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="18"></td>
+																				id="18">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="19"></td>
+																				id="19">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="20"><br></td>
+																				id="20"><br>
+																			</td>
 																		</tr>
 																		<tr>
 																			<td><input type="submit" class="day" name="day"
-																				id="21"></td>
+																				id="21">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="22"></td>
+																				id="22">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="23"></td>
+																				id="23">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="24"></td>
+																				id="24">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="25"></td>
+																				id="25">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="26"></td>
+																				id="26">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="27"><br></td>
+																				id="27"><br>
+																			</td>
 																		</tr>
 																		<tr>
 																			<td><input type="submit" class="day" name="day"
-																				id="28"></td>
+																				id="28">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="29"></td>
+																				id="29">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="30"></td>
+																				id="30">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="31"></td>
+																				id="31">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="32"></td>
+																				id="32">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="33"></td>
+																				id="33">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="34"><br></td>
+																				id="34"><br>
+																			</td>
 																		</tr>
 																		<tr>
 																			<td><input type="submit" class="day" name="day"
-																				id="35"></td>
+																				id="35">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="36"></td>
+																				id="36">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="37"></td>
+																				id="37">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="38"></td>
+																				id="38">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="39"></td>
+																				id="39">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="40"></td>
+																				id="40">
+																			</td>
 																			<td><input type="submit" class="day" name="day"
-																				id="41"><br></td>
+																				id="41"><br>
+																			</td>
 																		</tr>
 																	</table>
-																</div></td>
+																</div>
+															</td>
 															<td style="vertical-align: middle;"><INPUT
 																TYPE=BUTTON class="arrow-right" style="cursor: pointer;"
-																NAME="nextMonth" onClick="showNextMonth()">
-															</td>
+																NAME="nextMonth" onClick="showNextMonth()"></td>
 														</tr>
 														<tr>
 															<td></td>
@@ -390,14 +430,14 @@ monthsRadioGroup[i].checked=true;
 														</tr>
 													</tbody>
 												</table>
-											</div></td>
+											</div>
+										</td>
 									</tr>
 
 								</tbody>
 							</table>
 						</div>
-					</form>
-				</td>
+					</form></td>
 			</tr>
 			<tr align="center">
 				<td></td>
