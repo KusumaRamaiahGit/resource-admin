@@ -15,7 +15,7 @@ public class RegistrationValidator {
 	}
 	public static boolean checkEmail(String email)
 	{
-		return email.matches("[a-zA-Z\\-_]+@[A-Za-z0-9]+\\.[a-zA-Z]{2,4}");
+		return email.matches("[a-zA-Z\\-_]+@[A-Za-z0-9]+\\.[a-zA-Z]+");
 	}
 	public static boolean checkLoginForUniqueness(String login)
 	{
