@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import error.ErrorMessage;
+
+import model.Admin;
 import model.Client;
 
 import utils.ClientDAO;
@@ -56,9 +59,8 @@ public class RegistrationController extends HttpServlet {
 
 			if (request.getParameter("login") == null
 					|| request.getParameter("login").equals("")) {
-			}
-			// redirect(request, response,
-			// "Error with Login Name! Try to register once again");
+				redirect(request, response, ErrorMessage.CUSTOM, "Error with Login Name! Try to register once again");
+			}			
 			else {
 				String loginString = request.getParameter("login").toString()
 						.trim();
@@ -77,30 +79,27 @@ public class RegistrationController extends HttpServlet {
 		} else
 		// we want to register a new user
 		{
+			
 			if (request.getParameter("login") == null)
-				redirect(request, response,
-						"Error with Login Name! Try to register once again");
+				redirect(request,response, ErrorMessage.ACCESS_DENIED, "You haven't specified the login.");			
 			String loginString = request.getParameter("login").toString()
 					.trim();
-			if (request.getParameter("pass1") == null)
-				redirect(request, response,
-						"Error with password! Try to register once again");
+			if (request.getParameter("pass1") == null)				
+				redirect(request, response, ErrorMessage.ACCESS_DENIED, "You haven't specified the password. Please, try to register once again");
 			String pass1String = request.getParameter("pass1").toString()
 					.trim();
 			if (request.getParameter("pass2") == null)
-				redirect(request, response,
-						"Error with password confirmation! Try to register once again");
+				redirect(request, response, ErrorMessage.ACCESS_DENIED, "You haven't specified the password confirmation. Please, try to register once again");
 			String pass2String = request.getParameter("pass2").toString()
 					.trim();
 			if (request.getParameter("email") == null)
-				redirect(request, response,
-						"Error with email! Try to register once again");
+				redirect(request, response, ErrorMessage.ACCESS_DENIED, "You haven't specified the email. Please, try to register once again");
 			String emailString = request.getParameter("email").toString()
 					.trim();
 			if (request.getParameter("rating") == null)
-				redirect(request, response,
-						"Error with rating! Try to register once again");
+				redirect(request, response, ErrorMessage.ACCESS_DENIED, "You haven't specified the rating. Please, try to register once again");
 			String ratingString = request.getParameter("rating").toString();			
+			
 		/*	if (request.getParameter("location") == null)
 				redirect(request, response,
 						"Error with location! Try to register once again");*/
@@ -108,15 +107,14 @@ public class RegistrationController extends HttpServlet {
 
 			if (RegistrationValidator.Validate(loginString, pass1String,
 					pass2String, emailString)) {
-
 			
-				Client regClient = new Client(loginString, pass1String,
-						Client.RATINGS.valueOf(ratingString), emailString);
-				// по умолчанию регистрация не подтверждена ПЕРЕДЕЛАТЬ!!!
-				ClientDAO.addClient(regClient);
-			
-		
+				Client regClient = new Client(loginString, pass1String, Client.RATINGS.valueOf(ratingString), emailString);
 				
+				if (request.getSession().getAttribute("User") instanceof Admin)
+					regClient.setRegistered(true);//in constructor false is default
+				
+				ClientDAO.addClient(regClient);			
+		
 				PrintWriter out = response.getWriter();
 				out.println("<html>");
 				out.println("<head>");
@@ -127,25 +125,17 @@ public class RegistrationController extends HttpServlet {
 				out.println("</body>");
 				out.println("</html>");
 			} else {
-				/*redirect(request, response,
-						"You have put wrong data! Try to register once again");*/
-				PrintWriter out = response.getWriter();
-				out.println("<html>");
-				out.println("<head>");
-				out.println("<title>Servlet RegistrationController</title>");
-				out.println("</head>");
-				out.println("<body>");
-				out.println("Registration failed!");
-				out.println("</body>");
-				out.println("</html>");
+				redirect(request, response, ErrorMessage.CUSTOM,
+						"You have put wrong data! Try to register once again");				
 			}
 		}
 	}
 
 	private void redirect(HttpServletRequest request,
-			HttpServletResponse response, String errormsg) throws IOException {
-		request.setAttribute("errormsg", errormsg);
-		response.sendRedirect("registerError.jsp");
+			HttpServletResponse response, int errorCode, String errorMessage) throws ServletException, IOException {
+		request.setAttribute("errorMessage", new ErrorMessage("Error in registration", errorCode, errorMessage));			
+		RequestDispatcher dispatch = request.getRequestDispatcher("error");
+		dispatch.forward(request, response);
 
 	}
 	
