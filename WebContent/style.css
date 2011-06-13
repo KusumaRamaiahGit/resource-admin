@@ -179,3 +179,21 @@ a {
 	color: red;
 	font-style: italic
 }
+
+#signupForm1 {
+	width: 300px;
+	font-size: 1.0em;	
+	background:none;
+}
+#signupForm1 label {
+	 padding-top: 2px;
+	 width: 100px; } 
+
+#signupForm1 label.error {
+	margin-top: 2px;
+	padding-left:2px;
+	width: 220px;
+	display:table-row;
+	color: red;
+	font-style: italic
+}
