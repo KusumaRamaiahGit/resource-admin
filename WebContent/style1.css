@@ -72,7 +72,7 @@ body {
 #current-month-btn {
 	background: url(img/cur-month-btn.png);
 	background-repeat: no-repeat;
-	width: 230px;
+	width: 180px;
 	height: 40px;
 	cursor: pointer;
 	text-align: center;

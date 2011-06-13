@@ -1,4 +1,4 @@
-﻿<%@page import="model.Client"%>
+﻿<%@page import="model.*"%>
 <%@page import="java.util.*"%>
 <%@page import="model.Reservation"%>
 <%@page import="utils.*"%>
@@ -20,12 +20,31 @@
 					.getAttribute("reservationsMap");
 			//out.print(reservationsMap);
 		%>
+		<%
+ 	Client user = (Client) session.getAttribute("User");
+ %>
+ <p
+			class="menu">
+			Здравствуйте,
+			<%=user.getLogin()%><img src="img/user-icon.png" />
+			<%
+				if (user instanceof Admin) {
+					out.print(" | <a href='AdminPanel'>Админ. панель</a> ");
+				}
+			%>
+			| <a href="calendar.jsp">Календарь</a> | <a
+				href="StatisticController">Статистика</a> | <a
+				href="LogOutController">Выход</a>
+		</p>
 		<div id="reservations">
 			<div class="head"><%=request.getAttribute("resourceName")%>
 				| Зарезервированное время на
 				<%
-				out.print("" + request.getAttribute("day") + "."
-						+ (Integer.parseInt(request.getAttribute("month").toString()) + 1) + "."
+				out.print(""
+						+ request.getAttribute("day")
+						+ "."
+						+ (Integer.parseInt(request.getAttribute("month")
+								.toString()) + 1) + "."
 						+ request.getAttribute("year"));
 			%>
 			</div>
@@ -63,7 +82,8 @@
 									<td>24</td>
 								</tr>
 
-							</table></td>
+							</table>
+						</td>
 					</tr>
 					<%
 						Iterator<Map.Entry<Client, List<Reservation>>> resMapIt = reservationsMap
@@ -93,16 +113,13 @@
 															* (startTime.get(Calendar.HOUR_OF_DAY) + startTime
 																	.get(Calendar.MINUTE) / 60.0));
 								%>
-								<div
-									title="<%=curListRes%>"
-									class="bar"
+								<div title="<%=curListRes%>" class="bar"
 									style="left: <%=barLeft.intValue()%>px; width: <%=barWidth.intValue()%>px; background-position: -12px">
 								</div>
 								<%
 									}
 								%>
-							</div>
-						</td>
+							</div></td>
 					</tr>
 
 					<%

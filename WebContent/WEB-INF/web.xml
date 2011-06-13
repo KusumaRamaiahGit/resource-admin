@@ -122,4 +122,26 @@
     <servlet-name>ResourceEditController</servlet-name>
     <url-pattern>/ResourceEditController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AdminController</display-name>
+    <servlet-name>AdminController</servlet-name>
+    <servlet-class>controller.AdminController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminController</servlet-name>
+    <url-pattern>/AdminController</url-pattern>
+    <url-pattern>/AdminPanel</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ErrorController</display-name>
+    <servlet-name>ErrorController</servlet-name>
+    <servlet-class>controller.ErrorController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ErrorController</servlet-name>
+    <url-pattern>/ErrorController</url-pattern>
+    <url-pattern>/error</url-pattern>
+  </servlet-mapping>
 </web-app>
