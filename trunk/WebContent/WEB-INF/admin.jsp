@@ -21,7 +21,7 @@
 		<div class="admin-panel-catheader">Пользователь</div>
 		<table border="0" align="center" class="admin-panel-table">
 			<tr>
-				<td><a href="#"><div>
+				<td><a href="registration.jsp"><div>
 							<img src="img/user-add-icon.png" />
 						</div>
 						<div>Добавить пользователя</div>
