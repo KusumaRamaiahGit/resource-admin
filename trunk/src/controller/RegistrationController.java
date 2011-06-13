@@ -10,8 +10,6 @@ import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +39,7 @@ public class RegistrationController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		response.setContentType("text/html;charset=UTF-8");
 		if (request.getParameter("checkLogin") != null) {
 			// we just want to know login's uniqueness
 
@@ -70,8 +68,9 @@ public class RegistrationController extends HttpServlet {
 				} else {// if the user with such login exists
 					request.setAttribute("uniqueLogin", false);
 				}
+				request.setAttribute("login", loginString);
 			}
-			// request.setAttribute("login", s);
+			
 			RequestDispatcher rd = request.getRequestDispatcher("registration.jsp");
 			rd.forward(request, response);
 
@@ -101,21 +100,22 @@ public class RegistrationController extends HttpServlet {
 			if (request.getParameter("rating") == null)
 				redirect(request, response,
 						"Error with rating! Try to register once again");
-			String ratingString = request.getParameter("rating").toString();
-			if (request.getParameter("location") == null)
+			String ratingString = request.getParameter("rating").toString();			
+		/*	if (request.getParameter("location") == null)
 				redirect(request, response,
-						"Error with location! Try to register once again");
-			String locationString = request.getParameter("location").toString();
+						"Error with location! Try to register once again");*/
+			//String locationString = request.getParameter("location").toString();
 
 			if (RegistrationValidator.Validate(loginString, pass1String,
 					pass2String, emailString)) {
 
+			
 				Client regClient = new Client(loginString, pass1String,
-						Client.RATINGS.valueOf(ratingString), emailString,
-						Client.LOCATIONS.valueOf(locationString));
+						Client.RATINGS.valueOf(ratingString), emailString);
 				// по умолчанию регистрация не подтверждена ПЕРЕДЕЛАТЬ!!!
 				ClientDAO.addClient(regClient);
-				
+			
+		
 				
 				PrintWriter out = response.getWriter();
 				out.println("<html>");
@@ -140,8 +140,6 @@ public class RegistrationController extends HttpServlet {
 				out.println("</html>");
 			}
 		}
-
-
 	}
 
 	private void redirect(HttpServletRequest request,
