@@ -3,12 +3,15 @@
  */
 package controller;
 
-import java.util.Date;
+import java.io.PrintWriter;
+//import java.util.Date;
+import java.util.GregorianCalendar;
 
+import model.Client;
 /**
- * @author Administrator
+ * @author EDudnik
  *
  */
 public interface IReserveHadler {
-	void addReservation(long res_id, Date d_start, Date d_end);
+	void addReservation(long res_id, GregorianCalendar d_start, GregorianCalendar d_end, Client client, PrintWriter out);
 }

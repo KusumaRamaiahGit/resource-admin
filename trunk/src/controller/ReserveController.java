@@ -10,12 +10,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import model.Client;
 import model.Resource;
 import utils.ResourceDAO;
 
 /**
  * Servlet implementation class ReserveController
+ * @author EDudnik
  */
 public class ReserveController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -40,29 +43,35 @@ public class ReserveController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		Long r_id=Long.parseLong(request.getParameter("year").trim());
-		int y = Integer.parseInt(request.getParameter("year").trim()) - 1900;
-		int m = Integer.parseInt(request.getParameter("month").trim());
-		int d = Integer.parseInt(request.getParameter("day").trim());
-		int hh_start=Integer.parseInt(request.getParameter("start_time").trim().split(":")[0]);
-		int mm_start=Integer.parseInt(request.getParameter("start_time").trim().split(":")[1]);
-		int hh_end=Integer.parseInt(request.getParameter("end_time").trim().split(":")[0]);
-		int mm_end=Integer.parseInt(request.getParameter("end_time").trim().split(":")[1]);
-		
-		
-		PrintWriter out = response.getWriter();
-		out.print(" "+hh_start+":"+mm_start+" - "+hh_end+":"+mm_end+" {"+d+"."+m+"."+y+"}");
-		
-		//Date selectedDate = new Date(y, m, d);
-//		Date dateOfStart=new Date(y, m, d, hh_start, mm_start);
-		
-//		Date dateOfEnd=new Date(y, m, d, hh_end, mm_end);
-//		addReservation(r_id, dateOfStart, dateOfEnd);
+		HttpSession session=request.getSession();
+		synchronized (session) {
+			Client client=(Client)request.getAttribute("User");
+			Long r_id=Long.parseLong(request.getParameter("year").trim());
+			int y = Integer.parseInt(request.getParameter("year").trim()) - 1900;
+			int m = Integer.parseInt(request.getParameter("month").trim());
+			int d = Integer.parseInt(request.getParameter("day").trim());
+			int hh_start=Integer.parseInt(request.getParameter("start_time").trim().split(":")[0]);
+			int mm_start=Integer.parseInt(request.getParameter("start_time").trim().split(":")[1]);
+			int hh_end=Integer.parseInt(request.getParameter("end_time").trim().split(":")[0]);
+			int mm_end=Integer.parseInt(request.getParameter("end_time").trim().split(":")[1]);
+			
+			
+			PrintWriter out = response.getWriter();
+			out.print(" "+hh_start+":"+mm_start+" - "+hh_end+":"+mm_end+" {"+d+"."+m+"."+y+"}");
+			
+			//Date selectedDate = new Date(y, m, d);
+	//		Date dateOfStart=new Date(y, m, d, hh_start, mm_start);
+			GregorianCalendar dateOfStart,dateOfEnd;
+	//		Date dateOfEnd=new Date(y, m, d, hh_end, mm_end);
+	//		addReservation(r_id, dateOfStart, dateOfEnd);
+			dateOfStart=new GregorianCalendar(y, m, d, hh_start, mm_start);
+			dateOfEnd=new GregorianCalendar(y, m, d, hh_end, mm_end);
+			addReservation(r_id, dateOfStart, dateOfEnd, client, out);
 		}
+	}
 	
-	public void addReservation(long res_id,Date date_start,Date date_end){
-		new ReserveHandler().addReservation(res_id, date_start, date_end);
+	public void addReservation(long res_id,GregorianCalendar dateOfStart,GregorianCalendar dateOfEnd, Client client,PrintWriter out){
+		new ReserveHandler().addReservation(res_id, dateOfStart, dateOfEnd, client, out);
 	}
 
 }
