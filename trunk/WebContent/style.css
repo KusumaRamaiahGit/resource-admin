@@ -64,6 +64,20 @@ a {
 	color: blue;
 }
 
+.menu {
+	text-align: right;
+}
+
+.menu a {
+	color: #ccffff;
+}
+
+.menu a:HOVER {
+	text-decoration: none;
+	border-bottom: 1px dashed #ccffff;
+	color: #99ccff;
+}
+
 .reservedTimeTable {
 	vertical-align: top;
 	margin: 0px auto 0px auto;
@@ -131,9 +145,9 @@ a {
 #block #reg {
 	width: 300px;
 	height: 400px;
-	margin: 100px auto 0px auto;	
-	
+	margin: 100px auto 0px auto;
 }
+
 #block #reg .head {
 	text-align: center;
 	color: #FFF;
@@ -141,25 +155,27 @@ a {
 }
 
 #tableCell {
-	height:55px;
-	width:250px;
+	height: 55px;
+	width: 250px;
 	margin-top: 2px;
 }
 
 #signupForm {
 	width: 300px;
-	font-size: 1.0em;	
-	background:none;
+	font-size: 1.0em;
+	background: none;
 }
+
 #signupForm label {
-	 padding-top: 2px;
-	 width: 100px; } 
+	padding-top: 2px;
+	width: 100px;
+}
 
 #signupForm label.error {
 	margin-top: 2px;
-	padding-left:2px;
+	padding-left: 2px;
 	width: 220px;
-	display:table-row;
+	display: table-row;
 	color: red;
 	font-style: italic
 }
