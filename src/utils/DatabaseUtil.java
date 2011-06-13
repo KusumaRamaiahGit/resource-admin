@@ -40,7 +40,7 @@ public class DatabaseUtil {
 		Monitor m4 = new Monitor("monitor #4", "100W76");
 		ResourceDAO.addResource(m4);
 
-                Monitor m5 = new Monitor("monitor #5", "100W75");
+        Monitor m5 = new Monitor("monitor #5", "100W75");
 		ResourceDAO.addResource(m5);
 
 		// --------------------------------------------------------------------------------
@@ -78,8 +78,8 @@ public class DatabaseUtil {
 
 		// ---DinnerRoom---
 
-		GregorianCalendar.getInstance();
-		/*Reservation res1 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 10, 00), new GregorianCalendar(2011, 5, 20, 11, 00), c4);
+		/*GregorianCalendar.getInstance();
+		Reservation res1 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 10, 00), new GregorianCalendar(2011, 5, 20, 11, 00), c1);
 		ReservationDAO.addReservation(res1);
 
 		Reservation res2 = new Reservation(dr, new GregorianCalendar(2011, 5, 20, 11, 00), new GregorianCalendar(2011, 5, 20, 12, 00), c2);
@@ -145,8 +145,8 @@ public class DatabaseUtil {
 		ReservationDAO.addReservation(res20);
 
 		Reservation res21 = new Reservation(mr, new GregorianCalendar(2011, 5, 20, 18, 00), new GregorianCalendar(2011, 5, 20, 19, 00), c1);
-		ReservationDAO.addReservation(res21);
-                 */
+		ReservationDAO.addReservation(res21);*/
+                
 
 		//-------------------------------------------------------------------
 		//add reservations for statistic - Martynenko Vika
@@ -231,6 +231,7 @@ public class DatabaseUtil {
 		boolean want_free = true; 																// wish of boss to free some resource
 		Long currCount = 0L; 																	// current count of people for one resource
 		
+		List<Reservation> list_res_delete = new ArrayList<Reservation>();
 		Resource resource = ResourceDAO.getResourceById(1L); 									// resource for reservation
 		Client client = ClientDAO.getClientByLogin("boss"); 									// client for reservation
 		GregorianCalendar.getInstance(); 														// gets a calendar using the default time zone and locale
@@ -244,8 +245,7 @@ public class DatabaseUtil {
 
 			if (resource instanceof Countable) { 												// check whether a countable
 				try {
-					capacity = (Integer) resource.getClass().getDeclaredMethod("getMaxCapacity").invoke(resource); // get maxCapacity from method	
-																													//subclass of Resource
+					capacity = (Integer) resource.getClass().getDeclaredMethod("getMaxCapacity").invoke(resource); // get maxCapacity from subclass method of Resource
 				} catch (IllegalArgumentException e1) {
 					e1.printStackTrace();
 				} catch (SecurityException e1) {
@@ -258,50 +258,51 @@ public class DatabaseUtil {
 					e1.printStackTrace();
 				}
 			}
+			
+			list_res = ReservationDAO.getReservationInTime(resource,time_start, time_end);  // get reservations where time of other reservations 
+																							//is between time of our reservation
+			for (Reservation rn : list_res) {
+				if (client.equals(rn.getClient())) { 										// if client already has own reservation at this time
+					list_res_delete.add(rn); 												// add that reservation to list for removal
+					currCount--; 															// reduce current count					
+				}
+			}
 
-			if (currCount >= capacity) { 														// check current count
-				ClientComparator cc = new ClientComparator();									// create a new comparator of clients
-				if (cc.compareByLoginMin(client) != 0) { 										// if the client is a highest by comparable parameter
+			if (currCount >= capacity) { 													// check current count
+				ClientComparator cc = new ClientComparator(); 								// create a new comparator of clients
+				if (cc.compareByLoginMin(client) != 0) {									// if the client is a highest by comparable parameter
 					System.out.println("Time cross! You may try another date or free some human!");
-					if (want_free) { 															// if client wants to free some resource
-						
-						List<Reservation> list_res_delete = new ArrayList<Reservation>();
-						
-						list_res = ReservationDAO.getReservationInTime(resource, time_start, time_end); // get reservations where time of other
-																										// reservations is between time of our reservation
 
-						for (Reservation rn : list_res) {										 // show that reservations
+					if (want_free) { 														// if client wants to free some resource
+						for (Reservation rn : list_res) { 									// show that reservations
 							System.out.println(rn);
 
-							if (currCount >= capacity) { 										// check again current count
-								if (cc.compareByLogin(client, rn.getClient()) < 0) { 			// if other clients in reservation has rank lower
-									list_res_delete.add(rn);									// add that reservation to list for removal
-									currCount--; 												// reduce current count
+							if (currCount >= capacity) { 									// check again current count
+								if (cc.compareByLogin(client, rn.getClient()) < 0) { 		// if other clients in reservation has rank lower
+									list_res_delete.add(rn); 								// add that reservation to list for removal
+									currCount--;											// reduce current count 	
 								}
 							}
 						}
-						if (currCount < capacity) { 											// if current count less then capacity 
-							for (Reservation res_delete : list_res_delete) {
-								ReservationDAO.deleteReservation(res_delete);                   // delete reservations from database by list for removal
-							}
-							ReservationDAO.addReservation(res);                                 // add our new reservation to database
+						if ((currCount == 0) || (currCount < capacity)) { 					// if current count less then capacity
+							ReservationDAO.addReservation(res); 							// add our new reservation to database
 							System.out.println("Reservation added!");
-						} else {																// if level of client not allowed to delete required number of reservations
+						} else { 															// if level of client not allowed to delete required number of reservations
 							System.out.println("Your level is not enough to remove all  available users. You can choose another time!");
 						}
-					} else { 																	// if client doesn't want to free resource
+					} else {																// if client doesn't want to free resource
 						System.out.println("You can choose another time!");
 					}
-				} else { 																		// if rank of client lower then highest
+				} else { 																	// if rank of client lower then highest
 					System.out.println("Time cross! You can't change it!");
 				}
-			} else { 																			// if resource was free from beginning
-				ReservationDAO.addReservation(res);												// simple add our new reservation to database
+			} else { 																		// if resource was free from beginning
+				ReservationDAO.addReservation(res);											// simple add our new reservation to database
 				System.out.println("Reservation added!");
 			}
-		}
-
-		else { 																					// if date of reservation was before current time
+			for (Reservation res_delete : list_res_delete)
+				ReservationDAO.deleteReservation(res_delete); 								// delete reservations from database by list for removal
+		} else { 																			// if date of reservation was before current time
 			System.out.println("You can't reservate in PAST!");
 		}
 
@@ -313,7 +314,7 @@ public class DatabaseUtil {
 		System.out.println("All");
 		List<Reservation> list3 = ReservationDAO.getReservationByDateAndResource(d2, resource);
 		for (Reservation rn : list3) {
-			System.out.println(rn + " " + rn.getClient().getLogin());
+			System.out.println(rn);
 		}
 
 	}
