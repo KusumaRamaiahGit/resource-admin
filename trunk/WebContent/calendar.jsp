@@ -161,10 +161,7 @@ monthsRadioGroup[i].checked=true;
 </SCRIPT>
 </head>
 <body onLoad="showCurrentMonth()" align="center">
-	<div id="block">
-		<table width="100%" align="center">
-			<tr>
-				<td width="100%"><h1>Resource admin</h1> <%
+	<div id="block"><h1>Resource admin</h1> <%
  	Client user = (Client) session.getAttribute("User");
  %>
 					<p class="menu">
@@ -177,7 +174,10 @@ monthsRadioGroup[i].checked=true;
 						%>
 						| <a href="StatisticController">Статистика</a> | <a
 							href="LogOutController">Выход</a>
-					</p></td>
+					</p>
+		<table width="100%" align="center">
+			<tr>
+				<td width="100%"></td>
 			<tr>
 				<td colspan=2>
 					<form action="ReservationController" method="POST"

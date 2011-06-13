@@ -83,7 +83,7 @@ public class ReservationController extends HttpServlet {
 		request.setAttribute("resourceName", res.getResource_name());//TODO: bad idea, we can save resource id
 		request.setAttribute("resourceID", res_idStr);
 		
-		RequestDispatcher dispatch = request.getRequestDispatcher("reservations.jsp");
+		RequestDispatcher dispatch = request.getRequestDispatcher("WEB-INF/reservations.jsp");
 		dispatch.forward(request, response);
 	}
 

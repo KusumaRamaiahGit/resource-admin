@@ -1,0 +1,36 @@
+body {
+    color: #ccffff;
+}
+.admin-panel-table {
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #ccffff;
+}
+.admin-panel-table a{
+    color: #ccffff;
+
+    text-decoration: none;
+}
+.admin-panel-table a:hover{ 
+
+    text-decoration: underline;
+    color: #99ccff;
+}
+.admin-panel-table a:hover div{
+    background: url(img/transp-bg-low.png);
+}
+
+.admin-panel-table td{
+    width: 150px;
+    text-align: center;
+    vertical-align: middle; 
+    padding: 0px 10px 0px 10px;
+
+}
+
+.admin-panel-catheader {
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    font-size: larger;
+
+}
