@@ -2,6 +2,8 @@ package utils;
 
 import model.Client;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -11,7 +13,7 @@ import org.hibernate.Transaction;
 
 /**
  * data access object to client table
- * 
+ *
  * @author rsamoylov
  */
 public class ClientDAO {
@@ -101,5 +103,24 @@ public class ClientDAO {
 			sess.close();
 		}
 		return c;
+	}
+
+	public static List<Client> getUnauthorizedClients() {
+                List<Client> list = null;
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;		
+		try {
+			tx = sess.beginTransaction();
+			Query query = sess.getNamedQuery("getUnauthorizedClients");			
+                        list = query.list();
+			sess.getTransaction().commit();
+		} catch (Exception e) {
+			if (tx != null) tx.rollback();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not get unauthorized clientsn!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
+		}
+		return list;
 	}
 }
