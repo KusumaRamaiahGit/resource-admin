@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import utils.ClientDAO;
+import utils.EmailSender;
 import model.Client;
 
 /**
@@ -42,18 +43,48 @@ public class UserEditController extends HttpServlet {
 		if (request.getParameter("edit")!=null)
 		{//need to edit user			
 			String loginStr=request.getParameter("client_login");
-			String passStr=request.getParameter("client_pasword");
+			String passStr=request.getParameter("client_password");
 			String contactStr=request.getParameter("client_contact");		
-			
+			String ratingStr=request.getParameter("client_rating");
+									
 			Client editingClient = ClientDAO.getClientById(Long.parseLong(request.getParameter("client_id")));
+			String secondReceiver=editingClient.getContact();
+			boolean sendSecond=false;
+			
+			StringBuilder builder=new StringBuilder();
+			builder.append("Изменения: \n");
+			
 			if (!editingClient.getLogin().equals(loginStr))
-				editingClient.setLogin(loginStr);
+				{
+					builder.append("\nСтарый логин : "+editingClient.getLogin()+"; новый логин :"+loginStr);
+					editingClient.setLogin(loginStr);
+				}				
 			if (!editingClient.getPassword().equals(passStr))
+			{
+				builder.append("\nСтарый пароль : "+editingClient.getPassword()+"; новый пароль :"+passStr);
 				editingClient.setPassword(passStr);
+			}
 			if (!editingClient.getContact().equals(contactStr))
+			{
+				builder.append("\nСтарый email : "+editingClient.getContact()+"; новый email :"+contactStr);
 				editingClient.setContact(contactStr);
+				sendSecond=true;
+			}
+			if (!editingClient.getRating().equals(Client.RATINGS.valueOf(ratingStr)))
+			{
+				builder.append("\nСтарый рейтинг : "+editingClient.getRating()+"; новый рейтинг :"+ratingStr);
+				editingClient.setRating(Client.RATINGS.valueOf(ratingStr));				
+			}
 			if (!editingClient.getRegistered() && request.getParameter("authorized")!=null )
-				editingClient.setRegistered(true);
+			{
+				builder.append("\nРегистрация подтверждена. Теперь вы можете зайти в систему");
+				editingClient.setRegistered(new Boolean(true));
+			}
+			
+			ClientDAO.updateClient(editingClient);
+			EmailSender.send("Изменения учетной записи", builder.toString() , editingClient.getContact());
+			if (sendSecond)
+				EmailSender.send("Изменения учетной записи", builder.toString() , secondReceiver);
 			PrintWriter out=response.getWriter();
 			out.print("Editing completed successfully!");
 		}
