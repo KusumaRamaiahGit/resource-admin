@@ -57,7 +57,7 @@ public class ReserveController extends HttpServlet {
 			
 			
 			PrintWriter out = response.getWriter();
-			out.print(" "+hh_start+":"+mm_start+" - "+hh_end+":"+mm_end+" {"+d+"."+m+"."+y+"}");
+			//out.print(" "+hh_start+":"+mm_start+" - "+hh_end+":"+mm_end+" {"+d+"."+m+"."+y+"}");
 			
 			//Date selectedDate = new Date(y, m, d);
 	//		Date dateOfStart=new Date(y, m, d, hh_start, mm_start);
@@ -67,6 +67,9 @@ public class ReserveController extends HttpServlet {
 			dateOfStart=new GregorianCalendar(y, m, d, hh_start, mm_start);
 			dateOfEnd=new GregorianCalendar(y, m, d, hh_end, mm_end);
 			addReservation(r_id, dateOfStart, dateOfEnd, client, out);
+			
+			RequestDispatcher dispatch = request.getRequestDispatcher("WEB-INF/calendar.jsp");
+			dispatch.forward(request, response);
 		}
 	}
 	
