@@ -12,7 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import error.ErrorMessage;
 
 import utils.ClientDAO;
-
+import utils.EmailSender;
+import model.Client;
 /**
  * @author OKupriianova
  * Servlet implementation class UserDeleteController
@@ -39,9 +40,12 @@ public class UserDeleteController extends HttpServlet {
 		{
 			try
 			{
+				Client tmp=ClientDAO.getClientById(Long.parseLong(idStr));
+				String login=tmp.getLogin();
 				ClientDAO.deleteClientById(Long.parseLong(idStr));
+				EmailSender.send("Удаление учетной записи", "Ваша учетная запись ("+login+") в системе управления ресурсами была удалена.", tmp.getContact());
 				PrintWriter out = response.getWriter();				
-				out.print("Client with id" +idStr + "("+ClientDAO.getClientById(Long.parseLong(idStr))+") deleted successfully\n");
+				out.print("Client with id" +idStr +"("+login+ ") deleted successfully\n");
 			}
 			catch (Exception ex)
 			{
