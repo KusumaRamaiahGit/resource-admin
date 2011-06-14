@@ -2,8 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Calendar;
-import java.util.Date;
+//import java.util.Calendar;
+//import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.servlet.ServletException;
@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Client;
-import model.Resource;
-import utils.ResourceDAO;
+//import model.Resource;
+//import utils.ResourceDAO;
 
 /**
  * Servlet implementation class ReserveController
