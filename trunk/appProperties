@@ -1,0 +1,6 @@
+#---EmailSender Properties---
+#Tue Jun 14 00:30:03 EEST 2011
+fromAddr=resourceinformer@gmail.com
+login=resourceinformer
+smtpServer=smtp.gmail.com
+pass=Qwerty1234
