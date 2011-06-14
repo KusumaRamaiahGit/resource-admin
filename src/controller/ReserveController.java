@@ -44,6 +44,7 @@ public class ReserveController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		response.setCharacterEncoding("UTF-8");
 		HttpSession session=request.getSession();
 		synchronized (session) {
 			Client client=(Client)session.getAttribute("User");
@@ -68,7 +69,7 @@ public class ReserveController extends HttpServlet {
 			dateOfStart=new GregorianCalendar(y, m, d, hh_start, mm_start);
 			dateOfEnd=new GregorianCalendar(y, m, d, hh_end, mm_end);
 			if(addReservation(r_id, dateOfStart, dateOfEnd, client, out)==true){
-				RequestDispatcher dispatch = request.getRequestDispatcher("../calendar.jsp");
+				RequestDispatcher dispatch = request.getRequestDispatcher("calendar.jsp");
 				dispatch.forward(request, response);
 			}
 			else{
