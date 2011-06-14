@@ -121,14 +121,24 @@ public class RegistrationController extends HttpServlet {
 				ClientDAO.addClient(regClient);			
 				//change this sendings
 				try{
-						EmailSender.send("����������� � ������� ���������� ���������", "�����������, �� ����������������\n ���:"+loginString, regClient.getContact());
+						StringBuilder sb=new StringBuilder();
+						sb.append("Поздравляем, вы зарегистрированы.\n");
+						sb.append("\nИмя пользователя (логин): "+regClient.getLogin());
+						sb.append("\nПриоритет: "+regClient.getRating());
+						if (regClient.getRegistered())
+							sb.append("\nВаша учетная запись авторизована. Можете войти в систему под своим именем");
+						else
+							sb.append("\nВаша учетная запись еще не авторизована. Вы пока не можете войти в систему под своим именем. Вам придет письмо, когда администратор авторизует учетную запись");
+						
+						EmailSender.send("Регистрация в системе управления ресурсами", sb.toString(), regClient.getContact());
+						
 						PrintWriter out = response.getWriter();
 						out.println("<html>");
 						out.println("<head>");
 						out.println("<title>Servlet RegistrationController</title>");
 						out.println("</head>");
 						out.println("<body>");
-						out.println("registration success");						
+						out.println("Регистрация прошла успешно. На указанный адрес отправлено письмо с подтверждением");						
 						out.println("</body>");
 						out.println("</html>");
 						
