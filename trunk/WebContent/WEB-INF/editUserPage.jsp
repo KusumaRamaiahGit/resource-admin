@@ -18,7 +18,7 @@
 			Логин:<input type="text" name="client_login" value="<%=editingClient.getLogin() %>" />
 			Пароль:<input type="text" name="client_password" value="<%=editingClient.getPassword() %>" />
 			Email:<input type="text" name="client_contact" value="<%=editingClient.getContact() %>" />
-			Рейтинг:<select>
+			Рейтинг:<select name="client_rating">
 					<%
 						for (model.Client.RATINGS r : Client.RATINGS.values()) {
 					%>
