@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.Table;
 import javax.persistence.NamedQuery;
 import javax.persistence.Enumerated;
@@ -18,7 +19,10 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Table(name = "CLIENT")
-@NamedQuery(name = "getClientByLogin", query = "from Client c where c.login = :login")
+@NamedQueries({
+	@NamedQuery(name = "getClientByLogin", query = "from Client c where c.login = :login"),
+	@NamedQuery(name = "getUnauthorizedClients", query = "from Client c where c.registered = false")
+	})
 public class Client implements Serializable {
 	private static final long serialVersionUID = 4895898373317713855L;
 
@@ -68,7 +72,7 @@ public class Client implements Serializable {
 		this.location = location;
 		this.registered = false;
 	}
-	
+
 	public Client(String login, String password, RATINGS rating,
 			String contact) {
 		this.login = login;
