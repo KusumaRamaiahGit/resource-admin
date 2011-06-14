@@ -26,13 +26,12 @@ public class LoginHandler implements ILoginHandler{
 		Client u = null;
 		u = ClientDAO.getClientByLogin(login); 
 		
-		if (u!=null && u.getPassword().equals(password)) {
+		if (u!=null && u.getPassword().equals(password)&& u.getRegistered()) {
 			session.setAttribute("User", u);
 			List<Resource> resources = ResourceDAO.getAllResources();
 			session.setAttribute("resources", resources);
 			return true;
-		}
-		
+		}		
 		return false;
 	}
 	

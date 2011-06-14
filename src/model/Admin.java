@@ -21,6 +21,11 @@ public class Admin extends Client implements Serializable {
 			LOCATIONS location) {
 		super(login, password, rating, contact, location);
 	}
+	
+	public Admin(String login, String password, RATINGS rating, String contact
+			) {
+		super(login, password, rating, contact);
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

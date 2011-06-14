@@ -144,4 +144,34 @@
     <url-pattern>/ErrorController</url-pattern>
     <url-pattern>/error</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserAdminController</display-name>
+    <servlet-name>UserAdminController</servlet-name>
+    <servlet-class>controller.UserAdminController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserAdminController</servlet-name>
+    <url-pattern>/UserAdminController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserDeleteController</display-name>
+    <servlet-name>UserDeleteController</servlet-name>
+    <servlet-class>controller.UserDeleteController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserDeleteController</servlet-name>
+    <url-pattern>/UserDeleteController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserEditController</display-name>
+    <servlet-name>UserEditController</servlet-name>
+    <servlet-class>controller.UserEditController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserEditController</servlet-name>
+    <url-pattern>/UserEditController</url-pattern>
+  </servlet-mapping>
 </web-app>

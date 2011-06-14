@@ -5,10 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import utils.ResourceDAO;
-
-import model.Resource;
 
 /**
  * Servlet implementation class ResourceDeleteController
@@ -30,9 +27,7 @@ public class ResourceDeleteController extends HttpServlet
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException
 	{
-		Resource r = ResourceDAO.getResourceById(Long.parseLong(request.getParameter("resource_id")));
-		
-		ResourceDAO.deleteResource(r);
+		ResourceDAO.deleteResourceById(Long.parseLong(request.getParameter("resource_id")));
 		
 		request.setAttribute("message", "Resource deleted!");
 	}
