@@ -46,8 +46,8 @@ public class ReserveController extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session=request.getSession();
 		synchronized (session) {
-			Client client=(Client)request.getAttribute("User");
-			Long r_id=Long.parseLong(request.getParameter("year").trim());
+			Client client=(Client)session.getAttribute("User");
+			Long r_id=Long.parseLong(request.getParameter("resourceID").trim());
 			int y = Integer.parseInt(request.getParameter("year").trim()) - 1900;
 			int m = Integer.parseInt(request.getParameter("month").trim());
 			int d = Integer.parseInt(request.getParameter("day").trim());
@@ -67,15 +67,21 @@ public class ReserveController extends HttpServlet {
 	//		addReservation(r_id, dateOfStart, dateOfEnd);
 			dateOfStart=new GregorianCalendar(y, m, d, hh_start, mm_start);
 			dateOfEnd=new GregorianCalendar(y, m, d, hh_end, mm_end);
-			addReservation(r_id, dateOfStart, dateOfEnd, client, out);
-			
-			RequestDispatcher dispatch = request.getRequestDispatcher("WEB-INF/calendar.jsp");
-			dispatch.forward(request, response);
+			if(addReservation(r_id, dateOfStart, dateOfEnd, client, out)==true){
+				RequestDispatcher dispatch = request.getRequestDispatcher("../calendar.jsp");
+				dispatch.forward(request, response);
+			}
+			else{
+				RequestDispatcher dispatch = request.getRequestDispatcher("reservations.jsp");
+				dispatch.forward(request, response);
+			}	
+			//RequestDispatcher dispatch = request.getRequestDispatcher("calendar.jsp");
+			//dispatch.forward(request, response);
 		}
 	}
 	
-	public void addReservation(long res_id,GregorianCalendar dateOfStart,GregorianCalendar dateOfEnd, Client client,PrintWriter out){
-		new ReserveHandler().addReservation(res_id, dateOfStart, dateOfEnd, client, out);
+	public boolean addReservation(long res_id,GregorianCalendar dateOfStart,GregorianCalendar dateOfEnd, Client client,PrintWriter out){
+		return new ReserveHandler().addReservation(res_id, dateOfStart, dateOfEnd, client, out);
 	}
 
 }

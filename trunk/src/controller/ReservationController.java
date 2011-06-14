@@ -36,6 +36,7 @@ public class ReservationController extends HttpServlet {
 		String monthStr = request.getParameter("monthsRadioGroup");
 		String yearStr = request.getParameter("year");	
 		String res_idStr = request.getParameter("resourcesRadioGroup");		
+		
 
 		Long res_id=Long.parseLong(res_idStr);
 		int year = Integer.parseInt(yearStr.trim());
