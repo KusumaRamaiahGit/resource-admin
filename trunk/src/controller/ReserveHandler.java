@@ -3,7 +3,7 @@
  */
 package controller;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Calendar;
 //import java.util.Date;
 import java.util.GregorianCalendar;
@@ -42,7 +42,7 @@ public class ReserveHandler implements IReserveHadler{
 		Client client=cl;*/
 		Resource resource=getResourceById(res_id);
 		errStream=out;
-		List<Reservation> reserve_list=new ArrayList<Reservation>();
+		List<Reservation> reserve_list=new LinkedList<Reservation>();
 		reserve_list=getReservationByTime(resource, dateOfStart, dateOfEnd);
 		if(reserve_list.isEmpty()==true){
 			addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
@@ -156,7 +156,7 @@ public class ReserveHandler implements IReserveHadler{
 	}
 	
 	public List<Reservation> getTheSmallestRangReservationList(List<Reservation> reservationList){
-		List<Reservation> smallestRangList = new ArrayList<Reservation>();
+		List<Reservation> smallestRangList = new LinkedList<Reservation>();
 		Client.RATINGS rating=Client.RATINGS.HIGH;
 		try{
 			for(Reservation reserve:reservationList){
