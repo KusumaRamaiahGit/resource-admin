@@ -13,5 +13,5 @@ import model.Client;
  *
  */
 public interface IReserveHadler {
-	void addReservation(long res_id, GregorianCalendar d_start, GregorianCalendar d_end, Client client, PrintWriter out);
+	boolean addReservation(long res_id, GregorianCalendar d_start, GregorianCalendar d_end, Client client, PrintWriter out);
 }

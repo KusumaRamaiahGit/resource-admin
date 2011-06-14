@@ -34,7 +34,7 @@ public class ReserveHandler implements IReserveHadler{
 	private List<Reservation> reserve_List = null;
 	private Reservation reservation;*/
 	@Override
-	public void addReservation(long res_id, GregorianCalendar dateOfStart, GregorianCalendar dateOfEnd, Client cl, PrintWriter out) {
+	public boolean addReservation(long res_id, GregorianCalendar dateOfStart, GregorianCalendar dateOfEnd, Client cl, PrintWriter out) {
 		// TODO Auto-generated method stub
 		/*Long resource_id=res_id;
 		GregorianCalendar start_time=dateOfStart;
@@ -46,11 +46,14 @@ public class ReserveHandler implements IReserveHadler{
 		reserve_list=getReservationByTime(resource, dateOfStart, dateOfEnd);
 		if(reserve_list.isEmpty()==true){
 			addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
+			return true;
 		}
 		else{
 			if(resourceIsCountable(resource)==true){
-				if(haveAPlace(resource, dateOfStart, dateOfEnd)>0)
+				if(haveAPlace(resource, dateOfStart, dateOfEnd)>0){
 					addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
+					return true;
+				}
 				else{
 					List<Reservation> min_rang_list=getTheSmallestRangReservationList(reserve_list);
 					if(checkBossPossibility(min_rang_list, cl)==true){
@@ -58,15 +61,19 @@ public class ReserveHandler implements IReserveHadler{
 							deleteMinTimeReservation(min_rang_list);
 						//getTheSmallestRangReservationList(reserve_List);
 						addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
+						return true;
 					}
-					else
+					else{
 						errStream.print("You haven't enough wright to place this resource");
+						return false;
+					}
 				}			
 			}
 			else{
 				if(checkBossPossibility(reserve_list, cl)==true){
 					deleteSelectedReservationList(reserve_list);
 					addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
+					return true;
 				/*if(haveAPlace(resource, dateOfStart, dateOfEnd)>0)
 					addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
 				else{
@@ -74,8 +81,10 @@ public class ReserveHandler implements IReserveHadler{
 						deleteSelectedReservationList(reserve_list);
 					}*/
 				}
-				else
+				else{
 					errStream.print("You haven't enough wright to place this resource");
+					return false;
+				}
 			}
 		}
 	}

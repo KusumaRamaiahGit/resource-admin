@@ -138,6 +138,8 @@
 						name="month" value="<%=request.getAttribute("month")%>" /> <input
 						type="hidden" name="year"
 						value="<%=request.getAttribute("year")%>" /> <input
+						type="hidden" name="resourceID"
+						value="<%=request.getAttribute("resourceID")%>" /> <input
 						name="start_time" class='time-input' type="text" value="00:00" />
 					<input name="end_time" class='time-input' type="text" value="23:45" />
 					<input name="submit" type="submit" value="Выбрать" />
