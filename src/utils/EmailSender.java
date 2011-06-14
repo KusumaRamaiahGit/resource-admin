@@ -4,10 +4,10 @@
  */
 
 package utils;
-import java.io.File;
+//import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+//import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -78,7 +78,7 @@ public class EmailSender {
 
         //beautiful solution. Find how to load properties!
         
-/*        FileInputStream in = new FileInputStream("appProperties");
+       FileInputStream in = new FileInputStream("appProperties");
 
         prop.load(in);
         String smtpServer=prop.getProperty("smtpServer");
@@ -86,7 +86,7 @@ public class EmailSender {
         String pass=prop.getProperty("pass");
         String fromAddrStr=prop.getProperty("fromAddr");
         in.close();
-*/
+/*
         String smtpServer="smtp.gmail.com";
         String login="resourceinformer";
         String pass="Qwerty1234";
@@ -133,7 +133,7 @@ public class EmailSender {
     public static void send(String mHeader, String mText, String receiver) throws IOException
     {
     	Properties prop=new Properties();
-/*
+
         FileInputStream in = new FileInputStream("appProperties");
 
         prop.load(in);
@@ -142,7 +142,7 @@ public class EmailSender {
         String pass=prop.getProperty("pass");
         String fromAddrStr=prop.getProperty("fromAddr");
         in.close();
-*/
+/*
     	String smtpServer="smtp.gmail.com";
         String login="resourceinformer";
         String pass="Qwerty1234";
@@ -159,7 +159,7 @@ public class EmailSender {
         FileOutputStream out = new FileOutputStream("appProperties");
         prop.store(out, "---EmailSender Properties---");
         out.close();
-        
+        */
         
         javax.mail.Session session=javax.mail.Session.getDefaultInstance(prop,null);
 
