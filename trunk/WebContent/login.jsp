@@ -23,7 +23,7 @@ function Clear(id) {
             <input name="password" type="password" class='login-input' id="password" value="??????" onclick="return Clear('password');"/>
             <input name="submit" type="submit" id="submit" value="" />
         </form>
-        <div align="center"><a href="registration.jsp">регистрация</a></div>
+        <div align="center"><a href="UserAdminController?page=add">регистрация</a></div>
     </div>
 </div>
 		

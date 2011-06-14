@@ -21,7 +21,7 @@
 		<div class="admin-panel-catheader">Пользователь</div>
 		<table border="0" align="center" class="admin-panel-table">
 			<tr>
-				<td><a href="registration.jsp"><div>
+				<td><a href="UserAdminController?page=add"><div>
 							<img src="img/user-add-icon.png" />
 						</div>
 						<div>Добавить пользователя</div>
@@ -33,7 +33,7 @@
 						<div>Принять пользователя</div>
 				</a>
 				</td>
-				<td><a href="#"><div>
+				<td><a href="UserAdminController?page=edit"><div>
 							<img src="img/user-edit-icon.png" />
 						</div>
 						<div>Редактировать пользователя</div>
@@ -41,7 +41,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td><a href="#"><div>
+				<td><a href="UserAdminController?page=delete"><div>
 							<img src="img/user-delete-icon.png" />
 						</div>
 						<div>Удалить пользователя</div>

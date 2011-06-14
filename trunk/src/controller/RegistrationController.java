@@ -21,6 +21,7 @@ import model.Client;
 
 import utils.ClientDAO;
 import utils.RegistrationValidator;
+import utils.EmailSender;
 
 /**
  * Servlet implementation class RegistrationController
@@ -73,7 +74,7 @@ public class RegistrationController extends HttpServlet {
 				request.setAttribute("login", loginString);
 			}
 			
-			RequestDispatcher rd = request.getRequestDispatcher("registration.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/registration.jsp");
 			rd.forward(request, response);
 
 		} else
@@ -81,23 +82,23 @@ public class RegistrationController extends HttpServlet {
 		{
 			
 			if (request.getParameter("login") == null)
-				redirect(request,response, ErrorMessage.ACCESS_DENIED, "You haven't specified the login.");			
+				{redirect(request,response, ErrorMessage.ACCESS_DENIED, "You haven't specified the login.");return;}			
 			String loginString = request.getParameter("login").toString()
 					.trim();
 			if (request.getParameter("pass1") == null)				
-				redirect(request, response, ErrorMessage.ACCESS_DENIED, "You haven't specified the password. Please, try to register once again");
+				{redirect(request, response, ErrorMessage.ACCESS_DENIED, "You haven't specified the password. Please, try to register once again");return;}
 			String pass1String = request.getParameter("pass1").toString()
 					.trim();
 			if (request.getParameter("pass2") == null)
-				redirect(request, response, ErrorMessage.ACCESS_DENIED, "You haven't specified the password confirmation. Please, try to register once again");
+				{redirect(request, response, ErrorMessage.ACCESS_DENIED, "You haven't specified the password confirmation. Please, try to register once again");return;}
 			String pass2String = request.getParameter("pass2").toString()
 					.trim();
 			if (request.getParameter("email") == null)
-				redirect(request, response, ErrorMessage.ACCESS_DENIED, "You haven't specified the email. Please, try to register once again");
+				{redirect(request, response, ErrorMessage.ACCESS_DENIED, "You haven't specified the email. Please, try to register once again");return;}
 			String emailString = request.getParameter("email").toString()
 					.trim();
 			if (request.getParameter("rating") == null)
-				redirect(request, response, ErrorMessage.ACCESS_DENIED, "You haven't specified the rating. Please, try to register once again");
+				{redirect(request, response, ErrorMessage.ACCESS_DENIED, "You haven't specified the rating. Please, try to register once again");return;}
 			String ratingString = request.getParameter("rating").toString();			
 			
 		/*	if (request.getParameter("location") == null)
@@ -106,25 +107,48 @@ public class RegistrationController extends HttpServlet {
 			//String locationString = request.getParameter("location").toString();
 
 			if (RegistrationValidator.Validate(loginString, pass1String,
-					pass2String, emailString)) {
-			
-				Client regClient = new Client(loginString, pass1String, Client.RATINGS.valueOf(ratingString), emailString);
+					pass2String, emailString)) 
+			{
+				Client regClient;
+				if (request.getSession().getAttribute("User")instanceof Admin)
+					regClient = new Admin(loginString, pass1String, Client.RATINGS.valueOf(ratingString), emailString);
+				else
+					regClient = new Client(loginString, pass1String, Client.RATINGS.valueOf(ratingString), emailString);
 				
 				if (request.getSession().getAttribute("User") instanceof Admin)
 					regClient.setRegistered(true);//in constructor false is default
 				
 				ClientDAO.addClient(regClient);			
-		
-				PrintWriter out = response.getWriter();
-				out.println("<html>");
-				out.println("<head>");
-				out.println("<title>Servlet RegistrationController</title>");
-				out.println("</head>");
-				out.println("<body>");
-				out.println("Registration completed successfully");
-				out.println("</body>");
-				out.println("</html>");
-			} else {
+				//change this sendings
+				try{
+						EmailSender.send("Регистрация в системе управления ресурсами", "Поздравляем, вы зарегистрированы\n Имя:"+loginString, regClient.getContact());
+						PrintWriter out = response.getWriter();
+						out.println("<html>");
+						out.println("<head>");
+						out.println("<title>Servlet RegistrationController</title>");
+						out.println("</head>");
+						out.println("<body>");
+						out.println("registration success");						
+						out.println("</body>");
+						out.println("</html>");
+						
+					}			
+				catch (Exception io)
+				{
+					PrintWriter out = response.getWriter();
+					out.println("<html>");
+					out.println("<head>");
+					out.println("<title>Servlet RegistrationController</title>");
+					out.println("</head>");
+					out.println("<body>");
+					out.println("Properties not found " + io.getMessage());
+					io.printStackTrace();
+					out.println("</body>");
+					out.println("</html>");
+				}		
+				
+			}
+			else {
 				redirect(request, response, ErrorMessage.CUSTOM,
 						"You have put wrong data! Try to register once again");				
 			}
