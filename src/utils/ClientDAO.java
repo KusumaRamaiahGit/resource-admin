@@ -2,11 +2,8 @@ package utils;
 
 import model.Client;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-
 import javax.swing.JOptionPane;
-
 import org.hibernate.Session;
 import org.hibernate.Query;
 import org.hibernate.Transaction;
@@ -67,6 +64,25 @@ public class ClientDAO {
 			sess.close();
 		}
 	}
+	
+	public static void deleteClientById(Long id) {
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = sess.beginTransaction();
+			Query query = sess.createSQLQuery("delete from reservation where client_fk=?;").setParameter(0, id);
+			query.executeUpdate();
+			Query query2 = sess.createSQLQuery("delete from client where client_id=?;").setParameter(0, id);
+			query2.executeUpdate();
+			sess.getTransaction().commit();
+		} catch (Exception e) {
+			if (tx != null) tx.rollback();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not  delete user by ID!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
+		}
+	}
 
 	public static Client getClientById(Long id) {
 		Session sess = HibernateUtil.getSession();
@@ -105,19 +121,20 @@ public class ClientDAO {
 		return c;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static List<Client> getUnauthorizedClients() {
-                List<Client> list = null;
+		List<Client> list = null;
 		Session sess = HibernateUtil.getSession();
-		Transaction tx = null;		
+		Transaction tx = null;
 		try {
 			tx = sess.beginTransaction();
-			Query query = sess.getNamedQuery("getUnauthorizedClients");			
-                        list = query.list();
+			Query query = sess.getNamedQuery("getUnauthorizedClients");
+			list = query.list();
 			sess.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();
 			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not get unauthorized clientsn!", JOptionPane.OK_OPTION);
+					"Could not get unauthorized clientsn!",JOptionPane.OK_OPTION);
 		} finally {
 			sess.close();
 		}

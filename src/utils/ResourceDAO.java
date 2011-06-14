@@ -2,9 +2,8 @@ package utils;
 
 import model.Resource;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -84,17 +83,23 @@ public class ResourceDAO {
 		return r;
 	}
 	
-	 public static void deleteResource(Resource r)
-    {
-    	 try {
-             Session sess = HibernateUtil.getSession();
-             sess.beginTransaction();
-
-             sess.delete(r);
-
-             sess.getTransaction().commit();
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
-    }
+	 public static void deleteResourceById(Long id)
+	    {
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = sess.beginTransaction();
+			Query query = sess.createSQLQuery("delete from reservation where resource_fk=?;").setParameter(0, id);
+			query.executeUpdate();
+			Query query2 = sess.createSQLQuery("delete from client where resource_id=?;").setParameter(0, id);
+			query2.executeUpdate();
+			sess.getTransaction().commit();
+		} catch (Exception e) {
+			if (tx != null) tx.rollback();
+			JOptionPane.showMessageDialog(null, e.getMessage(),
+					"Could not  delete resource by ID!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
+		}
+	}
 }
