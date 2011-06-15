@@ -2,3 +2,5 @@
 eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/admin.jsp=UTF-8
 encoding//WebContent/login.jsp=UTF-8
+encoding//WebContent/nextGraphic.jsp=UTF-8
+encoding//WebContent/userStatistic.jsp=UTF-8
