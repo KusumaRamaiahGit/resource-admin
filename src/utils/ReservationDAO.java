@@ -216,7 +216,28 @@ public class ReservationDAO {
 	}
 
 
-	//functions for statistic, author - Martynenko Viktoria
+//functions for statistic, author - Martynenko Viktoria
+	
+	@SuppressWarnings("unchecked")
+	public static List<Reservation> getReservationsByResourceAndClient(Resource resource,Client c) {
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;
+		List<Reservation> list = null;		
+		try {
+			tx = sess.beginTransaction();	
+			Query query = sess.getNamedQuery("FindReservation_by_Resource_and_Client")
+					.setParameter(0, resource).setParameter(1, c);
+			list = query.list();
+			sess.getTransaction().commit();
+		} catch (Exception e) {
+			if (tx!=null) tx.rollback();
+			JOptionPane.showMessageDialog(null, e.getMessage(), 
+					"Could not get all reservations by client and resource!", JOptionPane.OK_OPTION);
+		} finally {
+			sess.close();
+		}
+		return list;
+	}
 
 	@SuppressWarnings("unchecked")
 	public static List<Reservation> getReservationByResource(Resource resource) {
@@ -239,6 +260,10 @@ public class ReservationDAO {
 		return list;
 	}
 	
+	public static Long getMillisInPeriod(Calendar start,Calendar end){
+		Long mills=(end.getTimeInMillis()-start.getTimeInMillis());		
+		return mills;
+	}
 	public static Long getMinutesInPeriod(Calendar start,Calendar end){
 		Long minutes=(end.getTimeInMillis()-start.getTimeInMillis())/60000;
 		return minutes;
@@ -247,38 +272,42 @@ public class ReservationDAO {
 		List<Reservation> res=getReservationByResource(resource);
 		return timeUnion(res);
 	}
+	public static Long getReservedTimeByResourceAndClient(Resource resource,Client c){
+		List<Reservation> res=getReservationsByResourceAndClient(resource,c);
+		return timeUnion(res);
+	}
 	
 	public static Long getReservedTimeForResourceByMonth(Calendar startDate,Calendar endDate,Resource resource){
-		List<Reservation> res=getReservationInTime(resource,startDate,endDate);
-		
+		List<Reservation> res=getReservationInTime(resource,startDate,endDate);		
 		List<Reservation> res1=new ArrayList<Reservation>();//создаем другой массив, чтоб не менять в базе конец резервации
 		for(Reservation r:res) {
-			//System.out.println(r.getResource().getResource_name()+" "+r.getStart_time()+" "+r.getEnd_time());
 			res1.add(new Reservation(r.getResource(),r.getStart_time(),r.getEnd_time(),r.getClient()));
-		}			
+		}
 		if(res1.size()>0){
 			Calendar c1=new GregorianCalendar();Calendar c2=new GregorianCalendar();
 			for(Reservation r:res1) {
 				if(r.getStart_time().compareTo(startDate)<0) {//если начало резервации меньше указанного месяца, не учитываем время резервации перед месяцем
-					c1.set(startDate.get(GregorianCalendar.YEAR), startDate.get(GregorianCalendar.YEAR), 1, 0, 0, 0);
+					c1.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), 1, 0, 0, 0);				
 					r.setStart_time(c1);//началу резервации присваиваем начало заданного месяца
 				}
 				if(r.getEnd_time().compareTo(endDate)>0) {//если конец резервации превышает указанный месяц, не учитываем время резервации после окончания месяца
-					c2.set(endDate.get(GregorianCalendar.YEAR), endDate.get(GregorianCalendar.YEAR), r.getStart_time().getActualMaximum(Calendar.DAY_OF_MONTH), 23, 59, 59);
+					c2.set(endDate.get(Calendar.YEAR), endDate.get(Calendar.MONTH), 1, 0, 0, 0);
 					r.setEnd_time(c2);//концу резервации присваиваем конец заданного месяца
 				}					
 			}
-		}				
+		}
 		return timeUnion(res1);
 	}
 	public static Long timeUnion(List<Reservation> res) {
 		Long time=new Long(0);
+		Integer i1=0;
+		time=Long.parseLong(i1.toString()) ;
 		if(res.size()>0){
 			//Calendar startDate=res.get(0).getStart_time().getTime();
 			Calendar startD=new GregorianCalendar();
 			Calendar endD=new GregorianCalendar();
 			startD=res.get(0).getStart_time();//начало промежутка зарезервированного времени
-			endD=res.get(0).getEnd_time();//конец промежутка зарезервированного времени			
+			endD=res.get(0).getEnd_time();//конец промежутка зарезервированного времени
 			Calendar start=new GregorianCalendar();Calendar end=new GregorianCalendar();
 			start.set(startD.get(Calendar.YEAR), startD.get(Calendar.MONTH),startD.get(Calendar.DATE),startD.get(Calendar.HOUR_OF_DAY), startD.get(Calendar.MINUTE));
 			end.set(endD.get(Calendar.YEAR), endD.get(Calendar.MONTH),endD.get(Calendar.DATE),endD.get(Calendar.HOUR_OF_DAY), endD.get(Calendar.MINUTE));
@@ -288,20 +317,20 @@ public class ReservationDAO {
 					if(r.getEnd_time().getTimeInMillis()>end.getTimeInMillis())
 						endD=r.getEnd_time();//концу текущего промежутка зарезервированного времени присвоить конец следующей резервации
 					end.set(endD.get(Calendar.YEAR), endD.get(Calendar.MONTH),endD.get(Calendar.DATE),endD.get(Calendar.HOUR_OF_DAY), endD.get(Calendar.MINUTE));
-					if(i==res.size()-1) {//если дошли до последнего элемента в списке
-						time+=getMinutesInPeriod(start,end);//увеличим время					
-					}
-				}
+					if(i==(res.size()-1)) {//если дошли до последнего элемента в списке
+						time+=getMillisInPeriod(start,end);//увеличим время						
+					}					
+				}				
 				else {
-					time+=getMinutesInPeriod(start,end);//увеличим время
+					time+=getMillisInPeriod(start,end);//увеличим время
 					startD=r.getStart_time();//начало следующего промежутка зарезервированного времени
 					endD=r.getEnd_time();//конец следующего промежутка зарезервированного времени										
 					start.set(startD.get(Calendar.YEAR), startD.get(Calendar.MONTH),startD.get(Calendar.DATE),startD.get(Calendar.HOUR_OF_DAY), startD.get(Calendar.MINUTE));
 					end.set(endD.get(Calendar.YEAR), endD.get(Calendar.MONTH),endD.get(Calendar.DATE),endD.get(Calendar.HOUR_OF_DAY), endD.get(Calendar.MINUTE));
 				}				
 				i++;
-			}						
-		}				
+			}
+		}
 		return time;
 	}
 }

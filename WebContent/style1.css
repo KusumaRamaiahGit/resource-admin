@@ -121,6 +121,16 @@ body {
 	border: 0px;
 }
 
+.buttonVertical
+{
+	width: 25px;
+	height: 33px;
+	background: url(img/ver.png);
+	cursor: pointer;
+	text-align: center;
+	border:0px;
+}
+
 .buttonVertical1 {
 	width: 25px;
 	height: 240px;

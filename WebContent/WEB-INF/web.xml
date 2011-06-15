@@ -194,4 +194,14 @@
     <servlet-name>UserAcceptController</servlet-name>
     <url-pattern>/UserAcceptController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GraphicController</display-name>
+    <servlet-name>GraphicController</servlet-name>
+    <servlet-class>controller.GraphicController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GraphicController</servlet-name>
+    <url-pattern>/GraphicController</url-pattern>
+  </servlet-mapping>
 </web-app>
