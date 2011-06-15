@@ -214,4 +214,25 @@
     <servlet-name>CalendarController</servlet-name>
     <url-pattern>/CalendarController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserReservationsController</display-name>
+    <servlet-name>UserReservationsController</servlet-name>
+    <servlet-class>controller.UserReservationsController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserReservationsController</servlet-name>
+    <url-pattern>/UserReservationsController</url-pattern>
+    <url-pattern>/UserReservations</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ReservationRemoveController</display-name>
+    <servlet-name>ReservationRemoveController</servlet-name>
+    <servlet-class>controller.ReservationRemoveController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReservationRemoveController</servlet-name>
+    <url-pattern>/ReservationRemoveController</url-pattern>
+  </servlet-mapping>
 </web-app>

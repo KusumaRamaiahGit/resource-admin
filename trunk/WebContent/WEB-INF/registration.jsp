@@ -90,20 +90,10 @@
 </head>
 <body>
 <div id="block">
-		<h1>Resource admin</h1>
-	<div class="menu" style="text-align: right; margin-top: 50px">
-			<h2 align="center" >Регистрация нового пользователя</h2>
-			<br>
-			<%
-							if (session.getAttribute("User") instanceof Admin) {
-								out.print(" <a href='AdminPanel'>Админ. панель</a> ");
-								out.print("| <a href=\"calendar.jsp\">Календарь</a> |");
-								out.print("<a href=\"StatisticController\">Статистика</a> | ");
-							}
-			%>
-			  <a href="LogOutController">Выход</a>
-			
-			<br><br>
+		<h1>Resource admin</h1> 
+			<%@include file="../menu.jsp"%>
+			<h2 align="center" style="color: #ccffff;">Регистрация нового
+				пользователя</h2>
 		<div style="text-align: left">	
 			
 			<form id="signupForm1" method="post" action="RegistrationController" name="loginForm">			

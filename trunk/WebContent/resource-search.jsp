@@ -1,8 +1,7 @@
-<%@page import="utils.ResourceDAO"%>
+<%@page import="utils.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Resource"%>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -13,12 +12,12 @@
 </head>
 <body>
 <h1>Редактирование ресурсов</h1>
-
+<%@include file="../menu.jsp"%>
 Список ресурсов:
 <form action="ResourceSearchController" method="POST">
 	<select name="resourceSelector" size="10">
 	<%
-	ArrayList<Resource> resources = ResourceDAO.getAllResources();
+	ArrayList<Resource> resources = null; //= ResourceDAO.getAllResources();
 		
 	for (Resource r : resources)
 	{

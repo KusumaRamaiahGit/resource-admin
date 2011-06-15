@@ -82,6 +82,8 @@ public class ReservationDAO {
 			errStream.print("Cann't delete reservation!");  
 		}		
 	}
+	
+
 
 	public static Reservation getReservationById(Long id) {		
 		Session sess = HibernateUtil.getSession();
@@ -361,5 +363,22 @@ public class ReservationDAO {
 			}
 		}
 		return time;
+	}
+	
+	public static void deleteReservationById(Long id) {
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = sess.beginTransaction();
+			Query query2 = sess.createSQLQuery(
+					"delete from reservation where reservation_id=?;")
+					.setParameter(0, id);
+			query2.executeUpdate();
+			sess.getTransaction().commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			errStream.print("Cann't delete reservation!");
+		}
 	}
 }

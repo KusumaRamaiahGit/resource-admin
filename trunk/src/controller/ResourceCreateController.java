@@ -21,11 +21,6 @@ public class ResourceCreateController extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
 
-	public ResourceCreateController()
-	{
-		super();
-	}
-
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException
 	{
@@ -37,13 +32,14 @@ public class ResourceCreateController extends HttpServlet
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException
 	{
+
 		ArrayList<Class> interfaces = new ArrayList<Class>();
 		
 		if (request.getAttribute("isCountable") != null)	
 			interfaces.add(Countable.class);
 		if (request.getAttribute("isInventarable") != null)
 			interfaces.add(Inventarable.class);
-		
+
 		Object proxy = Proxy.newProxyInstance(null, (Class[])interfaces.toArray(), new TraceHandler());
 	}
 

@@ -1,6 +1,7 @@
-#Mon Jun 13 19:12:29 EEST 2011
+#Thu Jun 16 01:21:26 EEST 2011
 eclipse.preferences.version=1
 encoding//WebContent/WEB-INF/admin.jsp=UTF-8
 encoding//WebContent/login.jsp=UTF-8
+encoding//WebContent/menu.jsp=UTF-8
 encoding//WebContent/nextGraphic.jsp=UTF-8
 encoding//WebContent/userStatistic.jsp=UTF-8
