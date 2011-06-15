@@ -27,7 +27,7 @@
 						<div>Добавить пользователя</div>
 				</a>
 				</td>
-				<td><a href="#"><div>
+				<td><a href="UserAdminController?page=accept"><div>
 							<img src="img/user-accept-icon.png" />
 						</div>
 						<div>Принять пользователя</div>

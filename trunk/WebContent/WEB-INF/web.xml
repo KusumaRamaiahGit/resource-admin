@@ -174,4 +174,24 @@
     <servlet-name>UserEditController</servlet-name>
     <url-pattern>/UserEditController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserAccessController</display-name>
+    <servlet-name>UserAccessController</servlet-name>
+    <servlet-class>controller.UserAccessController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserAccessController</servlet-name>
+    <url-pattern>/UserAccessController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserAcceptController</display-name>
+    <servlet-name>UserAcceptController</servlet-name>
+    <servlet-class>controller.UserAccessController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserAcceptController</servlet-name>
+    <url-pattern>/UserAcceptController</url-pattern>
+  </servlet-mapping>
 </web-app>

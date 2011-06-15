@@ -41,6 +41,19 @@ public class UserAdminController extends HttpServlet {
 				redirectAddress="WEB-INF/registration.jsp";			
 		}
 		else
+		if (request.getParameter("page").equals("accept"))
+		{
+			if (request.getSession().getAttribute("User") instanceof Admin)			
+				redirectAddress="WEB-INF/acceptUser.jsp";			
+			
+			else
+			{
+				redirect (request, response, ErrorMessage.ACCESS_DENIED, "Sorry, you don't have access to this page");
+				return;
+			}		
+		}
+		
+		else
 		if (request.getParameter("page").equals("delete"))
 		{
 			if (request.getSession().getAttribute("User") instanceof Admin)			
@@ -63,6 +76,7 @@ public class UserAdminController extends HttpServlet {
 				return;
 			}
 		}
+		
 		//more if with parameters
 		
 		
