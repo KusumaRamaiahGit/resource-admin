@@ -51,7 +51,7 @@ public class UserEditController extends HttpServlet {
 			String secondReceiver=editingClient.getContact();
 			boolean sendSecond=false;
 			
-			StringBuilder builder=new StringBuilder();
+			StringBuffer builder=new StringBuffer();
 			builder.append("Изменения: \n");
 			
 			if (!editingClient.getLogin().equals(loginStr))
