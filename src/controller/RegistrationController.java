@@ -121,7 +121,7 @@ public class RegistrationController extends HttpServlet {
 				ClientDAO.addClient(regClient);			
 				//change this sendings
 				try{
-						StringBuilder sb=new StringBuilder();
+						StringBuffer sb=new StringBuffer();
 						sb.append("Поздравляем, вы зарегистрированы.\n");
 						sb.append("\nИмя пользователя (логин): "+regClient.getLogin());
 						sb.append("\nПриоритет: "+regClient.getRating());
