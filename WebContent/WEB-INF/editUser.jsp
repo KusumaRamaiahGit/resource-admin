@@ -2,8 +2,7 @@
 <%@page import="utils.ClientDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,12 +16,8 @@
 %>
 	<div id="block">
 		<h1>Resource admin</h1>		
-		<div class="menu" style="text-align: right; margin-top: 50px">
-			<h2 align="center" >Выберите пользователей для редактирования</h2>
-			<br>
-			<a href='AdminPanel'>Админ. панель</a> | <a href="calendar.jsp">Календарь</a> | <a href="StatisticController">Статистика</a>
-			| <a href="LogOutController">Выход</a>		
-			<br><br>
+		<%@include file="../menu.jsp"%>
+		<h2 align="center" style="color: #ccffff;">Редактирование пользователей</h2> 
 			<div style="text-align: left">		
 				<form name="userEditForm" action="UserEditController" method="post">
 					<%
@@ -35,6 +30,6 @@
 				</form>
 			</div>
 		</div>
- </div>
+ 
 </body>
 </html>

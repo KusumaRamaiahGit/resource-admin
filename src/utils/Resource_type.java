@@ -22,6 +22,9 @@ import java.io.Serializable;
 //@SequenceGenerator(name = "RES_TYPE_SEQUENCE", sequenceName = "RES_TYPE_ID_SEQ")
 public class Resource_type implements Serializable
 {
+
+
+	private static final long serialVersionUID = 1L;
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO, generator = "RES_TYPE_SEQUENCE")
 //    @Column(name = "type_id", nullable = false, columnDefinition = "integer")

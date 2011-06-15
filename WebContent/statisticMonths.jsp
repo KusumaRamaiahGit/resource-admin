@@ -5,7 +5,7 @@
 <%@page import="java.util.Date"%>
 <%@page import="model.Client"%>
 <%@page import="model.Admin"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -24,7 +24,7 @@ function changeImage(jsp) {
 <body>
 <div id="block" align="left">
 <h1>Статистика</h1>
-<br>
+<%@include file="../menu.jsp"%>
 <form action="GraphicController" method="POST">		
 <table border=0  align="center">
 	<tr>
@@ -41,17 +41,8 @@ function changeImage(jsp) {
 				</tr>
 			</table></div>
 		</td>
-		<td class="menu">
-			<%
-			 	Client user = (Client) session.getAttribute("User");
-			 %>
-						<%
-							if (user instanceof Admin) {
-								out.print("  <a href='AdminPanel'>Админ. панель</a> | ");
-							}
-						%>
-						 <a href="CalendarController">Резервация</a> | 
-						<a href="LogOutController">Выход</a>
+		<td  >
+		 
 		</td>		
 	</tr>
 	<tr>

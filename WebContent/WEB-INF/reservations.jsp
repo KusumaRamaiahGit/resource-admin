@@ -16,26 +16,11 @@
 		<h1>Resource admin</h1>
 		<%
 			final int hourWidth = 20; // look at .timelineTable  td { width : %%px };
+			@SuppressWarnings("unchecked")
 			Map<Client, List<Reservation>> reservationsMap = (Map<Client, List<Reservation>>) request
 					.getAttribute("reservationsMap");
-			//out.print(reservationsMap);
 		%>
-		<%
- 	Client user = (Client) session.getAttribute("User");
- %>
- <p
-			class="menu">
-			Здравствуйте,
-			<%=user.getLogin()%><img src="img/user-icon.png" />
-			<%
-				if (user instanceof Admin) {
-					out.print(" | <a href='AdminPanel'>Админ. панель</a> ");
-				}
-			%>
-			| <a href="calendar.jsp">Календарь</a> | <a
-				href="StatisticController">Статистика</a> | <a
-				href="LogOutController">Выход</a>
-		</p>
+		<%@include file="../menu.jsp"%>
 		<div id="reservations">
 			<div class="head"><%=request.getAttribute("resourceName")%>
 				| Зарезервированное время на
@@ -82,8 +67,7 @@
 									<td>24</td>
 								</tr>
 
-							</table>
-						</td>
+							</table></td>
 					</tr>
 					<%
 						Iterator<Map.Entry<Client, List<Reservation>>> resMapIt = reservationsMap
@@ -119,7 +103,8 @@
 								<%
 									}
 								%>
-							</div></td>
+							</div>
+						</td>
 					</tr>
 
 					<%
@@ -137,12 +122,12 @@
 						value="<%=request.getAttribute("day")%>" /> <input type="hidden"
 						name="month" value="<%=request.getAttribute("month")%>" /> <input
 						type="hidden" name="year"
-						value="<%=request.getAttribute("year")%>" /> <input
-						type="hidden" name="resourceID"
-						value="<%=request.getAttribute("resourceID")%>" /> <input
-						name="start_time" class='time-input' type="text" value="00:00" />
-					<input name="end_time" class='time-input' type="text" value="23:45" />
-					<input name="submit" type="submit" value="Выбрать" />
+						value="<%=request.getAttribute("year")%>" /> <input type="hidden"
+						name="resourceID" value="<%=request.getAttribute("resourceID")%>" />
+					<input name="start_time" class='time-input' type="text"
+						value="00:00" /> <input name="end_time" class='time-input'
+						type="text" value="23:45" /> <input name="submit" type="submit"
+						value="Выбрать" />
 				</form>
 				<p
 					style="font-size: small; border-top: 1px #999 dashed; padding-top: 15px; color: #999;"><%=reservationsMap%></p>

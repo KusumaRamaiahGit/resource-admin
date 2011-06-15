@@ -87,7 +87,9 @@
 	<div id="block">
 		<h1>Resource admin</h1>
 		<div id="reg">
-			<div class="head">Регистрация нового пользователя</div>
+			<%@include file="../menu.jsp"%>
+			<h2 align="center" style="color: #ccffff;">Регистрация нового
+				пользователя</h2>
 			
 			<form id="signupForm1" method="post" action="RegistrationController" name="loginForm">			
 			<table border="1">

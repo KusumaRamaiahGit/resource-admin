@@ -13,13 +13,9 @@
 	<% Client editingClient=ClientDAO.getClientById(Long.parseLong(request.getParameter("client_id"))); %>
 	<div id="block">
 		<h1>Resource admin</h1>		
-		<div class="menu" style="text-align: right; margin-top: 50px">
-			<h2 align="center" >Редактирование пользователя</h2>
-			<br>
-			<a href='AdminPanel'>Админ. панель</a> | <a href="calendar.jsp">Календарь</a> | <a href="StatisticController">Статистика</a>
-			| <a href="LogOutController">Выход</a>
 			
-			<br><br>
+			<%@include file="../menu.jsp"%>
+			<h2 align="center" style="color: #ccffff;">Редактирование пользователя</h2> 
 			<div style="text-align: left">
 				<form action="UserEditController" method="post">
 					<input type="hidden" name="client_id" value="<%=editingClient.getClient_id() %>" />
@@ -39,7 +35,6 @@
 					<input type="submit" name="edit" value="Редактировать"/>
 				</form>
 			</div>
-		</div>
-	</div>
+		</div> 
 </body>
 </html>
