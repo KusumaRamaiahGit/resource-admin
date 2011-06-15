@@ -33,12 +33,14 @@
 												login : {
 													required : true,
 													minlength : 2,
+													maxlength : 100
 												}
 											},
 											messages : {
 												login : {
 													required : "Введите логин!",
-													minlength : "Логин должен содержать как минимум 2 символа!"
+													minlength : "Логин должен содержать как минимум 2 символа!",
+													maxlength : "Слишком длинный логин!"
 												}
 											}
 										});
@@ -60,7 +62,8 @@
 												},
 												email : {
 													required : true,
-													email : true
+													email : true,
+													maxlength : 100
 												}
 											},
 											messages : {
@@ -76,7 +79,8 @@
 													maxlength : "Пароль не может превышать 10 символов!",
 													equalTo : "Пароли должны совпадать!"
 												},
-												email : "Введите действующий email"
+												email : "Введите действующий email",
+												maxlength : "Слишком длинный логин!"
 											}
 										});
 
@@ -92,11 +96,12 @@
 			<br>
 			<%
 							if (session.getAttribute("User") instanceof Admin) {
-								out.print(" | <a href='AdminPanel'>Админ. панель</a> ");
+								out.print(" <a href='AdminPanel'>Админ. панель</a> ");
+								out.print("| <a href=\"calendar.jsp\">Календарь</a> |");
+								out.print("<a href=\"StatisticController\">Статистика</a> | ");
 							}
 			%>
-			| <a href="calendar.jsp">Календарь</a> | <a href="StatisticController">Статистика</a>
-			| <a href="LogOutController">Выход</a>
+			  <a href="LogOutController">Выход</a>
 			
 			<br><br>
 		<div style="text-align: left">	
