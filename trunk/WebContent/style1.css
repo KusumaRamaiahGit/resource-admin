@@ -96,7 +96,7 @@ body {
 .buttonHorisontal {
 	width: 275px;
 	height: 35px;
-	background: url(img/horisontal.png);
+	background: url(img/horisontal.png);	
 	cursor: pointer;
 	text-align: center;
 	border: 0px;
