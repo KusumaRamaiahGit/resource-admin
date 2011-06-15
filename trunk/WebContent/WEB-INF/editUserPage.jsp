@@ -12,24 +12,34 @@
 <body>
 	<% Client editingClient=ClientDAO.getClientById(Long.parseLong(request.getParameter("client_id"))); %>
 	<div id="block">
-		<h1>Resource admin</h1>
-		<form action="UserEditController" method="post">
-			<input type="hidden" name="client_id" value="<%=editingClient.getClient_id() %>" />
-			Логин:<input type="text" name="client_login" value="<%=editingClient.getLogin() %>" />
-			Пароль:<input type="text" name="client_password" value="<%=editingClient.getPassword() %>" />
-			Email:<input type="text" name="client_contact" value="<%=editingClient.getContact() %>" />
-			Рейтинг:<select name="client_rating">
-					<%
-						for (model.Client.RATINGS r : Client.RATINGS.values()) {
-					%>
-						<option value="<%=r%>" <%if (editingClient.getRating().equals(r)) out.print("selected=\"true\""); %>><%=r%></option>
-					<%
-						}
-					%>			
-				</select>
-			Авторизирован:<input type="checkbox" name="authorized"  />
-			<input type="submit" name="edit" value="Редактировать"/>
-		</form>
+		<h1>Resource admin</h1>		
+		<div class="menu" style="text-align: right; margin-top: 50px">
+			<h2 align="center" >Редактирование пользователя</h2>
+			<br>
+			<a href='AdminPanel'>Админ. панель</a> | <a href="calendar.jsp">Календарь</a> | <a href="StatisticController">Статистика</a>
+			| <a href="LogOutController">Выход</a>
+			
+			<br><br>
+			<div style="text-align: left">
+				<form action="UserEditController" method="post">
+					<input type="hidden" name="client_id" value="<%=editingClient.getClient_id() %>" />
+					Логин:<input type="text" name="client_login" value="<%=editingClient.getLogin() %>" />
+					Пароль:<input type="text" name="client_password" value="<%=editingClient.getPassword() %>" />
+					Email:<input type="text" name="client_contact" value="<%=editingClient.getContact() %>" />
+					Рейтинг:<select name="client_rating">
+							<%
+								for (model.Client.RATINGS r : Client.RATINGS.values()) {
+							%>
+								<option value="<%=r%>" <%if (editingClient.getRating().equals(r)) out.print("selected=\"true\""); %>><%=r%></option>
+							<%
+								}
+							%>			
+						</select>
+					Авторизирован:<input type="checkbox" name="authorized"  />
+					<input type="submit" name="edit" value="Редактировать"/>
+				</form>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
