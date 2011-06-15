@@ -2,17 +2,18 @@ package utils;
 
 import model.Resource;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import java.io.PrintStream;
 
 /**
  * data access object to resource table
  * 
- * @author rsamoylov
+ * @author rsamoylov & smihajlenko
  */
 public class ResourceDAO {
+	private static PrintStream errStream = System.err;
 
 	public static void addResource(Resource r) {
 		Session sess = HibernateUtil.getSession();
@@ -23,8 +24,7 @@ public class ResourceDAO {
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not add new resource!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't add new resource");
 		} finally {
 			sess.close();
 		}
@@ -41,8 +41,7 @@ public class ResourceDAO {
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not show all resources!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't show all resources");
 		} finally {
 			sess.close();
 		}
@@ -58,8 +57,7 @@ public class ResourceDAO {
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not update resource!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't update resource");
 		} finally {
 			sess.close();
 		}
@@ -75,8 +73,7 @@ public class ResourceDAO {
 			sess.getTransaction().commit();
 					} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not get resource by ID!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't get resource by ID");
 		} finally {
 			sess.close();
 		}
@@ -96,8 +93,7 @@ public class ResourceDAO {
 			sess.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not  delete resource by ID!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't delete resource by ID");
 		} finally {
 			sess.close();
 		}

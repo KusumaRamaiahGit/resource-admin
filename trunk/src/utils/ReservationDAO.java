@@ -10,7 +10,7 @@ import org.hibernate.Transaction;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import javax.swing.JOptionPane;
+import java.io.PrintStream;
 
 /**
  * data access object to reservation table
@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
  * @author rsamoylov & smihajlenko & Martynenko Viktoria
  */
 public class ReservationDAO {
+	private static PrintStream errStream = System.err;
 
 	public static void addReservation(Reservation r) {		
 		Session sess = HibernateUtil.getSession();
@@ -27,9 +28,8 @@ public class ReservationDAO {
 			sess.save(r);
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
-			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(), 
-					"Could not add new reservation!",JOptionPane.OK_OPTION);
+			if (tx != null)	tx.rollback();
+			errStream.print("Cann't add new reservation!");
 		} finally {
 			sess.close();
 		}
@@ -46,8 +46,7 @@ public class ReservationDAO {
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(), 
-					"Could not show all reservations!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't show all reservations!"); 
 		} finally {
 			sess.close();
 		}
@@ -63,8 +62,7 @@ public class ReservationDAO {
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(), 
-					"Could not update reservation!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't update reservation!!"); 
 		} finally {
 			sess.close();
 		}
@@ -81,8 +79,7 @@ public class ReservationDAO {
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(), 
-					"Could not delete reservation!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't delete reservation!");  
 		}		
 	}
 
@@ -96,8 +93,7 @@ public class ReservationDAO {
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(), 
-					"Could not get reservation by ID!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't get reservation by ID!");  
 		} finally {
 			sess.close();
 		}
@@ -118,14 +114,53 @@ public class ReservationDAO {
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(), 
-					"Could not get reservation by resource and client!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't get reservation by resource and client!");   
+		} finally {
+			sess.close();
+		}		
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<Reservation> getReservationAllByClient(Client client) {		
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;
+		List<Reservation> list = null;
+		try {
+			tx = sess.beginTransaction();
+			Query query = sess.getNamedQuery("FindReservation_All_by_Client")
+					.setParameter(0, client);			
+			list = query.list();
+			sess.getTransaction().commit();			
+		} catch (Exception e) {
+			if (tx!=null) tx.rollback();
+			errStream.print("Cann't get reservation by  client!");  				
 		} finally {
 			sess.close();
 		}		
 		return list;
 	}
 
+	@SuppressWarnings("unchecked")
+	public static List<Reservation> getReservationAllAfterNowByClient(Client client) {		
+		Session sess = HibernateUtil.getSession();
+		Transaction tx = null;
+		List<Reservation> list = null;
+		try {
+			tx = sess.beginTransaction();
+			Query query = sess.getNamedQuery("FindReservation_All_After_Now_by_Client")
+					.setParameter(0, client);			
+			list = query.list();
+			sess.getTransaction().commit();			
+		} catch (Exception e) {
+			if (tx!=null) tx.rollback();
+			errStream.print("Cann't get reservation after now by client!");   
+		} finally {
+			sess.close();
+		}		
+		return list;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static List<Reservation> getReservationInTime(Resource resource, Calendar start_time, Calendar end_time) {
 		Session sess = HibernateUtil.getSession();
@@ -141,8 +176,7 @@ public class ReservationDAO {
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(), 
-					"Could not get reservationsin in time!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't get reservationsin in time!");  
 		} finally {
 			sess.close();
 		}		
@@ -165,8 +199,7 @@ public class ReservationDAO {
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(), 
-					"Could not count current reservations in time!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't count current reservations in time!");  
 		} finally {
 			sess.close();		
 		}		
@@ -186,8 +219,7 @@ public class ReservationDAO {
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(), 
-					"Could not count all reservations!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't count all reservations!");  
 		} finally {
 			sess.close();
 		}		
@@ -207,8 +239,7 @@ public class ReservationDAO {
 			sess.getTransaction().commit();			
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(), 
-					"Could not get reservations by resurce and date!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't get reservations by resurce and date!");   
 		} finally {
 			sess.close();
 		}		
@@ -231,8 +262,7 @@ public class ReservationDAO {
 			sess.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(), 
-					"Could not get all reservations by client and resource!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't get all reservations by client and resource!");
 		} finally {
 			sess.close();
 		}
@@ -252,8 +282,7 @@ public class ReservationDAO {
 			sess.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx!=null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(), 
-					"Could not get all reservations by resource!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't get all reservations by resource!");
 		} finally {
 			sess.close();
 		}
