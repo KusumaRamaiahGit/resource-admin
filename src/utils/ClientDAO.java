@@ -3,17 +3,19 @@ package utils;
 import model.Client;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.Query;
 import org.hibernate.Transaction;
+import java.io.PrintStream;
 
 /**
  * data access object to client table
  *
- * @author rsamoylov
+ * @author rsamoylov & smihajlenko
  */
 public class ClientDAO {
+	private static PrintStream errStream = System.err;
+	
 	public static void addClient(Client c) {
 		Session sess = HibernateUtil.getSession();
 		Transaction tx = null;
@@ -23,8 +25,7 @@ public class ClientDAO {
 			sess.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not add new user!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't add new user");
 		} finally {
 			sess.close();
 		}
@@ -41,8 +42,7 @@ public class ClientDAO {
 			sess.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not show all users!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't show all users");
 		} finally {
 			sess.close();
 		}
@@ -58,8 +58,7 @@ public class ClientDAO {
 			sess.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not update user!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't update user");
 		} finally {
 			sess.close();
 		}
@@ -77,8 +76,7 @@ public class ClientDAO {
 			sess.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not  delete user by ID!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't delete user by ID");
 		} finally {
 			sess.close();
 		}
@@ -94,8 +92,7 @@ public class ClientDAO {
 			sess.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not get user by ID!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't get user by ID");
 		} finally {
 			sess.close();
 		}
@@ -113,8 +110,7 @@ public class ClientDAO {
 			sess.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not get user by login!", JOptionPane.OK_OPTION);
+			errStream.print("Cann't get user by login");
 		} finally {
 			sess.close();
 		}
@@ -133,8 +129,7 @@ public class ClientDAO {
 			sess.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx != null) tx.rollback();
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					"Could not get unauthorized clientsn!",JOptionPane.OK_OPTION);
+			errStream.print("Cann't get unregistered clients");
 		} finally {
 			sess.close();
 		}

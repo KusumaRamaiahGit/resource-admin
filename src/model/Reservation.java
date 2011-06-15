@@ -86,7 +86,21 @@ import javax.persistence.OneToOne;
 				+ "and "
 				+ "client_fk = ? " 
 				+ "ORDER BY start_time,end_time;", 
-				resultSetMapping = "Reservation")})	
+				resultSetMapping = "Reservation"),
+		@NamedNativeQuery(name = "FindReservation_All_by_Client", 
+				query = "SELECT * " 
+				+ "FROM RESERVATION  " 
+				+ "WHERE "
+				+ "client_fk = ? "
+				+ "ORDER BY start_time;", resultSetMapping = "Reservation"),
+		@NamedNativeQuery(name = "FindReservation_All_After_Now_by_Client", 
+				query = "SELECT * " 
+				+ "FROM RESERVATION  " 
+				+ "WHERE "
+				+ "client_fk = ? " 
+				+ "and "
+				+ "start_time > NOW() "
+				+ "ORDER BY start_time;", resultSetMapping = "Reservation")})	
 @Table(name = "RESERVATION")
 public class Reservation implements Serializable {
 	private static final long serialVersionUID = -388790269627716780L;

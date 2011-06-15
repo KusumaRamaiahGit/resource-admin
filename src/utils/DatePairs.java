@@ -58,6 +58,7 @@ public class DatePairs {
 		return true;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public String toString() {
 		return "[" + start_time.getHours() + ":"+ start_time.getMinutes()+" ; " + end_time.getHours() + ":" + end_time.getMinutes()
