@@ -2,7 +2,6 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.faces.context.ResponseWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import error.ErrorMessage;
 import utils.ClientDAO;
+import utils.EmailSender;
 import model.Client;
 
 /**
- * @author OKupriianova
+ * @author SMikhailenko, OKupriianova
  * Servlet implementation class UserEditController
  */
 public class UserAccessController extends HttpServlet {
@@ -34,25 +34,51 @@ public class UserAccessController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	response.setContentType("text/html;charset=UTF-8");
-	String[] registering = request.getParameterValues("client_id");
-
+	String[] registering = request.getParameterValues("client_id");	
+	
 	for (String idStr : registering)		       
 	{
 		try
 		{
 			Client client = ClientDAO.getClientById(Long.parseLong(idStr));
 			client.setRegistered(true);
+			StringBuffer builder=new StringBuffer();
+			builder.append("Ваша учетная запись авторизирована.\n");
+			/*String loginStr=request.getParameter("client_login");
+			String passStr=request.getParameter("client_password");				
+			String ratingStr=request.getParameter("client_rating");
+			
+			if (!client.getLogin().equals(loginStr))
+            {
+                    builder.append("\nСтарый логин : "+client.getLogin()+"; новый логин :"+loginStr);
+                    client.setLogin(loginStr);
+            }                               
+		    if (!client.getPassword().equals(passStr))
+		    {
+		            builder.append("\nСтарый пароль : "+client.getPassword()+"; новый пароль :"+passStr);
+		            client.setPassword(passStr);
+		    }
+		    
+		    if (!client.getRating().equals(Client.RATINGS.valueOf(ratingStr)))
+		    {
+		            builder.append("\nСтарый рейтинг : "+client.getRating()+"; новый рейтинг :"+ratingStr);
+		            client.setRating(Client.RATINGS.valueOf(ratingStr));                             
+		    }*/
+			builder.append("Теперь вы можете войти в систему.");
+			
 			ClientDAO.updateClient(client);
+			EmailSender.send("Авторизация учетной записи в системе управления ресурсами", builder.toString(), client.getContact());
 			PrintWriter out = response.getWriter();				
-			out.print("Client with id" +idStr + "("+ClientDAO.getClientById(Long.parseLong(idStr))+") registering successfully\n");
+			out.print("Client with id" +idStr + "("+ClientDAO.getClientById(Long.parseLong(idStr))+") registered successfully\n");
 		}
 		catch (Exception ex)
 		{
 			request.setAttribute("errorMessage", new ErrorMessage("Error in registering user",ErrorMessage.CUSTOM, "cannot register user with id="+idStr));			
 			RequestDispatcher dispatch = request.getRequestDispatcher("error");
 			dispatch.forward(request, response);
+			return;
 		}
 	}
-
 	}
+	
 }
