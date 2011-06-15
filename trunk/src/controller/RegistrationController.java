@@ -45,18 +45,7 @@ public class RegistrationController extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		if (request.getParameter("checkLogin") != null) {
-			// we just want to know login's uniqueness
-
-			PrintWriter out = response.getWriter();
-
-			out.println("<html>");
-			out.println("<head>");
-			out.println("<title>Servlet RegistrationController</title>");
-			out.println("</head>");
-			out.println("<body>");
-			out.println(request.getParameter("login"));
-			out.println("</body>");
-			out.println("</html>");
+			// we just want to know login's uniqueness		
 
 			if (request.getParameter("login") == null
 					|| request.getParameter("login").equals("")) {
@@ -76,7 +65,7 @@ public class RegistrationController extends HttpServlet {
 			
 			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/registration.jsp");
 			rd.forward(request, response);
-
+			return;
 		} else
 		// we want to register a new user
 		{			
@@ -121,21 +110,21 @@ public class RegistrationController extends HttpServlet {
 				//change this sendings
 				try{
                     StringBuilder sb=new StringBuilder();
-                    sb.append("Поздравляем, вы зарегистрированы.\n");
-                    sb.append("\nИмя пользователя (логин): "+regClient.getLogin());
-                    sb.append("\nПароль: "+regClient.getPassword());
-                    sb.append("\nПриоритет: "+regClient.getRating());
+                    sb.append("РџРѕР·РґСЂР°РІР»СЏРµРј, РІС‹ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅС‹ РІ СЃРёСЃС‚РµРјРµ СѓРїСЂР°РІР»РµРЅРёСЏ СЂРµСЃСѓСЂСЃР°РјРё.\n");
+                    sb.append("\nРРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ (Р»РѕРіРёРЅ): "+regClient.getLogin());
+                    sb.append("\nРџР°СЂРѕР»СЊ: "+regClient.getPassword());
+                    sb.append("\nРџСЂРёРѕСЂРёС‚РµС‚: "+regClient.getRating());
                     if (regClient instanceof Admin)
-                    	sb.append("\nАдминистратор: да");
+                    	sb.append("\nРђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ: РґР°");
                     else 
-                    	sb.append("\nАдминистратор: нет");
+                    	sb.append("\nРђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ: РЅРµС‚");
                     
                     if (regClient.getRegistered())
-                            sb.append("\nВаша учетная запись авторизована. Можете войти в систему под своим именем");
+                            sb.append("\nР’Р°С€Р° СѓС‡РµС‚РЅР°СЏ Р·Р°РїРёСЃСЊ Р°РІС‚РѕСЂРёР·РѕРІР°РЅР°. РњРѕР¶РµС‚Рµ РІРѕР№С‚Рё РІ СЃРёСЃС‚РµРјСѓ РїРѕРґ СЃРІРѕРёРј РёРјРµРЅРµРј");
                     else
-                            sb.append("\nВаша учетная запись еще не авторизована. Вы пока не можете войти в систему под своим именем. Вам придет письмо, когда администратор авторизует учетную запись");
+                            sb.append("\nР’Р°С€Р° СѓС‡РµС‚РЅР°СЏ Р·Р°РїРёСЃСЊ РµС‰Рµ РЅРµ Р°РІС‚РѕСЂРёР·РѕРІР°РЅР°. Р’С‹ РїРѕРєР° РЅРµ РјРѕР¶РµС‚Рµ РІРѕР№С‚Рё РІ СЃРёСЃС‚РµРјСѓ РїРѕРґ СЃРІРѕРёРј РёРјРµРЅРµРј. Р’Р°Рј РїСЂРёРґРµС‚ РїРёСЃСЊРјРѕ, РєРѕРіРґР° Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ Р°РІС‚РѕСЂРёР·СѓРµС‚ СѓС‡РµС‚РЅСѓСЋ Р·Р°РїРёСЃСЊ");
                     
-                    EmailSender.send("Регистрация в системе управления ресурсами", sb.toString(), regClient.getContact());
+                    EmailSender.send("Р РµРіРёСЃС‚СЂР°С†РёСЏ РІ СЃРёСЃС‚РµРјРµ СѓРїСЂР°РІР»РµРЅРёСЏ СЂРµСЃСѓСЂСЃР°РјРё", sb.toString(), regClient.getContact());
                     
                     PrintWriter out = response.getWriter();
                     out.println("<html>");
@@ -143,7 +132,7 @@ public class RegistrationController extends HttpServlet {
                     out.println("<title>Servlet RegistrationController</title>");
                     out.println("</head>");
                     out.println("<body>");
-                    out.println("Регистрация прошла успешно. На указанный адрес отправлено письмо с подтверждением");                                               
+                    out.println("Р РµРіРёСЃС‚СЂР°С†РёСЏ РїСЂРѕС€Р»Р° СѓСЃРїРµС€РЅРѕ. РќР° СѓРєР°Р·Р°РЅРЅС‹Р№ Р°РґСЂРµСЃ РѕС‚РїСЂР°РІР»РµРЅРѕ РїРёСЃСЊРјРѕ СЃ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёРµРј");                                               
                     out.println("</body>");
                     out.println("</html>");   
 				}			
@@ -155,16 +144,21 @@ public class RegistrationController extends HttpServlet {
 					out.println("<title>Servlet RegistrationController</title>");
 					out.println("</head>");
 					out.println("<body>");
-					out.println("Properties not found " + io.getMessage());
+					out.println("Properties file not found " + io.getMessage());
 					io.printStackTrace();
 					out.println("</body>");
 					out.println("</html>");
 				}		
 				
 			}
-			else {
-				redirect(request, response, ErrorMessage.CUSTOM,
-						"You have put wrong data! Try to register once again");				
+			else 
+			{//if server validation fails
+				if (!RegistrationValidator.checkLogin(loginString))
+					{redirect(request, response, ErrorMessage.CUSTOM, "You have put wrong data! Problem in login field. Try to register once again");return;}				
+				if (!RegistrationValidator.checkPasswords(pass1String, pass2String))
+					{redirect(request, response, ErrorMessage.CUSTOM, "You have put wrong data! Problem in password(s) field(s). Try to register once again");return;}
+				if (!RegistrationValidator.checkEmail(emailString))
+					{redirect(request, response, ErrorMessage.CUSTOM, "You have put wrong data! Problem in email field. Try to register once again");return;}
 			}
 		}
 	}
@@ -174,7 +168,6 @@ public class RegistrationController extends HttpServlet {
 		request.setAttribute("errorMessage", new ErrorMessage("Error in registration", errorCode, errorMessage));			
 		RequestDispatcher dispatch = request.getRequestDispatcher("error");
 		dispatch.forward(request, response);
-
 	}
 	
 
