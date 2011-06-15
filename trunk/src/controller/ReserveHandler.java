@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 //import antlr.collections.List;
 import java.util.List;
 
+import utils.ClientComparator;
 import utils.ReservationDAO;
 import utils.ResourceDAO;
 
@@ -36,54 +37,60 @@ public class ReserveHandler implements IReserveHadler{
 	@Override
 	public boolean addReservation(long res_id, GregorianCalendar dateOfStart, GregorianCalendar dateOfEnd, Client cl, PrintWriter out) {
 		// TODO Auto-generated method stub
-		/*Long resource_id=res_id;
+		//Long resource_id=res_id;
+		Calendar curr_date=Calendar.getInstance();
 		GregorianCalendar start_time=dateOfStart;
 		GregorianCalendar end_time=dateOfEnd;
-		Client client=cl;*/
+		Client client=cl;
 		Resource resource=getResourceById(res_id);
 		errStream=out;
-		List<Reservation> reserve_list=new LinkedList<Reservation>();
-		reserve_list=getReservationByTime(resource, dateOfStart, dateOfEnd);
-		if(reserve_list.isEmpty()==true){
-			addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
-			return true;
+		if(curr_date.compareTo(start_time)>0){
+			return false;
 		}
 		else{
-			if(resourceIsCountable(resource)==true){
-				if(haveAPlace(resource, dateOfStart, dateOfEnd)>0){
-					addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
-					return true;
+			List<Reservation> reserve_list=new LinkedList<Reservation>();
+			reserve_list=getReservationByTime(resource, start_time, end_time);
+			if(reserve_list.isEmpty()==true){
+				addReservationAtLast(resource, start_time, end_time, client);
+				return true;
+			}
+			else{
+				if(resourceIsCountable(resource)==true){
+					if(haveAPlace(resource, start_time, end_time)>0){
+						addReservationAtLast(resource, start_time, end_time, client);
+						return true;
+					}
+					else{
+						List<Reservation> min_rang_list=getTheSmallestRangReservationList(reserve_list);
+						if(checkBossPossibility(min_rang_list, client)==true){
+							while(haveAPlace(resource, start_time, end_time)<=0)
+								deleteMinTimeReservation(min_rang_list);
+							//getTheSmallestRangReservationList(reserve_List);
+							addReservationAtLast(resource, start_time, end_time, client);
+							return true;
+						}
+						else{
+							errStream.print("You haven't enough wright to place this resource");
+							return false;
+						}
+					}			
 				}
 				else{
-					List<Reservation> min_rang_list=getTheSmallestRangReservationList(reserve_list);
-					if(checkBossPossibility(min_rang_list, cl)==true){
-						while(haveAPlace(resource, dateOfStart, dateOfEnd)<=0)
-							deleteMinTimeReservation(min_rang_list);
-						//getTheSmallestRangReservationList(reserve_List);
+					if(checkBossPossibility(reserve_list, cl)==true){
+						deleteSelectedReservationList(reserve_list);
 						addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
 						return true;
+					/*if(haveAPlace(resource, dateOfStart, dateOfEnd)>0)
+						addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
+					else{
+						if(checkBossPossibility(reserve_list, cl)==true){
+							deleteSelectedReservationList(reserve_list);
+						}*/
 					}
 					else{
 						errStream.print("You haven't enough wright to place this resource");
 						return false;
 					}
-				}			
-			}
-			else{
-				if(checkBossPossibility(reserve_list, cl)==true){
-					deleteSelectedReservationList(reserve_list);
-					addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
-					return true;
-				/*if(haveAPlace(resource, dateOfStart, dateOfEnd)>0)
-					addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
-				else{
-					if(checkBossPossibility(reserve_list, cl)==true){
-						deleteSelectedReservationList(reserve_list);
-					}*/
-				}
-				else{
-					errStream.print("You haven't enough wright to place this resource");
-					return false;
 				}
 			}
 		}
@@ -166,15 +173,17 @@ public class ReserveHandler implements IReserveHadler{
 	
 	public List<Reservation> getTheSmallestRangReservationList(List<Reservation> reservationList){
 		List<Reservation> smallestRangList = new LinkedList<Reservation>();
+		Client example_client=new Client();
 		Client.RATINGS rating=Client.RATINGS.HIGH;
+		example_client.setRating(rating);
 		try{
 			for(Reservation reserve:reservationList){
-				if(reserve.getClient().getRating().compareTo(rating)<0){
+				if(CompareClients(reserve.getClient(), example_client)<0){
 					rating=reserve.getClient().getRating();
 					smallestRangList.clear();
 					smallestRangList.add(reserve);
 				}
-				if(reserve.getClient().getRating().compareTo(rating)==0)
+				if(CompareClients(reserve.getClient(), example_client)==0)
 					smallestRangList.add(reserve);
 			}
 		}
@@ -188,7 +197,7 @@ public class ReserveHandler implements IReserveHadler{
 		boolean result=true;
 		try{
 			for(Reservation reserve:reservationList){
-				if(client.getRating().compareTo(reserve.getClient().getRating())<0)
+				if(CompareClients(reserve.getClient(), client)>0)
 					result=false;
 			}
 			/*if(client.getRating().compareTo(reservationList.get(0).getClient().getRating())>0){
@@ -259,6 +268,10 @@ public class ReserveHandler implements IReserveHadler{
 		catch(Exception e){
 			errStream.print("Cannot delete selected reservation list");
 		}
+	}
+	
+	public int CompareClients(Client c1, Client c2){
+		return new ClientComparator().compareByRating(c1, c2);
 	}
 
 }
