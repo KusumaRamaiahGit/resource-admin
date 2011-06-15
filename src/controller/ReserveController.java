@@ -49,7 +49,7 @@ public class ReserveController extends HttpServlet {
 		synchronized (session) {
 			Client client=(Client)session.getAttribute("User");
 			Long r_id=Long.parseLong(request.getParameter("resourceID").trim());
-			int y = Integer.parseInt(request.getParameter("year").trim()) - 1900;
+			int y = Integer.parseInt(request.getParameter("year").trim());
 			int m = Integer.parseInt(request.getParameter("month").trim());
 			int d = Integer.parseInt(request.getParameter("day").trim());
 			int hh_start=Integer.parseInt(request.getParameter("start_time").trim().split(":")[0]);
