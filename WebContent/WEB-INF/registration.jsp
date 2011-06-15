@@ -85,27 +85,38 @@
 
 </head>
 <body>
-	<div id="block">
+<div id="block">
 		<h1>Resource admin</h1>
-		<div id="reg">
-			<div class="head">Регистрация нового пользователя</div>
+	<div class="menu" style="text-align: right; margin-top: 50px">
+			<h2 align="center" >Регистрация нового пользователя</h2>
+			<br>
+			<%
+							if (session.getAttribute("User") instanceof Admin) {
+								out.print(" | <a href='AdminPanel'>Админ. панель</a> ");
+							}
+			%>
+			| <a href="calendar.jsp">Календарь</a> | <a href="StatisticController">Статистика</a>
+			| <a href="LogOutController">Выход</a>
+			
+			<br><br>
+		<div style="text-align: left">	
 			
 			<form id="signupForm1" method="post" action="RegistrationController" name="loginForm">			
 			<table border="1">
 				<tr>
-					<td id="#tableCell">Логин:</td>
-					<td>
+					<td id="#tableCell"><label for="login" >Логин:</label></td>
+					<td id="#tableCell" colspan="2">
 						<input id="login" name="login" style="padding-top: 5px;"
 							value="<%if (request.getParameter("login") != null)
 							out.print(request.getParameter("login"));%>" />						
 					</td>
 				</tr>
 				<tr>
-					<td id="#tableCell">Проверить уникальность
-						<input type="submit" align="center" name="checkLogin"
-					value="Проверить логин на уникальность" onClick="enable()" />						
+					<td id="#tableCell" colspan="2">
+						<input type="submit" align="center" name="checkLogin" 
+							value="Проверить логин на уникальность" onClick="enable()" />					
 					</td>
-					<td>
+					<td id="#tableCell">
 						<%
 						if (request.getAttribute("uniqueLogin") != null) {
 							if (request.getAttribute("uniqueLogin").toString() == "true")
@@ -128,29 +139,29 @@
 						<input id="login" name="login" type="hidden"							
 							value="<%if (request.getParameter("login") != null)
 								out.print(request.getParameter("login"));%>" />	
-						Пароль:
+						<label for="pass1">Пароль:</label>
 					</td>
-					<td>
+					<td id="#tableCell">
 						<input id="password" name="pass1" type="password" /> 
 					</td>
 				</tr>				
 				<tr>
-					<td id="#tableCell">Подтверждение пароля:</td>
-					<td>
+					<td id="#tableCell"><label for="pass2">Подтверждение пароля:</label></td>
+					<td id="#tableCell">
 						<input id="pass2" name="pass2" type="password" />
 					</td>
 				</tr>
 				<tr>
-					<td id="#tableCell">Email:</td>
-					<td>
+					<td id="#tableCell"><label for="email">Email:</label></td>
+					<td id="#tableCell">
 						<input id="email" name="email"
 					value="<%if (request.getParameter("email") != null)
 				out.print(request.getParameter("email"));%>" />						
 					</td>
 				</tr>
 				<tr>
-					<td id="#tableCell">Рейтинг:</td>
-					<td>
+					<td id="#tableCell"><label for="rating">Рейтинг:</label></td>
+					<td id="#tableCell">
 						<select name="rating">
 						<%
 							for (model.Client.RATINGS r : Client.RATINGS.values()) {
@@ -165,8 +176,8 @@
 				<% if (request.getSession().getAttribute("User") instanceof Admin)
 					{%>
 					<tr>
-						<td id="#tableCell">Администратор:</td>
-						<td>
+						<td id="#tableCell"><label for="admin">Администратор:</label></td>
+						<td id="#tableCell">
 							<input type="checkbox" name=admin value="false"/>
 						</td>
 					</tr>
@@ -174,7 +185,7 @@
 				
 				<tr>
 					<td id="#tableCell">Зарегистрироваться:</td>
-					<td><input type="submit" align="center" name="register"
+					<td id="#tableCell"><input type="submit" align="center" name="register"
 						value="зарегистрироваться" onClick="checkAndDisable()" />
 					</td>
 				</tr>				
@@ -182,5 +193,7 @@
 			</form>			
 		</div>
 	</div>
+</div>
+	
 </body>
 </html>

@@ -2,8 +2,6 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import javax.faces.context.ResponseWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -52,41 +50,41 @@ public class UserEditController extends HttpServlet {
 			boolean sendSecond=false;
 			
 			StringBuffer builder=new StringBuffer();
-			builder.append("РР·РјРµРЅРµРЅРёСЏ: \n");
-			
-			if (!editingClient.getLogin().equals(loginStr))
-				{
-					builder.append("\nРЎС‚Р°СЂС‹Р№ Р»РѕРіРёРЅ : "+editingClient.getLogin()+"; РЅРѕРІС‹Р№ Р»РѕРіРёРЅ :"+loginStr);
-					editingClient.setLogin(loginStr);
-				}				
-			if (!editingClient.getPassword().equals(passStr))
-			{
-				builder.append("\nРЎС‚Р°СЂС‹Р№ РїР°СЂРѕР»СЊ : "+editingClient.getPassword()+"; РЅРѕРІС‹Р№ РїР°СЂРѕР»СЊ :"+passStr);
-				editingClient.setPassword(passStr);
-			}
-			if (!editingClient.getContact().equals(contactStr))
-			{
-				builder.append("\nРЎС‚Р°СЂС‹Р№ email : "+editingClient.getContact()+"; РЅРѕРІС‹Р№ email :"+contactStr);
-				editingClient.setContact(contactStr);
-				sendSecond=true;
-			}
-			if (!editingClient.getRating().equals(Client.RATINGS.valueOf(ratingStr)))
-			{
-				builder.append("\nРЎС‚Р°СЂС‹Р№ СЂРµР№С‚РёРЅРі : "+editingClient.getRating()+"; РЅРѕРІС‹Р№ СЂРµР№С‚РёРЅРі :"+ratingStr);
-				editingClient.setRating(Client.RATINGS.valueOf(ratingStr));				
-			}
-			if (!editingClient.getRegistered() && request.getParameter("authorized")!=null )
-			{
-				builder.append("\nР РµРіРёСЃС‚СЂР°С†РёСЏ РїРѕРґС‚РІРµСЂР¶РґРµРЅР°. РўРµРїРµСЂСЊ РІС‹ РјРѕР¶РµС‚Рµ Р·Р°Р№С‚Рё РІ СЃРёСЃС‚РµРјСѓ");
-				editingClient.setRegistered(new Boolean(true));
-			}
-			
-			ClientDAO.updateClient(editingClient);
-			EmailSender.send("РР·РјРµРЅРµРЅРёСЏ СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё", builder.toString() , editingClient.getContact());
-			if (sendSecond)
-				EmailSender.send("РР·РјРµРЅРµРЅРёСЏ СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё", builder.toString() , secondReceiver);
-			PrintWriter out=response.getWriter();
-			out.print("Editing completed successfully!");
+			builder.append("Изменения: \n");
+            
+            if (!editingClient.getLogin().equals(loginStr))
+                    {
+                            builder.append("\nСтарый логин : "+editingClient.getLogin()+"; новый логин :"+loginStr);
+                            editingClient.setLogin(loginStr);
+                    }                               
+            if (!editingClient.getPassword().equals(passStr))
+            {
+                    builder.append("\nСтарый пароль : "+editingClient.getPassword()+"; новый пароль :"+passStr);
+                    editingClient.setPassword(passStr);
+            }
+            if (!editingClient.getContact().equals(contactStr))
+            {
+                    builder.append("\nСтарый email : "+editingClient.getContact()+"; новый email :"+contactStr);
+                    editingClient.setContact(contactStr);
+                    sendSecond=true;
+            }
+            if (!editingClient.getRating().equals(Client.RATINGS.valueOf(ratingStr)))
+            {
+                    builder.append("\nСтарый рейтинг : "+editingClient.getRating()+"; новый рейтинг :"+ratingStr);
+                    editingClient.setRating(Client.RATINGS.valueOf(ratingStr));                             
+            }
+            if (!editingClient.getRegistered() && request.getParameter("authorized")!=null )
+            {
+                    builder.append("\nРегистрация подтверждена. Теперь вы можете зайти в систему");
+                    editingClient.setRegistered(new Boolean(true));
+            }
+            
+            ClientDAO.updateClient(editingClient);
+            EmailSender.send("Изменения учетной записи", builder.toString() , editingClient.getContact());
+            if (sendSecond)
+                    EmailSender.send("Изменения учетной записи", builder.toString() , secondReceiver);
+            PrintWriter out=response.getWriter();
+            out.print("Editing completed successfully!");
 		}
 		/*
 		

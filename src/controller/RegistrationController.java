@@ -79,8 +79,7 @@ public class RegistrationController extends HttpServlet {
 
 		} else
 		// we want to register a new user
-		{
-			
+		{			
 			if (request.getParameter("login") == null)
 				{redirect(request,response, ErrorMessage.ACCESS_DENIED, "You haven't specified the login.");return;}			
 			String loginString = request.getParameter("login").toString()
@@ -121,28 +120,33 @@ public class RegistrationController extends HttpServlet {
 				ClientDAO.addClient(regClient);			
 				//change this sendings
 				try{
-						StringBuffer sb=new StringBuffer();
-						sb.append("РџРѕР·РґСЂР°РІР»СЏРµРј, РІС‹ Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅС‹.\n");
-						sb.append("\nРРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ (Р»РѕРіРёРЅ): "+regClient.getLogin());
-						sb.append("\nРџСЂРёРѕСЂРёС‚РµС‚: "+regClient.getRating());
-						if (regClient.getRegistered())
-							sb.append("\nР’Р°С€Р° СѓС‡РµС‚РЅР°СЏ Р·Р°РїРёСЃСЊ Р°РІС‚РѕСЂРёР·РѕРІР°РЅР°. РњРѕР¶РµС‚Рµ РІРѕР№С‚Рё РІ СЃРёСЃС‚РµРјСѓ РїРѕРґ СЃРІРѕРёРј РёРјРµРЅРµРј");
-						else
-							sb.append("\nР’Р°С€Р° СѓС‡РµС‚РЅР°СЏ Р·Р°РїРёСЃСЊ РµС‰Рµ РЅРµ Р°РІС‚РѕСЂРёР·РѕРІР°РЅР°. Р’С‹ РїРѕРєР° РЅРµ РјРѕР¶РµС‚Рµ РІРѕР№С‚Рё РІ СЃРёСЃС‚РµРјСѓ РїРѕРґ СЃРІРѕРёРј РёРјРµРЅРµРј. Р’Р°Рј РїСЂРёРґРµС‚ РїРёСЃСЊРјРѕ, РєРѕРіРґР° Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ Р°РІС‚РѕСЂРёР·СѓРµС‚ СѓС‡РµС‚РЅСѓСЋ Р·Р°РїРёСЃСЊ");
-						
-						EmailSender.send("Р РµРіРёСЃС‚СЂР°С†РёСЏ РІ СЃРёСЃС‚РµРјРµ СѓРїСЂР°РІР»РµРЅРёСЏ СЂРµСЃСѓСЂСЃР°РјРё", sb.toString(), regClient.getContact());
-						
-						PrintWriter out = response.getWriter();
-						out.println("<html>");
-						out.println("<head>");
-						out.println("<title>Servlet RegistrationController</title>");
-						out.println("</head>");
-						out.println("<body>");
-						out.println("Р РµРіРёСЃС‚СЂР°С†РёСЏ РїСЂРѕС€Р»Р° СѓСЃРїРµС€РЅРѕ. РќР° СѓРєР°Р·Р°РЅРЅС‹Р№ Р°РґСЂРµСЃ РѕС‚РїСЂР°РІР»РµРЅРѕ РїРёСЃСЊРјРѕ СЃ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёРµРј");						
-						out.println("</body>");
-						out.println("</html>");
-						
-					}			
+                    StringBuilder sb=new StringBuilder();
+                    sb.append("Поздравляем, вы зарегистрированы.\n");
+                    sb.append("\nИмя пользователя (логин): "+regClient.getLogin());
+                    sb.append("\nПароль: "+regClient.getPassword());
+                    sb.append("\nПриоритет: "+regClient.getRating());
+                    if (regClient instanceof Admin)
+                    	sb.append("\nАдминистратор: да");
+                    else 
+                    	sb.append("\nАдминистратор: нет");
+                    
+                    if (regClient.getRegistered())
+                            sb.append("\nВаша учетная запись авторизована. Можете войти в систему под своим именем");
+                    else
+                            sb.append("\nВаша учетная запись еще не авторизована. Вы пока не можете войти в систему под своим именем. Вам придет письмо, когда администратор авторизует учетную запись");
+                    
+                    EmailSender.send("Регистрация в системе управления ресурсами", sb.toString(), regClient.getContact());
+                    
+                    PrintWriter out = response.getWriter();
+                    out.println("<html>");
+                    out.println("<head>");
+                    out.println("<title>Servlet RegistrationController</title>");
+                    out.println("</head>");
+                    out.println("<body>");
+                    out.println("Регистрация прошла успешно. На указанный адрес отправлено письмо с подтверждением");                                               
+                    out.println("</body>");
+                    out.println("</html>");   
+				}			
 				catch (Exception io)
 				{
 					PrintWriter out = response.getWriter();
