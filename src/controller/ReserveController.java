@@ -73,7 +73,7 @@ public class ReserveController extends HttpServlet {
 				dispatch.forward(request, response);
 			}
 			else{
-				RequestDispatcher dispatch = request.getRequestDispatcher("reservations.jsp");
+				RequestDispatcher dispatch = request.getRequestDispatcher("WEB-INF/reservations.jsp");
 				dispatch.forward(request, response);
 			}	
 			//RequestDispatcher dispatch = request.getRequestDispatcher("calendar.jsp");
