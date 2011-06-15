@@ -204,4 +204,14 @@
     <servlet-name>GraphicController</servlet-name>
     <url-pattern>/GraphicController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CalendarController</display-name>
+    <servlet-name>CalendarController</servlet-name>
+    <servlet-class>controller.CalendarController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CalendarController</servlet-name>
+    <url-pattern>/CalendarController</url-pattern>
+  </servlet-mapping>
 </web-app>
