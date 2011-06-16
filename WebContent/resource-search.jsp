@@ -17,7 +17,7 @@
 <form action="ResourceSearchController" method="POST">
 	<select name="resourceSelector" size="10">
 	<%
-	ArrayList<Resource> resources = null; //= ResourceDAO.getAllResources();
+	ArrayList<Resource> resources = ResourceDAO.getAllResources();
 		
 	for (Resource r : resources)
 	{

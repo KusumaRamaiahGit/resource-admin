@@ -1,4 +1,5 @@
 <!-- author - Martynenko Viktoria-->
+<%@page import="utils.ResourceDAO"%>
 <%@page import="model.Admin"%>
 <%@page import="model.Resource"%>
 <%@page import="java.util.List"%>
@@ -182,8 +183,7 @@ function setMonth(monthsRadioGroup,i) {
 												</div>
 												<%
 												@SuppressWarnings("unchecked")
-													List<Resource> resources = (List<Resource>) session
-															.getAttribute("resources");
+													List<Resource> resources = ResourceDAO.getAllResources();
 													for (Resource r : resources) {
 														//out.print("<option value='" + r.getResource_id() + "'>"+r.getResource_name());
 														out.print("<label><input type='radio' name='resourcesRadioGroup' value='"

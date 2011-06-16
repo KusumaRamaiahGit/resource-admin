@@ -1,62 +1,87 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import utils.ResourceDAO;
+
 import model.Countable;
 import model.Inventarable;
 import model.Resource;
+import utils.ResourceDAO;
 
 /**
  * Servlet implementation class ResourceCreateController
  */
-public class ResourceCreateController extends HttpServlet
-{
+public class ResourceCreateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public ResourceCreateController()
-	{
+	public ResourceCreateController() {
 		super();
 	}
 
-
 	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException
-	{
-		Resource r = new Resource();
-		String name = (String)request.getParameter("resourceName");		
-		String invent = (String)request.getParameter("inventNum");
-		Integer count = null;
-		try
-		{
-			count = Integer.parseInt((String)request.getParameter("maxCapacity"));
-		}
-		catch(NumberFormatException ex)
-		{
-			request.setAttribute("message", "! New maximal capacity field does not contain a parsable integer");
-			
-			RequestDispatcher dispatch = request.getRequestDispatcher("resource-edit.jsp");
-		    dispatch.forward(request, response);
-		}
+			HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
 		
-		if (name != null && !name.trim().isEmpty())
-		{
+		PrintWriter out = response.getWriter();
 
-		}
-		if (count != null && count > 0)
-			((Countable)r).setMaxCapacity(count);
-		if (invent != null && !name.trim().isEmpty())
-			((Inventarable)r).setInvenarno(invent);
+		String className = (String) request.getParameter("resourceName");
+		String isCountable = (String) request.getParameter("isCountable");
+		String isInventarable = (String) request.getParameter("isInventarable");
+		String maxCapStr = (String) request.getParameter("maxCapacity");
+		String inventNumStr = (String) request.getParameter("inventNum");
+		String resName = (String) request.getParameter("resName"); 
 		
-		ResourceDAO.addResource(r);	
-		request.setAttribute("message", "Resource updated!");	
+ 
+
+		@SuppressWarnings("rawtypes")
+		Class resClass = null;
+
+		try {
+			resClass = Class.forName(className);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		Object resource = null;
+
+		try {
+			resource = resClass.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+		if (resource instanceof Resource) {
+			((Resource) resource).setResource_name(resName);
+			if (resource instanceof Countable) {
+				int maxCapacity = 0;
+				try {
+				maxCapacity = Integer.parseInt(maxCapStr.trim());
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+				
+				((Countable) resource).setMaxCapacity(maxCapacity);
+				
+			}
+			
+			if (resource instanceof Inventarable) {
+				((Inventarable) resource).setInvenarno(inventNumStr);
+			}
+
+			ResourceDAO.addResource((Resource) resource);
+		
+		}
+		
+		RequestDispatcher dispatch = request.getRequestDispatcher("AdminPanel");
+		dispatch.forward(request, response);
 
 	}
 
 }
-
-
