@@ -248,5 +248,35 @@
 		<servlet-name>ReservationRemoveController</servlet-name>
 		<url-pattern>/ReservationRemoveController</url-pattern>
 	</servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GraphicResources</display-name>
+    <servlet-name>GraphicResources</servlet-name>
+    <servlet-class>view.GraphicResources</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GraphicResources</servlet-name>
+    <url-pattern>/GraphicResources</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GraphicResourcesMonth</display-name>
+    <servlet-name>GraphicResourcesMonth</servlet-name>
+    <servlet-class>view.GraphicResourcesMonth</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GraphicResourcesMonth</servlet-name>
+    <url-pattern>/GraphicResourcesMonth</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserStatistic</display-name>
+    <servlet-name>UserStatistic</servlet-name>
+    <servlet-class>view.UserStatistic</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserStatistic</servlet-name>
+    <url-pattern>/UserStatistic</url-pattern>
+  </servlet-mapping>
 </web-app>
   

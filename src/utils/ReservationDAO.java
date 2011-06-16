@@ -310,10 +310,8 @@ public class ReservationDAO {
 	
 	public static Long getReservedTimeForResourceByMonth(Calendar startDate,Calendar endDate,Resource resource){
 		List<Reservation> res=getReservationInTime(resource,startDate,endDate);		
-		List<Reservation> res1=new ArrayList<Reservation>();//создаем другой массив, чтоб не менять в базе конец резервации
-		for(Reservation r:res) {
-			res1.add(new Reservation(r.getResource(),r.getStart_time(),r.getEnd_time(),r.getClient()));
-		}
+		List<Reservation> res1=new ArrayList<Reservation>();
+		res1.addAll(res);
 		if(res1.size()>0){
 			Calendar c1=new GregorianCalendar();Calendar c2=new GregorianCalendar();
 			for(Reservation r:res1) {
@@ -331,10 +329,7 @@ public class ReservationDAO {
 	}
 	public static Long timeUnion(List<Reservation> res) {
 		Long time=new Long(0);
-		Integer i1=0;
-		time=Long.parseLong(i1.toString()) ;
 		if(res.size()>0){
-			//Calendar startDate=res.get(0).getStart_time().getTime();
 			Calendar startD=new GregorianCalendar();
 			Calendar endD=new GregorianCalendar();
 			startD=res.get(0).getStart_time();//начало промежутка зарезервированного времени

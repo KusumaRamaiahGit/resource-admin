@@ -46,18 +46,18 @@ function changeImage(jsp) {
 	</tr>
 	<tr>
 		<td>  
-			<input type="button" class="buttonHorisontal" value="Статистика за все время" onClick='changeImage("graphic1.jsp")'>
+			<input type="button" class="buttonHorisontal" value="Статистика за все время" onClick='changeImage("GraphicResources")'>
 		</td>
 		<td>
 			<input type="submit" class="buttonHorisontal" name="nextGraphic" value="Статистика за текущий месяц">
 		</td>
-		<td>
-			<input type="button" class="buttonHorisontal" value="Статистика для пользователей" onClick='changeImage("userStatistic.jsp")'>
+		<td align="left">
+			<input type="button" class="buttonHorisontal" value="Статистика для пользователей" onClick='changeImage("UserStatistic")'>
 		</td>			
 	</tr>
 	<tr>
 		<td colspan=3>
-			<img id="image" src="nextGraphic.jsp" />
+			<img id="image" src="GraphicResourcesMonth" />
 		</td>
 	</tr>
 </table>
