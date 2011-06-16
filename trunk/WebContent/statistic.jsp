@@ -4,6 +4,7 @@
 <%@page import="model.*"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Date"%>
+<%@page trimDirectiveWhitespaces="true" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -35,7 +36,8 @@ function changeImage(jsp) {
 					<td align="center"><%Calendar date=new GregorianCalendar();
 					date.setTime(new Date());
 					int mon=date.get(Calendar.MONTH)+1;
-					out.print(date.get(Calendar.YEAR)+"."+mon);%>
+					out.print(date.get(Calendar.YEAR)+"."+mon);
+					%>
 					</td>
 					<td><input type="submit" name="nextGraphic" class="buttonVertical" value="->"></td>
 				</tr>
@@ -46,22 +48,22 @@ function changeImage(jsp) {
 	</tr>
 	<tr>
 		<td>  
-			<input type="button" class="buttonHorisontal" value="Статистика за все время" onClick='changeImage("graphic1.jsp")'>
-			</td>
-			<td>
+			<input type="button" class="buttonHorisontal" value="Статистика за все время" onClick='changeImage("GraphicResources")'>
+		</td>
+		<td>
 			<input type="submit" class="buttonHorisontal" name="nextGraphic" value="Статистика за текущий месяц">
-			</td>
-			<td align="left">
-				<input type="button" class="buttonHorisontal" value="Статистика для пользователей" onClick='changeImage("userStatistic.jsp")'>
-			</td>			
+		</td>
+		<td align="left">
+			<input type="button" class="buttonHorisontal" value="Статистика для пользователей" onClick='changeImage("UserStatistic")'>
+		</td>			
 	</tr>
 	<tr>
 		<%
 		request.getSession().setAttribute( "someMonth", String.valueOf(date.get(Calendar.MONTH)) );
 		request.getSession().setAttribute( "someYear", String.valueOf(date.get(Calendar.YEAR)) );
 		%>
-		<td colspan=3>		
-			<img id="image" src="graphic1.jsp" />
+		<td colspan=3>
+		<img id="image" src="GraphicResources" />		 
 		</td>		
 	</tr>
 </table>
