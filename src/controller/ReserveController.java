@@ -73,6 +73,10 @@ public class ReserveController extends HttpServlet {
 				dispatch.forward(request, response);
 			}
 			else{
+				request.setAttribute("year", y);
+				request.setAttribute("month", m);
+				request.setAttribute("day", d);
+				request.setAttribute("resourceID", r_id);
 				RequestDispatcher dispatch = request.getRequestDispatcher("WEB-INF/reservations.jsp");
 				dispatch.forward(request, response);
 			}	
