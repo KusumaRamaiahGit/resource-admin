@@ -43,9 +43,15 @@ public class UserDeleteController extends HttpServlet {
 				Client tmp=ClientDAO.getClientById(Long.parseLong(idStr));
 				String login=tmp.getLogin();
 				ClientDAO.deleteClientById(Long.parseLong(idStr));
-				EmailSender.send("Удаление учетной записи", "Ваша учетная запись ("+login+") в системе управления ресурсами была удалена.", tmp.getContact());
+				EmailSender.send("РЈРґР°Р»РµРЅРёРµ СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё", "Р’Р°С€Р° СѓС‡РµС‚РЅР°СЏ Р·Р°РїРёСЃСЊ ("+login+") РІ СЃРёСЃС‚РµРјРµ СѓРїСЂР°РІР»РµРЅРёСЏ СЂРµСЃСѓСЂСЃР°РјРё Р±С‹Р»Р° СѓРґР°Р»РµРЅР°.", tmp.getContact());
 				PrintWriter out = response.getWriter();				
 				out.print("Client with id" +idStr +"("+login+ ") deleted successfully\n");
+			}
+			catch (IOException io)
+			{
+				request.setAttribute("errorMessage", new ErrorMessage("Error in sending message to deleted user",ErrorMessage.CUSTOM, "cannot send email to deleted user with id="+idStr));			
+				RequestDispatcher dispatch = request.getRequestDispatcher("error");
+				dispatch.forward(request, response);
 			}
 			catch (Exception ex)
 			{
