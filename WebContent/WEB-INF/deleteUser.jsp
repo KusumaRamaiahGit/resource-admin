@@ -10,7 +10,7 @@
 <link href="style.css" rel="stylesheet" type="text/css" />
 <title>Resource admin</title>
 </head>
-<body>
+<body style="color: #ffffff;">
 	<%
 		List<Client> clients = ClientDAO.getAllClients();
 	%>
@@ -18,16 +18,16 @@
 		<h1>Resource admin</h1>
 		<%@include file="../menu.jsp"%>
 		<h2 align="center" style="color: #ccffff;">Удаление пользователей</h2>
-		<div style="text-align: left">
+		<div style="text-align: left" >
 			<form name="userDeleteForm" action="UserDeleteController"
 				method="post">
 				<%
 					for (Client c : clients) {
 						if (!c.equals((Client) request.getSession()
 								.getAttribute("User")))
-							out.println("<input type=\"checkbox\" name=\"client_id\" value=\""
+							out.println("<label><input type=\"checkbox\" name=\"client_id\" value=\""
 									+ c.getClient_id()
-									+ "\" >"
+									+ "\" ><label>"
 									+ c.toString()
 									+ "</input><br>");
 					}
