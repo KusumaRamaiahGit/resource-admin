@@ -37,30 +37,34 @@ function showCalendar(month, year) {// показать календать
 	//кнопки-дни
 	var daysarray = new Array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41);
 	var i;
+	var img;
 	for(i=0;i<42;i++){
-		document.getElementById(encodeURIComponent(daysarray[i])).value="";
-		document.getElementById(encodeURIComponent(daysarray[i])).disabled=false;
+		img = document.getElementById(encodeURIComponent(daysarray[i]));
+		img.value="";
+		img.disabled=false;
 	}
 	var previousMonth;//дни предыдущего месяца
 	for (i = 0; i < startDayOfWeek; i++) {
 		previousMonth=daysInPreviousMonth-startDayOfWeek+i+1;
-		document.getElementById(encodeURIComponent(daysarray[i])).value+=previousMonth;
-		document.getElementById(encodeURIComponent(daysarray[i])).disabled="disabled";
+		img = document.getElementById(encodeURIComponent(daysarray[i]));
+		img.value+=previousMonth;
+		img.disabled="disabled";	    
 	}
 	for (i = startDayOfWeek; i < days; i++) {
+		img = document.getElementById(encodeURIComponent(daysarray[i]));
 		if (i-startDayOfWeek+1 < 10)
-			document.getElementById(encodeURIComponent(daysarray[i])).value+=" ";
-		document.getElementById(encodeURIComponent(daysarray[i])).value+=i-startDayOfWeek+1;
+			img.value+=" ";
+		img.value+=i-startDayOfWeek+1;
 	}
 	var nextMonth;//дни следующего месяца
 	for (i=days; i<42; i++) {
+		img = document.getElementById(encodeURIComponent(daysarray[i]));
 		nextMonth=i+1-days;
 		if(nextMonth<10)
-			document.getElementById(encodeURIComponent(daysarray[i])).value=" ";
-		document.getElementById(encodeURIComponent(daysarray[i])).value+=nextMonth;
-		document.getElementById(encodeURIComponent(daysarray[i])).disabled="disabled";
+			img.value=" ";
+		img.value+=nextMonth;
+		img.disabled="disabled";		
 	}
-	//document.Reservation.Showcalendar.focus();
 }
 function selectDate() {
 	var year = document.Reservation.year.value;
@@ -74,8 +78,6 @@ function showCurrentMonth() {//показать текущий месяц
 	var day = now.getDate();
 	var month = now.getMonth();
 	var year = now.getFullYear();
-	if (year < 2000)
-		year = year + 1900;
 	this.focusDay = day;
 	setMonth(document.Reservation.monthsRadioGroup,month);
 	document.Reservation.resourcesRadioGroup[0].checked=true;
@@ -111,14 +113,15 @@ function showNextMonth() {// показать следующий месяц
 	}
 }
 function normalYear(year){
-	if(year>=100)
+	if(year.length ==4)
 		return true;
 	else{
-		alert ("Год должен состоять минимум из трех цифр.");
+		alert ("Год должен состоять из четырех цифр.");
 		document.Reservation.year.select();
 		document.Reservation.year.focus();
 		return false;
 	}
+	return true;
 }
 
 function daysInMonth(month,year) {//кол-во дней в месяце
@@ -157,7 +160,6 @@ function setMonth(monthsRadioGroup,i) {
 }
 
 </SCRIPT>
-
 </head>
 <body onLoad="showCurrentMonth()">
 	<div id="block">
@@ -185,7 +187,6 @@ function setMonth(monthsRadioGroup,i) {
 												@SuppressWarnings("unchecked")
 													List<Resource> resources = ResourceDAO.getAllResources();
 													for (Resource r : resources) {
-														//out.print("<option value='" + r.getResource_id() + "'>"+r.getResource_name());
 														out.print("<label><input type='radio' name='resourcesRadioGroup' value='"
 																+ r.getResource_id()
 																+ "'>"
