@@ -35,37 +35,33 @@ function changeImage(jsp) {
 					<td><input type="submit" name="nextGraphic" class="buttonVertical" value="<-"></td>
 					<td><%
 					int mon=Integer.parseInt(request.getSession().getAttribute("someMonth").toString())+1;
-					out.println("<h4>"+request.getSession().getAttribute("someYear")+"."+mon+"</h4>");
+					out.print(request.getSession().getAttribute("someYear")+"."+mon);
 					%></td>
 					<td><input type="submit" name="nextGraphic" class="buttonVertical" value="->"></td>
 				</tr>
 			</table></div>
 		</td>
-		<td  >
-		 
+		<td>			
 		</td>		
 	</tr>
 	<tr>
 		<td>  
 			<input type="button" class="buttonHorisontal" value="Статистика за все время" onClick='changeImage("graphic1.jsp")'>
-			</td>
-			<td>
+		</td>
+		<td>
 			<input type="submit" class="buttonHorisontal" name="nextGraphic" value="Статистика за текущий месяц">
-			</td>
-			<td>
-				<input type="button" class="buttonHorisontal" value="Статистика для пользователей" onClick='changeImage("userStatistic.jsp")'>
-			</td>			
+		</td>
+		<td>
+			<input type="button" class="buttonHorisontal" value="Статистика для пользователей" onClick='changeImage("userStatistic.jsp")'>
+		</td>			
 	</tr>
 	<tr>
-		<td colspan=3  align="center">
+		<td colspan=3>
 			<img id="image" src="nextGraphic.jsp" />
 		</td>
 	</tr>
 </table>
 </form>
-<!--  
-	<input type="button" class="buttonHorisontal" ="Статистика для ресурсов" onClick='changeImage("resourceStatistic.jsp")'>
--->
 </div>
 </body>
 </html>

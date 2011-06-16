@@ -24,8 +24,8 @@ function changeImage(jsp) {
 <div id="block" align="left">
 <h1>Статистика</h1>
 <%@include file="../menu.jsp"%>
-<form action="GraphicController" method="POST">
-<table border=0  align="center"  class="menu">
+<form action="GraphicController" method="POST">	
+<table border=0  align="center">
 	<tr>
 		<td></td>
 		<td><div>
@@ -35,14 +35,13 @@ function changeImage(jsp) {
 					<td align="center"><%Calendar date=new GregorianCalendar();
 					date.setTime(new Date());
 					int mon=date.get(Calendar.MONTH)+1;
-					out.println("<h4>"+date.get(Calendar.YEAR)+"."+mon+"</h4>");%>
+					out.print(date.get(Calendar.YEAR)+"."+mon);%>
 					</td>
 					<td><input type="submit" name="nextGraphic" class="buttonVertical" value="->"></td>
 				</tr>
 			</table></div>
 		</td>
 		<td>
-			 
 		</td>		
 	</tr>
 	<tr>
@@ -52,7 +51,7 @@ function changeImage(jsp) {
 			<td>
 			<input type="submit" class="buttonHorisontal" name="nextGraphic" value="Статистика за текущий месяц">
 			</td>
-			<td>
+			<td align="left">
 				<input type="button" class="buttonHorisontal" value="Статистика для пользователей" onClick='changeImage("userStatistic.jsp")'>
 			</td>			
 	</tr>
@@ -61,14 +60,11 @@ function changeImage(jsp) {
 		request.getSession().setAttribute( "someMonth", String.valueOf(date.get(Calendar.MONTH)) );
 		request.getSession().setAttribute( "someYear", String.valueOf(date.get(Calendar.YEAR)) );
 		%>
-		<td colspan=3  align="center">		
+		<td colspan=3>		
 			<img id="image" src="graphic1.jsp" />
 		</td>		
 	</tr>
 </table>
-<!--  
-<input type="button" class="buttonHorisontal" ="Статистика для ресурсов" onClick='changeImage("resourceStatistic.jsp")'>
--->
 </form>	
 </div>
 </body>
