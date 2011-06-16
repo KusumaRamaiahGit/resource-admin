@@ -88,7 +88,7 @@ public class ResourceDAO {
 			tx = sess.beginTransaction();
 			Query query = sess.createSQLQuery("delete from reservation where resource_fk=?;").setParameter(0, id);
 			query.executeUpdate();
-			Query query2 = sess.createSQLQuery("delete from client where resource_id=?;").setParameter(0, id);
+			Query query2 = sess.createSQLQuery("delete from res where resource_id=?;").setParameter(0, id);
 			query2.executeUpdate();
 			sess.getTransaction().commit();
 		} catch (Exception e) {

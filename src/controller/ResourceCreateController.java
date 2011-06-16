@@ -1,18 +1,15 @@
 package controller;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import utils.ResourceDAO;
 import model.Countable;
 import model.Inventarable;
+import model.Resource;
 
 /**
  * Servlet implementation class ResourceCreateController
@@ -21,37 +18,45 @@ public class ResourceCreateController extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException
+	public ResourceCreateController()
 	{
+		super();
 	}
 
-	/**
-	 * завис
-	 */
+
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException
 	{
-
-		ArrayList<Class> interfaces = new ArrayList<Class>();
+		Resource r = new Resource();
+		String name = (String)request.getParameter("resourceName");		
+		String invent = (String)request.getParameter("inventNum");
+		Integer count = null;
+		try
+		{
+			count = Integer.parseInt((String)request.getParameter("maxCapacity"));
+		}
+		catch(NumberFormatException ex)
+		{
+			request.setAttribute("message", "! New maximal capacity field does not contain a parsable integer");
+			
+			RequestDispatcher dispatch = request.getRequestDispatcher("resource-edit.jsp");
+		    dispatch.forward(request, response);
+		}
 		
-		if (request.getAttribute("isCountable") != null)	
-			interfaces.add(Countable.class);
-		if (request.getAttribute("isInventarable") != null)
-			interfaces.add(Inventarable.class);
+		if (name != null && !name.trim().isEmpty())
+		{
 
-		Object proxy = Proxy.newProxyInstance(null, (Class[])interfaces.toArray(), new TraceHandler());
+		}
+		if (count != null && count > 0)
+			((Countable)r).setMaxCapacity(count);
+		if (invent != null && !name.trim().isEmpty())
+			((Inventarable)r).setInvenarno(invent);
+		
+		ResourceDAO.addResource(r);	
+		request.setAttribute("message", "Resource updated!");	
+
 	}
 
 }
 
-class TraceHandler implements InvocationHandler
-{
-	@Override
-	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
-	{		
-		//method.invoke(arg0, arg1);
-		return null;
-	}
-	
-}
+
