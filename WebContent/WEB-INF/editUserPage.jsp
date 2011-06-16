@@ -9,7 +9,7 @@
 <link href="style.css" rel="stylesheet" type="text/css" />
 <title>Resource admin</title>
 </head>
-<body>
+<body style="color: #ffffff;">
 	<% Client editingClient=ClientDAO.getClientById(Long.parseLong(request.getParameter("client_id"))); %>
 	<div id="block">
 		<h1>Resource admin</h1>		
@@ -17,7 +17,7 @@
 			<%@include file="../menu.jsp"%>
 			<h2 align="center" style="color: #ccffff;">Редактирование пользователя</h2> 
 			<div style="text-align: left">
-				<form action="UserEditController" method="post">
+				<form action="UserEditController" method="post" style="color: #FFF;">
 					<input type="hidden" name="client_id" value="<%=editingClient.getClient_id() %>" />
 					Логин:<input type="text" name="client_login" value="<%=editingClient.getLogin() %>" />
 					Пароль:<input type="text" name="client_password" value="<%=editingClient.getPassword() %>" />
@@ -31,7 +31,7 @@
 								}
 							%>			
 						</select>
-					Авторизирован:<input type="checkbox" name="authorized"  />
+					Авторизирован:<input type="checkbox" name="authorized" <% if (editingClient.getRegistered()) out.print("checked='true'"); %> />
 					<input type="submit" name="edit" value="Редактировать"/>
 				</form>
 			</div>
