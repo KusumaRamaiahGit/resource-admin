@@ -14,6 +14,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Resource;
@@ -33,7 +34,6 @@ public class Diagram extends HttpServlet {
 	private int height;//высота части изображения без названий
 	private int marking_size;//длина для разметки на осях
 	private int widthForNames;//ширина для части изображения, включающей названия данных в диаграмме
-	//переменные для регулирования высоты изображения 
 	private int scanningSeparation;//расстояние между названиями ресурсов
 	private int fontSize;//размер шрифта для названия
 	private int heightOfNameRect;//высота цветного прямоугольника для названия ресурса
@@ -51,7 +51,6 @@ public class Diagram extends HttpServlet {
 	private int widthForTimeRect;//ширина прямоугольника для времени
 	private int widthOfBigRect;//ширина большого прямоугольника из диаграммы
 	private int heightOfBigRect;//высота большого прямоугольника из диаграммы
-	private Integer i;//номер ресурса
 	private int fullWidth;//ширина всего изображения
 	private int fullHeight;//высота всего изображения
 	private int shiftX;//смещение по Х для 3D
@@ -82,7 +81,7 @@ public class Diagram extends HttpServlet {
 		endDate=new GregorianCalendar(year,month,1,0,0,0);
     }
    
-	public void drawAllResourcesAndFullTime(HttpServletResponse response) throws ServletException, IOException {		
+	public void drawAllResourcesAndFullTime(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {		
 		setParametrsForDiagram();
 		BufferedImage image = new BufferedImage(fullWidth, fullHeight, BufferedImage.TYPE_INT_RGB);
 		g = image.createGraphics();
@@ -90,28 +89,30 @@ public class Diagram extends HttpServlet {
 		drawMarkingForAxes();//разметка для оси ординат, оси абсцисс и полосы (фон для диаграммы)
 		drawAxes("Занятость за все время (в днях)");//рисуем оси координат
 		hm=getDiagramData();//получаем данные для диаграммы
-		drawDiagram(86400000);//рисуем диаграмму, делим на 86400000	миллисекунды, чтобы получить дни	
+		drawDiagram(86400000);//рисуем диаграмму (в днях)
 		g.dispose();
 		ServletOutputStream sos = response.getOutputStream();
 		JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(sos);
 		encoder.encode(image);
+		sos.close();
 	}
-	public void drawAllResourcesForMonth(HttpServletResponse response) throws ServletException, IOException {		
+	public void drawAllResourcesForMonth(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {		
 		setParametrsForDiagram();
 		BufferedImage image = new BufferedImage(fullWidth, fullHeight, BufferedImage.TYPE_INT_RGB);
 		g = image.createGraphics();
 		drawBackground();//рисуем фон, устанавливаем шрифт
 		drawMarkingForAxes();//разметка для оси ординат, оси абсцисс и полосы (фон для диаграммы)
 		drawAxes("Занятость за все время (в часах)");//рисуем оси координат
-		hm.clear();
+		//hm.clear();
 		hm=getDiagramDataForMonth();//получаем данные для диаграммы
-		drawDiagram(3600000);//рисуем диаграмму, делим на 3600000 миллисекунды, чтобы получить часы	
+		drawDiagram(3600000);//рисуем диаграмму (в часах)
 		g.dispose();
 		ServletOutputStream sos = response.getOutputStream();
 		JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(sos);
 		encoder.encode(image);
+		sos.close();
 	}
-	public void drawUserStatistic(HttpServletResponse response) throws ServletException, IOException {
+	public void drawUserStatistic(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
 		setParametrsForDiagram();
 		origin=16;
 		//формируем размер изображения
@@ -136,7 +137,7 @@ public class Diagram extends HttpServlet {
 		g.fillRect(0, 0, fullWidth, fullHeight);
 		g.setColor(new Color(214,253,254));
 		g.fillRect(fullWidth-widthForNames-origin, origin, widthForNames, fullHeight-2*origin);//фон для названий ресурсов
-		i=0;
+		Integer i=0;
 		for(Resource r:resources) {
 			//названия ресурсов
 			g.setColor(colorForPieChart()[i]);//цвета
@@ -148,15 +149,16 @@ public class Diagram extends HttpServlet {
 		}
 		int i1=0;
 		for(Client c:clients) {
-			hmPie.clear();
+			//hmPie.clear();
 			hmPie=getDiagramDataForClient(c);
 			drawPieChart(c,i1);//рисуем диаграмму
 			i1++;
-		}
+		}		
 		g.dispose();
 		ServletOutputStream sos = response.getOutputStream();
 		JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(sos);
 		encoder.encode(image);
+		sos.close();
 	}
 	public void setParametrsForDiagram() {//установить все параметры для диаграммы
     	origin=60;
@@ -182,7 +184,6 @@ public class Diagram extends HttpServlet {
 		widthOfBigRect=(width-3*origin)/countRes;//ширина большого прямоугольника в диаграмме
 		widthForTimeRect=widthOfBigRect;//высота и ширина прямоугольника для времени
 		heightForTimeRect=fontSize+2*indentForTimeRect;
-		i=0;
 		//увеличение высоты изображения при необходимости
 		int realHeight=resources.size()*(heightOfNameRect+scanningSeparation)+2*origin;
 		if(realHeight>height) {//если реальная высота превышает заданную
@@ -274,54 +275,7 @@ public class Diagram extends HttpServlet {
 		}
 		return c;
 	}
-	
-	/*public Color[] colorForPieChart(){//массив цветов для диаграммы
-		Color[] c=new Color[countRes];
-		int red=0,green=0,blue=0;
-		for(int i=0;i<countRes;i++) {
-			if(i==0) {
-				red=155;green=1;blue=214;
-			}
-			else 
-				if(i==1) {
-					red=0;green=255;blue=4;
-				}
-				else
-					if(i==2) {
-						red=18;green=30;blue=254;
-					}
-					else
-						if(i==3) {
-							red=245;green=27;blue=223;
-						}
-						else
-							if(i==4) {
-								red=219;green=53;blue=82;
-							}
-							else
-								if(i==5) {
-									red=220;green=69;blue=84;
-								}
-								else
-									if(i==6) {
-										red=47;green=52;blue=242;
-									}
-									else
-										if(i==7) {
-											red=35;green=232;blue=237;
-										}
-										else
-											green=30+i*30;blue=i*2;
-			if((red>255) ||(red<0))
-				red=100;
-			if((green>255) ||(green<0))
-				green=100;
-			if((blue>255) ||(blue<0))
-				blue=100;		
-			c[i]=new Color(red,green,blue);			
-		}
-		return c;
-	}*/
+		
 	public void drawBackground() {
 		f=new Font("Times New Romane", Font.PLAIN, fontSize);
 		g.setFont(f);
@@ -331,8 +285,8 @@ public class Diagram extends HttpServlet {
 		g.fillRect(width, origin, widthForNames, height-2*origin);//фон для названий ресурсов		
 	}
 	public void drawMarkingForAxes() {
-		//разметка для оси ординат, полосы (фон для диаграммы)
-		for(i=0;i<=countRes;i++) {
+		//разметка для оси ординат, полосы (фон для диаграммы)		
+		for(int i=0;i<=countRes;i++) {
 			if(i%2==0)
 				g.setColor(new Color(194,253,254));
 			else
@@ -343,7 +297,7 @@ public class Diagram extends HttpServlet {
 		}
 		//разметка для оси абсцисс
 		g.setColor(Color.blue);
-		for(i=1;i<=countRes;i++){
+		for(Integer i=1;i<=countRes;i++){
 			g.drawLine(i*widthOfBigRect+origin, height-marking_size-origin, i*widthOfBigRect+origin, width+marking_size-origin);
 			g.drawString(i.toString(), i*widthOfBigRect-widthOfBigRect/2+origin, height-origin/2);
 		}		
@@ -366,7 +320,7 @@ public class Diagram extends HttpServlet {
 		//hm=getDiagramData();
 		if(hm.size()!=0) {
 			double scale=scaleY();//масштабирование взависимости от максимального промежутка времени
-			Long time=new Long(0);i=0;
+			Long time=new Long(0);Integer i=0;
 			double d;
 			Integer timeInDays;
 			for(Resource r:resources) {			
@@ -447,7 +401,7 @@ public class Diagram extends HttpServlet {
 		g.drawString(c.getLogin(), origin+column*(origin+widthCircle), origin-origin/4+row*(origin+heightCircle+heightCylinder));//имя клиента
 		
 		int countNotNullAngles=0;
-		for(i=0;i<angles.length;i++){
+		for(int i=0;i<angles.length;i++){
 			if(angles[i]!=0)
 				countNotNullAngles++;
 			if(countNotNullAngles>1)
@@ -456,7 +410,7 @@ public class Diagram extends HttpServlet {
 		int startAngle=0;
 		int x=origin+column*(origin+widthCircle);
 		int y=origin+row*(origin+heightCircle+heightCylinder);
-		for(i=0;i<angles.length;i++) {
+		for(int i=0;i<angles.length;i++) {
 			g.setColor(new Color(171,182,186));//цвет тени
 			g.fillArc(x+shadow, y+heightCylinder, widthCircle, heightCircle, startAngle, angles[i]);//тень
 			if(countNotNullAngles>1){//вырезаем только, если кол-во ресурсов в диаграмме больше, чем 1
@@ -466,7 +420,7 @@ public class Diagram extends HttpServlet {
 			startAngle+=angles[i];
 		}
 		startAngle=0;
-		for(i=0;i<angles.length;i++) {
+		for(int i=0;i<angles.length;i++) {
 			//System.out.println("client "+c.getLogin()+" res "+r.getResource_name()+" angles "+angles[i]);
 			g.setColor(colorForPieChart()[i]);//цвета
 			g.fillArc(x, y, widthCircle, heightCircle, startAngle, angles[i]);//верхняя часть цилиндра
@@ -480,7 +434,7 @@ public class Diagram extends HttpServlet {
 	}
 	public int[] angle(int sumTime) {//массив величин углов, обозначающих зарезервированное время для ресурса (для какого-то клиента) 
 		int[] angles=new int[resources.size()];
-		i=0;int sum=0;int time; double ang=0;
+		int i=0;int sum=0;int time; double ang=0;
 		for(Resource r:resources) {
 			time=hmPie.get(r.getResource_name());
 			ang=360*(double)time/(double)sumTime;
@@ -497,5 +451,52 @@ public class Diagram extends HttpServlet {
 			}
 		return angles;
 	}
+	/*public Color[] colorForPieChart(){//массив цветов для диаграммы
+	Color[] c=new Color[countRes];
+	int red=0,green=0,blue=0;
+	for(int i=0;i<countRes;i++) {
+		if(i==0) {
+			red=155;green=1;blue=214;
+		}
+		else 
+			if(i==1) {
+				red=0;green=255;blue=4;
+			}
+			else
+				if(i==2) {
+					red=18;green=30;blue=254;
+				}
+				else
+					if(i==3) {
+						red=245;green=27;blue=223;
+					}
+					else
+						if(i==4) {
+							red=219;green=53;blue=82;
+						}
+						else
+							if(i==5) {
+								red=220;green=69;blue=84;
+							}
+							else
+								if(i==6) {
+									red=47;green=52;blue=242;
+								}
+								else
+									if(i==7) {
+										red=35;green=232;blue=237;
+									}
+									else
+										green=30+i*30;blue=i*2;
+		if((red>255) ||(red<0))
+			red=100;
+		if((green>255) ||(green<0))
+			green=100;
+		if((blue>255) ||(blue<0))
+			blue=100;		
+		c[i]=new Color(red,green,blue);			
+	}
+	return c;
+}*/
 }
 

@@ -7,10 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
-
-import bean.NextGraphic;
+import utils.NextGraphic;
 
 public class GraphicController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -24,10 +21,10 @@ public class GraphicController extends HttpServlet {
 		String graphic=request.getParameter("nextGraphic").toString();
 		NextGraphic.setMonth(month);
 		NextGraphic.setYear(year);		
-		if(graphic.equalsIgnoreCase("<-"))
+		if(graphic.equals("<-"))
 			NextGraphic.previousMonth();
 		else {
-			if(graphic.equalsIgnoreCase("->"))
+			if(graphic.equals("->"))
 				NextGraphic.nextMonth();
 			else
 				NextGraphic.currentMonth();

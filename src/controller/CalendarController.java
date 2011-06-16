@@ -30,12 +30,4 @@ public class CalendarController extends HttpServlet {
 			dispatch.forward(request, response);
 		}
 	}
-
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatch = request
-				.getRequestDispatcher("calendar.jsp");
-		dispatch.forward(request, response);
-	}
-
 }
