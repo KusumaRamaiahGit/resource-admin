@@ -12,6 +12,10 @@ public class DatePairs {
 		this.end_time = end_time;
 	}
 	
+	public DatePairs() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Date getStart_time() {
 		return start_time;
 	}
