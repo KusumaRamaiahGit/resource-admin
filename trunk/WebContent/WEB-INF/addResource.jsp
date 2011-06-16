@@ -11,11 +11,11 @@
 <link href="style.css" rel="stylesheet" type="text/css" />
 <title>Resource admin</title>
 </head>
-<body>
+<body style="color:#cff">
 	<div id="block">
 		<h1>Resource admin</h1>
 		<%@include file="../menu.jsp"%>
-		<h2 align="center"  style="color: #ccffff;">Содание нового ресурса</h2>
+		<h2 align="center"  style="color: #ccffff;">Создание нового ресурса</h2>
   
 		<%
 			List<Resource> res = ResourceDAO.getAllResources();
