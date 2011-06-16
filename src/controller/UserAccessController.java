@@ -43,33 +43,40 @@ public class UserAccessController extends HttpServlet {
 			Client client = ClientDAO.getClientById(Long.parseLong(idStr));
 			client.setRegistered(true);
 			StringBuffer builder=new StringBuffer();
-			builder.append("Ваша учетная запись авторизирована.\n");
+			builder.append("Р’Р°С€Р° СѓС‡РµС‚РЅР°СЏ Р·Р°РїРёСЃСЊ Р°РІС‚РѕСЂРёР·РёСЂРѕРІР°РЅР°.\n");
 			/*String loginStr=request.getParameter("client_login");
 			String passStr=request.getParameter("client_password");				
 			String ratingStr=request.getParameter("client_rating");
 			
 			if (!client.getLogin().equals(loginStr))
             {
-                    builder.append("\nСтарый логин : "+client.getLogin()+"; новый логин :"+loginStr);
+                    builder.append("\nРЎС‚Р°СЂС‹Р№ Р»РѕРіРёРЅ : "+client.getLogin()+"; РЅРѕРІС‹Р№ Р»РѕРіРёРЅ :"+loginStr);
                     client.setLogin(loginStr);
             }                               
 		    if (!client.getPassword().equals(passStr))
 		    {
-		            builder.append("\nСтарый пароль : "+client.getPassword()+"; новый пароль :"+passStr);
+		            builder.append("\nРЎС‚Р°СЂС‹Р№ РїР°СЂРѕР»СЊ : "+client.getPassword()+"; РЅРѕРІС‹Р№ РїР°СЂРѕР»СЊ :"+passStr);
 		            client.setPassword(passStr);
 		    }
 		    
 		    if (!client.getRating().equals(Client.RATINGS.valueOf(ratingStr)))
 		    {
-		            builder.append("\nСтарый рейтинг : "+client.getRating()+"; новый рейтинг :"+ratingStr);
+		            builder.append("\nРЎС‚Р°СЂС‹Р№ СЂРµР№С‚РёРЅРі : "+client.getRating()+"; РЅРѕРІС‹Р№ СЂРµР№С‚РёРЅРі :"+ratingStr);
 		            client.setRating(Client.RATINGS.valueOf(ratingStr));                             
 		    }*/
-			builder.append("Теперь вы можете войти в систему.");
+			builder.append("РўРµРїРµСЂСЊ РІС‹ РјРѕР¶РµС‚Рµ РІРѕР№С‚Рё РІ СЃРёСЃС‚РµРјСѓ.");
 			
 			ClientDAO.updateClient(client);
-			EmailSender.send("Авторизация учетной записи в системе управления ресурсами", builder.toString(), client.getContact());
+			EmailSender.send("РђРІС‚РѕСЂРёР·Р°С†РёСЏ СѓС‡РµС‚РЅРѕР№ Р·Р°РїРёСЃРё РІ СЃРёСЃС‚РµРјРµ СѓРїСЂР°РІР»РµРЅРёСЏ СЂРµСЃСѓСЂСЃР°РјРё", builder.toString(), client.getContact());
 			PrintWriter out = response.getWriter();				
 			out.print("Client with id" +idStr + "("+ClientDAO.getClientById(Long.parseLong(idStr))+") registered successfully\n");
+		}
+		catch(IOException io)
+		{
+			request.setAttribute("errorMessage", new ErrorMessage("Error in sending email to user",ErrorMessage.CUSTOM, "cannot send email to user with id="+idStr));			
+			RequestDispatcher dispatch = request.getRequestDispatcher("error");
+			dispatch.forward(request, response);
+			return;				
 		}
 		catch (Exception ex)
 		{
@@ -78,6 +85,7 @@ public class UserAccessController extends HttpServlet {
 			dispatch.forward(request, response);
 			return;
 		}
+		
 	}
 	}
 	
