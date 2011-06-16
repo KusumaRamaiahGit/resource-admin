@@ -204,35 +204,25 @@
     <servlet-name>GraphicController</servlet-name>
     <url-pattern>/GraphicController</url-pattern>
   </servlet-mapping>
-  <servlet>
+   <servlet>
     <description></description>
-    <display-name>CalendarController</display-name>
-    <servlet-name>CalendarController</servlet-name>
-    <servlet-class>controller.CalendarController</servlet-class>
+    <display-name>EditResourceController</display-name>
+    <servlet-name>EditResourceController</servlet-name>
+    <servlet-class>controller.EditResourceController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>CalendarController</servlet-name>
-    <url-pattern>/CalendarController</url-pattern>
+    <servlet-name>EditResourceController</servlet-name>
+    <url-pattern>/EditResourceController</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>UserReservationsController</display-name>
-    <servlet-name>UserReservationsController</servlet-name>
-    <servlet-class>controller.UserReservationsController</servlet-class>
+    <display-name>ResourceAdminController</display-name>
+    <servlet-name>ResourceAdminController</servlet-name>
+    <servlet-class>controller.ResourceAdminController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>UserReservationsController</servlet-name>
-    <url-pattern>/UserReservationsController</url-pattern>
-    <url-pattern>/UserReservations</url-pattern>
+    <servlet-name>ResourceAdminController</servlet-name>
+    <url-pattern>/ResourceAdminController</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>ReservationRemoveController</display-name>
-    <servlet-name>ReservationRemoveController</servlet-name>
-    <servlet-class>controller.ReservationRemoveController</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ReservationRemoveController</servlet-name>
-    <url-pattern>/ReservationRemoveController</url-pattern>
-  </servlet-mapping>
-</web-app>
+  </web-app>
+  

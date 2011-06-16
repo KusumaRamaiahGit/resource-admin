@@ -43,7 +43,7 @@
             <table border="0" align="center" class="admin-panel-table">
                 <tr>
                     <td>
-                        <a href="#">
+                        <a href="ResourceAdminController?page=add"">
                             <div>
                                 <img src="img/resource-add-icon.png" />
                             </div>
@@ -51,7 +51,7 @@
                         </a>
                     </td>
                     <td>
-                        <a href="#">
+                        <a href="ResourceAdminController?page=edit">
                             <div>
                                 <img src="img/resource-add-icon.png" />
                             </div>
@@ -59,7 +59,7 @@
                         </a>
                     </td>
                     <td>
-                        <a href="#">
+                        <a href="ResourceAdminController?page=delete">
                             <div>
                                 <img src="img/resource-delete-icon.png" />
                             </div>
@@ -87,4 +87,5 @@
             </table>
         </div>
     </body>
+>>>>>>> .r158
 </html>
