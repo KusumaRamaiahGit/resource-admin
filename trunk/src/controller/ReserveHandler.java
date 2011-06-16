@@ -38,6 +38,7 @@ public class ReserveHandler implements IReserveHadler{
 	public boolean addReservation(long res_id, GregorianCalendar dateOfStart, GregorianCalendar dateOfEnd, Client cl, PrintWriter out) {
 		// TODO Auto-generated method stub
 		//Long resource_id=res_id;
+		boolean result=false;
 		Calendar curr_date=Calendar.getInstance();
 		GregorianCalendar start_time=dateOfStart;
 		GregorianCalendar end_time=dateOfEnd;
@@ -45,26 +46,26 @@ public class ReserveHandler implements IReserveHadler{
 		Resource resource=getResourceById(res_id);
 		errStream=out;
 		if(curr_date.compareTo(start_time)>0){
-			return false;
+			result=false;
 		}
 		else{
 			List<Reservation> reserve_list=new LinkedList<Reservation>();
 			reserve_list=getReservationByTime(resource, start_time, end_time);
 			if(reserve_list.isEmpty()==true){
 				addReservationAtLast(resource, start_time, end_time, client);
-				return true;
+				result=true;
 			}
 			else{
 				if(resourceIsCountable(resource)==true){
 					if(haveACountablePlace(resource, reserve_list, start_time, end_time)==true){
 						addReservationAtLast(resource, start_time, end_time, client);
-						return true;
+						result=true;
 					}
 					else{
 						List<Reservation> min_rang_list=getTheSmallestRangReservationList(reserve_list);
 						if(min_rang_list.isEmpty()==true){
 							errStream.print("You haven't enough wright to place this resource");
-							return false;
+							result=false;
 							//while(haveAPlace(resource, start_time, end_time)<=0)
 								//deleteMinTimeReservation(min_rang_list);
 							//getTheSmallestRangReservationList(reserve_List);
@@ -79,7 +80,7 @@ public class ReserveHandler implements IReserveHadler{
 								//min_rang_list=getTheSmallestRangReservationList(reserve_list);
 								if(haveANewCountablePlace(resource, intersection_list)==true){
 									addReservationAtLast(resource, start_time, end_time, client);
-									return true;
+									result=true;
 								}
 							}
 						}
@@ -89,7 +90,7 @@ public class ReserveHandler implements IReserveHadler{
 					if(checkBossPossibility(reserve_list, cl)==true){
 						deleteSelectedReservationList(reserve_list);
 						addReservationAtLast(resource, start_time, end_time, client);
-						return true;
+						result=true;
 					/*if(haveAPlace(resource, dateOfStart, dateOfEnd)>0)
 						addReservationAtLast(resource, dateOfStart, dateOfEnd, cl);
 					else{
@@ -99,12 +100,12 @@ public class ReserveHandler implements IReserveHadler{
 					}
 					else{
 						errStream.print("You haven't enough wright to place this resource");
-						return false;
+						result=false;
 					}
 				}
 			}
 		}
-		return false;
+		return result;
 	}
 		
 
