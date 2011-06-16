@@ -69,23 +69,6 @@
                 </tr>
             </table>
             
-            <div class="admin-panel-catheader">Опции</div>
-            
-            <table border="0" align="center" class="admin-panel-table">
-                <tr>
-                    <td>
-                        <a href="#">
-                            <div>
-                                <img src="img/options-icon.png" />
-                            </div>
-                            <div>Общие настройки</div>
-                        </a>
-                    </td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-            </table>
         </div>
     </body>
->>>>>>> .r158
 </html>

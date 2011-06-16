@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,11 +26,7 @@ public class ResourceCreateController extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		
-		PrintWriter out = response.getWriter();
-
 		String className = (String) request.getParameter("resourceName");
-		String isCountable = (String) request.getParameter("isCountable");
-		String isInventarable = (String) request.getParameter("isInventarable");
 		String maxCapStr = (String) request.getParameter("maxCapacity");
 		String inventNumStr = (String) request.getParameter("inventNum");
 		String resName = (String) request.getParameter("resName"); 
