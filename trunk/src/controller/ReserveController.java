@@ -47,6 +47,10 @@ public class ReserveController extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		HttpSession session=request.getSession();
 		synchronized (session) {
+			//String res_id=request.getParameter("resourceID");
+			//String year=request.getParameter("year");
+			//String month=request.getParameter("month");
+			//String day=request.getParameter("day");
 			Client client=(Client)session.getAttribute("User");
 			Long r_id=Long.parseLong(request.getParameter("resourceID").trim());
 			int y = Integer.parseInt(request.getParameter("year").trim());
@@ -73,11 +77,11 @@ public class ReserveController extends HttpServlet {
 				dispatch.forward(request, response);
 			}
 			else{
-				request.setAttribute("year", y);
-				request.setAttribute("month", m);
-				request.setAttribute("day", d);
-				request.setAttribute("resourceID", r_id);
-				RequestDispatcher dispatch = request.getRequestDispatcher("WEB-INF/reservations.jsp");
+				//out.print("input type=\"hidden\" name=\"day\"value="+day+"/>");
+				//out.print("<input type=\"hidden\" name=\"monthsRadioGroup\" value="+month+"/>");
+				//out.print("<input type=\"hidden\" name=\"year\" value="+year+"/>");
+				//out.print("<input type=\"hidden\" name=\"resourcesRadioGroup\" value="+res_id+"/>");
+				RequestDispatcher dispatch = request.getRequestDispatcher("calendar.jsp");
 				dispatch.forward(request, response);
 			}	
 			//RequestDispatcher dispatch = request.getRequestDispatcher("calendar.jsp");

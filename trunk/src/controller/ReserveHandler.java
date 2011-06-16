@@ -87,7 +87,7 @@ public class ReserveHandler implements IReserveHadler{
 					}			
 				}
 				else{
-					if(checkBossPossibility(reserve_list, cl)==true){
+					if(checkBossPossibility(reserve_list, client)==true){
 						deleteSelectedReservationList(reserve_list);
 						addReservationAtLast(resource, start_time, end_time, client);
 						result=true;
