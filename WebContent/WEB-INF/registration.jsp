@@ -88,7 +88,7 @@
 </script>
 
 </head>
-<body>
+<body style="color:#cff">
 <div id="block">
 		<h1>Resource admin</h1> 
 			<%@include file="../menu.jsp"%>
